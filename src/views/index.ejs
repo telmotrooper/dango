@@ -12,15 +12,21 @@
     <button type="submit">Send</button>
 
     <script>
-      document.querySelector("[name=codebox]").addEventListener('keydown', (e) => {
-      let keyCode = e.keyCode || e.which;
+      const codebox = document.querySelector("[name=codebox]")
 
-      if (keyCode === 9) {  // TAB = 9
-        e.preventDefault();
-        // document.execCommand('insertText', false, ' '.repeat(2));
-        document.querySelector("[name=codebox]").value += "  "
-      }
-    });
+      codebox.addEventListener("keydown", (e) => {
+        let { keyCode } = e;
+        let { value, selectionStart, selectionEnd } = codebox;
+
+        if (keyCode === 9) {  // TAB = 9
+          e.preventDefault();
+          console.log(
+            codebox.selectionStart
+          )
+
+          codebox.value = value.slice(0, selectionStart) + "  " + value.slice(selectionEnd);
+        }
+      });
     </script>
   </body>
 </html>
