@@ -18,12 +18,22 @@
         let { keyCode } = e;
         let { value, selectionStart, selectionEnd } = codebox;
 
-        if (keyCode === 9) {  // TAB = 9
+        console.log(keyCode)
+        if (keyCode === 9) {  // TAB
           e.preventDefault();
 
           codebox.value = value.slice(0, selectionStart) + "  " + value.slice(selectionEnd);
 
           codebox.setSelectionRange(selectionStart+2, selectionStart+2)
+        }
+
+        if (keyCode === 219) {  // "{"
+          codebox.value = value.slice(0, selectionStart) + "}" + value.slice(selectionEnd);
+          codebox.setSelectionRange(selectionStart, selectionStart)
+        }
+
+        if (keyCode === 13) {  // ENTER
+
         }
       });
     </script>
