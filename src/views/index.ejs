@@ -18,7 +18,6 @@
         let { keyCode } = e;
         let { value, selectionStart, selectionEnd } = codebox;
 
-        console.log(keyCode)
         if (keyCode === 9) {  // TAB
           e.preventDefault();
 
@@ -33,6 +32,9 @@
         }
 
         if (keyCode === 13) {  // ENTER
+          e.preventDefault();
+          codebox.value = value.slice(0, selectionStart) + "\n  " + value.slice(selectionEnd);
+          codebox.setSelectionRange(selectionStart+3, selectionStart+3)
 
         }
       });
