@@ -3,6 +3,7 @@ dotenv.config()
 
 import express from "express"
 import morgan from "morgan"
+import path from "path"
 
 import normalizePort from "./misc/normalizePort"
 
@@ -19,6 +20,7 @@ app.use(morgan("tiny"))
 // View engine setup
 app.set("views", __dirname + "/views")
 app.set("view engine", "ejs")
+app.use(express.static(path.join(__dirname, "../static")))
 
 // Routes
 app.use("/", Index)
