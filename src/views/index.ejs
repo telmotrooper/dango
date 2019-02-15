@@ -20,11 +20,10 @@
 
         if (keyCode === 9) {  // TAB = 9
           e.preventDefault();
-          console.log(
-            codebox.selectionStart
-          )
 
           codebox.value = value.slice(0, selectionStart) + "  " + value.slice(selectionEnd);
+
+          codebox.setSelectionRange(selectionStart+2, selectionStart+2)
         }
       });
     </script>
