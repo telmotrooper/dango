@@ -4,6 +4,8 @@ codebox.addEventListener("keydown", (e) => {
   let { keyCode } = e;
   let { value, selectionStart, selectionEnd } = codebox;
 
+  console.log(`Key code: ${keyCode}`)
+
   if (keyCode === 9) {  // TAB
     e.preventDefault();
 
@@ -35,4 +37,15 @@ codebox.addEventListener("keydown", (e) => {
     }
     
   }
+
+  if (keyCode === 57) {   // "("
+    codebox.value = value.slice(0, selectionStart) + ",)" + value.slice(selectionEnd);
+    codebox.setSelectionRange(selectionStart, selectionStart)
+  }
+
+  if (keyCode === 188 && value.slice(selectionStart, selectionStart+1) === ",") {   // ","
+    e.preventDefault();
+    codebox.setSelectionRange(selectionStart+1, selectionStart+1);
+  }
+
 });
