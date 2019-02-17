@@ -4,7 +4,7 @@ codebox.addEventListener("keydown", (e) => {
   let { keyCode } = e;
   let { value, selectionStart, selectionEnd } = codebox;
 
-  console.log(`Key code: ${keyCode}`)
+  // console.log(`Key code: ${keyCode}`)
 
   if (keyCode === 9) {  // TAB
     e.preventDefault();
@@ -49,3 +49,7 @@ codebox.addEventListener("keydown", (e) => {
   }
 
 });
+
+const submitCode = () => {
+  console.log(codebox.value)
+}
