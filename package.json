@@ -4,9 +4,10 @@
   },
   "nodemonConfig": {
     "exec": "ts-node --files src/app.ts",
-    "ext": "ts",
+    "ext": "ts,js,ejs",
     "watch": [
-      "src"
+      "src",
+      "static"
     ],
     "ignore": [
       ".git",
