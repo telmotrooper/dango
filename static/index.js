@@ -51,5 +51,18 @@ codebox.addEventListener("keydown", (e) => {
 });
 
 const submitCode = () => {
-  console.log(codebox.value)
+  const xhr = new XMLHttpRequest();
+
+  const data = {codebox: codebox.value}
+
+  xhr.open("POST", "/code");
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.send(JSON.stringify(data));
+
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4 && xhr.status === 200) {
+      console.log(xhr.responseText);
+    }
+  }
 }
