@@ -8,7 +8,9 @@
   </head>
   <body>
     <h1><%= message %></h1>
-    <textarea name="codebox" contenteditable="true"></textarea>
+    <button onclick="clearCode()">Clear</button>
+    <button onclick="saveCode()">Save to device</button>
+    <textarea name="codebox"></textarea>
     <button onclick="submitCode()">Send</button>
 
     <script src="/index.js"></script>

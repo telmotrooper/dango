@@ -66,3 +66,20 @@ const submitCode = () => {
     }
   }
 }
+
+const clearCode = () => {
+  codebox.value = ""
+}
+
+const saveCode = () => {
+  const file = new Blob([codebox.value], {type: "text/plain"});
+  const url = URL.createObjectURL(file);
+
+  const a = document.createElement("a");
+  a.style = "display: none";
+  document.body.appendChild(a);
+
+  a.href = url;
+  a.download = "er.txt";
+  a.click();
+}
