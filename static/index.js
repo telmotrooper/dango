@@ -25,13 +25,15 @@ codebox.addEventListener("keydown", (e) => {
         event, which allows us compare it to "selectionStart"
         to know when the cursor is at the end of the codebox. */
 
-
-    e.preventDefault();
-
     if(value[selectionStart-1] === "{" && value[selectionStart] === "}") {
+      e.preventDefault();
+
       codebox.value = value.slice(0, selectionStart) + "\n  \n" + value.slice(selectionEnd);
       codebox.setSelectionRange(selectionStart+3, selectionStart+3)
-    } else {
+
+    } else if(value[selectionStart-1] === "{") {  // new line + two spaces indentation
+      e.preventDefault();
+
       codebox.value = value.slice(0, selectionStart) + "\n  " + value.slice(selectionEnd);
       codebox.setSelectionRange(selectionStart+3, selectionStart+3)
     }
