@@ -3,7 +3,10 @@ import { Request, Response, Router } from "express"
 const router: Router = Router()
 
 router.post("/", (req: Request, res: Response) => {
-  console.log(req.body)
+  const { codebox } = req.body
+
+  console.log(codebox)
+
   res.sendStatus(200)
 })
 
