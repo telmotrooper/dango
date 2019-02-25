@@ -4,8 +4,6 @@ html, body {
 
 textarea {
   resize: none;
-  height: 60%;
-  width: 100%;
 }
 
 button {

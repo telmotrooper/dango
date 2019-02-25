@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/bulma.min.css">
   </head>
-  <body>
-    <h1><%= message %></h1>
-    <button onclick="clearCode()">Clear</button>
-    <button onclick="saveCode()">Save to device</button>
-    <textarea name="codebox"></textarea>
-    <button onclick="submitCode()">Send</button>
+  <body class="has-background-light">
+    <h1 class="title"><%= title %></h1>
+    <h2 class="subtitle"><%= message %></h2>
+
+    <div id="top-menu" class="columns">
+      <button class="button" onclick="clearCode()">Clear</button>
+      <button class="button" onclick="saveCode()">Save to device</button> 
+    </div>
+
+    <textarea class="input" style="height: 10em;" name="codebox"></textarea>
+    <button class="button is-primary" onclick="submitCode()">Send</button>
 
     <script src="/index.js"></script>
   </body>
