@@ -8,25 +8,30 @@
     <link rel="stylesheet" href="/bulma.min.css">
   </head>
   <body class="has-background-light">
-    <div class="container is-fluid">
-      <section id="header">
-        <h1 class="title"><%= title %></h1>
-        <h2 class="subtitle"><%= message %></h2>
-      </section>
-
-      <section id="top-menu" class="columns">
-        <div class="column">
-          <button class="button is-fullwidth" onclick="clearCode()">Clear</button>
-        </div>
-        <div class="column">
-          <button class="button is-fullwidth" onclick="saveCode()">Save to device</button> 
-        </div>
-      </section>
-  
-      <textarea class="input no-resize" style="height: 10em;" name="codebox"></textarea>
-      <button class="button is-primary is-fullwidth" onclick="submitCode()">Send</button>
-    </div>
+    <section class="section">
+      <div class="container is-fluid">
+        <header>
+          <h1 class="title"><%= title %></h1>
+          <h2 class="subtitle"><%= message %></h2>
+        </header>
     
+        <section id="top-menu" class="columns">
+          <div class="column">
+            <button class="button is-fullwidth" onclick="clearCode()">Clear</button>
+          </div>
+          <div class="column">
+            <button class="button is-fullwidth" onclick="saveCode()">Save to device</button> 
+          </div>
+        </section>
+      
+        <section id="form">
+          <textarea class="textarea has-fixed-size is-small" rows="20" name="codebox"></textarea>
+          <button class="button is-primary is-fullwidth" onclick="submitCode()">Send</button>
+        </section>
+    
+      </div>
+    </section>
+
     <script src="/index.js"></script>
   </body>
 </html>
