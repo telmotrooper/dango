@@ -40,8 +40,6 @@ codebox.addEventListener("keydown", (e) => {
     
   }
 
-  console.log(value[selectionStart+1])
-
   if (keyCode === 57) {   // "("
     codebox.value = value.slice(0, selectionStart) + ",)" + value.slice(selectionEnd);
     codebox.setSelectionRange(selectionStart, selectionStart)
