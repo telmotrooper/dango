@@ -31,7 +31,7 @@ codebox.addEventListener("keydown", (e) => {
       codebox.value = value.slice(0, selectionStart) + "\n  \n" + value.slice(selectionEnd);
       codebox.setSelectionRange(selectionStart+3, selectionStart+3)
 
-    } else if(value[selectionStart-1] === "{") {  // new line + two spaces indentation
+    } else if(value[selectionStart-1] === "{" || value[selectionStart+1] === "}") {  // new line + two spaces indentation
       e.preventDefault();
 
       codebox.value = value.slice(0, selectionStart) + "\n  " + value.slice(selectionEnd);
@@ -39,6 +39,8 @@ codebox.addEventListener("keydown", (e) => {
     }
     
   }
+
+  console.log(value[selectionStart+1])
 
   if (keyCode === 57) {   // "("
     codebox.value = value.slice(0, selectionStart) + ",)" + value.slice(selectionEnd);
