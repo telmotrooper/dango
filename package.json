@@ -4,7 +4,7 @@
   },
   "nodemonConfig": {
     "exec": "ts-node --files src/app.ts",
-    "ext": "ts,js,ejs,pegjs",
+    "ext": "ts,js,ejs,css",
     "watch": [
       "src",
       "static"
