@@ -5,9 +5,9 @@ const router: Router = Router()
 router.post("/", (req: Request, res: Response) => {
   const { codebox } = req.body
 
-  const code = removeAccents(codebox)
+  // const code = removeAccents(codebox)
 
-  console.log(code + "\n--------------------------------------------------")
+  console.log(codebox + "\n--------------------------------------------------")
   console.log(parseCode(codebox))
 
   res.sendStatus(200)
@@ -21,11 +21,14 @@ const parseCode = (code: string) => {
   // /[^{\}]+(?=})/gi
 
   // Matches all entities:
-  // /(?=(ent))[^{\}]+/gi
+  // /(?=(ent ))[^{\}]+/gi
 
-  const output = code.match(/[^{\}]+(?=})/gi)
+  const rawEntities = code.match(/(?=(ent ))[^\}]+}/gi)
+  const rawRelationships = code.match(/(?=(rel ))[^\}]+}/gi)
+  const rawAssociatveEntities = code.match(/(?=(aent ))[^\}]+}/gi)
+  const rawSpecializations = code.match(/(?=(spe ))[^\}]+}/gi)
 
-  return output
+  return { rawEntities, rawRelationships, rawAssociatveEntities, rawSpecializations }
 }
 
 const removeAccents = (text: string) => {
