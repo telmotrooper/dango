@@ -16,7 +16,14 @@ router.post("/", (req: Request, res: Response) => {
 const parseCode = (code: string) => {
   // g = all matches
   // i = case-insensitive
-  const output = code.match(/ent/gi)
+
+  // Matches everything between curly braces:
+  // /[^{\}]+(?=})/gi
+
+  // Matches all entities:
+  // /(?=(ent))[^{\}]+/gi
+
+  const output = code.match(/[^{\}]+(?=})/gi)
 
   return output
 }
