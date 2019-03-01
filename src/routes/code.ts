@@ -1,26 +1,28 @@
 import { Request, Response, Router } from "express"
-import fs from "fs"
-
-// TODO: Find a way to use "import from" syntax
-// tslint:disable-next-line:no-var-requires
-const peg = require("pegjs")
 
 const router: Router = Router()
-
-const grammar = fs.readFileSync(__dirname + "/../misc/grammar.pegjs", "utf-8")
-const parser = peg.generate(grammar)
 
 router.post("/", (req: Request, res: Response) => {
   const { codebox } = req.body
 
-  // console.log("Code:\n" + codebox + "\n")
-  // console.log("Grammar:\n" + grammar)
+  const code = removeAccents(codebox)
 
-  console.log(
-    parser.parse(codebox),
-  )
+  console.log(code + "\n--------------------------------------------------")
+  console.log(parseCode(codebox))
 
   res.sendStatus(200)
 })
+
+const parseCode = (code: string) => {
+  // g = all matches
+  // i = case-insensitive
+  const output = code.match(/ent/gi)
+
+  return output
+}
+
+const removeAccents = (text: string) => {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+}
 
 export const Code = router
