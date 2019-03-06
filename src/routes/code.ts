@@ -31,6 +31,28 @@ const parseCode = (code: string) => {
   const rawAssociativeEntities = code.match(/(?=(aent ))[^\}]+}/gi)
   const rawSpecializations = code.match(/(?=(spe ))[^\}]+}/gi)
 
+  const er = {
+    ent: [],
+    rel: [],
+    aent: [],
+    spe: [],
+  }
+
+  if (rawEntities) {
+    for (const entity of rawEntities) {
+      const id = entity.match(/(?<=\w )\w[^ ]+/gi)
+
+      if (id) {
+        console.log(
+          {
+            id: id[0],
+          },
+        )
+      }
+
+    }
+  }
+
   return { rawEntities, rawRelationships, rawAssociatveEntities: rawAssociativeEntities, rawSpecializations }
 }
 
