@@ -9,13 +9,7 @@ const router: Router = Router()
 router.post("/", (req: Request, res: Response) => {
   const { codebox } = req.body
 
-  // const code = removeAccents(codebox)
-
-  // console.log(codebox + "\n--------------------------------------------------")
-
-  const temp = parseCode(codebox)
-
-  // console.log(temp)
+  const er = parseCode(codebox)
 
   res.sendStatus(200)
 })
@@ -24,12 +18,7 @@ const parseCode = (code: string) => {
   // g = all matches
   // i = case-insensitive
 
-  // Matches everything between curly braces:
-  // /[^{\}]+(?=})/gi
-
-  // Matches all entities:
-  // /(?=(ent ))[^{\}]+/gi
-
+  // classify objects
   const rawEntities = code.match(/(?:^|[^a])(?=(ent ))[^\}]+}/gi) // match "ent", but not "aent"
   const rawRelationships = code.match(/(?=(rel ))[^\}]+}/gi)
   const rawAssociativeEntities = code.match(/(?=(aent ))[^\}]+}/gi)
@@ -47,12 +36,7 @@ const parseCode = (code: string) => {
   er["aent"] = parseAssociativeEntities(rawAssociativeEntities)
   er["spe"] = parseSpecializations(rawSpecializations)
 
-  // console.log(er["ent"])
-  // console.log(er["rel"])
-  console.log(er["aent"])
-  // console.log(er["spe"])
-
-  return { rawEntities, rawRelationships, rawAssociativeEntities, rawSpecializations }
+  return er
 }
 
 export const Code = router

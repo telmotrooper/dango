@@ -3,13 +3,46 @@ const parseSpecializations = (rawSpecializations: string[] | null) => {
     const specializations = []
 
     for (const spe of rawSpecializations) {
-      let id = spe.match(/[^{\}]+(?=\()/gi)
-      if (id) {id = id[0].match(/\w[^ ]+/gi) }
+      const rawData = spe.match(/[^{\}]+(?=})/gi)
 
-      if (id) {
+      let data: any[] | null
+      let total = null
+      let disjoint = null
+      const temp = []
+
+      if (rawData !== null) {
+        data = rawData[0].match(/(\S)+/gi)
+
+        if (data) {
+          const cardinality = data[1].substr(1, 3)
+          if (cardinality[0] === "t") {
+            total = true
+          } else {
+            total = false
+          }
+
+          if (cardinality[2] === "d") {
+            disjoint = true
+          } else {
+            disjoint = false
+          }
+
+          for (let i = 2; i < data.length; i++) {
+            temp.push(data[i])
+          }
+        }
+
+      } else {
+        data = []
+      }
+
+      if (data) {
         specializations.push(
           {
-            id: id[0],
+            id: data[0],
+            total,
+            disjoint,
+            entities: temp,
           },
         )
       }
