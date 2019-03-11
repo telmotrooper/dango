@@ -1,4 +1,7 @@
 import { Request, Response, Router } from "express"
+import parseAssociativeEntities from "../parser/parseAssociativeEntities"
+import parseEntities from "../parser/parseEntities"
+import parseSpecializations from "../parser/parseSpecializations"
 
 const router: Router = Router()
 
@@ -9,9 +12,9 @@ router.post("/", (req: Request, res: Response) => {
 
   // console.log(codebox + "\n--------------------------------------------------")
 
-  console.log(
-    parseCode(codebox),
-  )
+  const temp = parseCode(codebox)
+
+  // console.log(temp)
 
   res.sendStatus(200)
 })
@@ -38,70 +41,14 @@ const parseCode = (code: string) => {
     spe: [],
   }
 
-  if (rawEntities) {
-    for (const ent of rawEntities) {
-      const id = ent.match(/(?<=\w )\w[^ ]+/gi)
-
-      if (id) {
-        er["ent"].push(
-          {
-            id: id[0],
-          },
-        )
-      }
-    }
-  }
-
-  if (rawRelationships) {
-    for (const rel of rawRelationships) {
-      const id = rel.match(/(?<=\w )\w[^ ]+/gi)
-
-      if (id) {
-        er["rel"].push(
-          {
-            id: id[0],
-          },
-        )
-      }
-    }
-  }
-
-  if (rawAssociativeEntities) {
-    for (const aent of rawAssociativeEntities) {
-      const id = aent.match(/(?<=\w )\w[^ ]+/gi)
-
-      if (id) {
-        er["aent"].push(
-          {
-            id: id[0],
-          },
-        )
-      }
-    }
-  }
-
-  if (rawSpecializations) {
-    for (const spe of rawSpecializations) {
-      let id = spe.match(/[^{\}]+(?=\()/gi)
-      if (id) {id = id[0].match(/\w[^ ]+/gi) }
-
-      if (id) {
-        er["spe"].push(
-          {
-            id: id[0],
-          },
-        )
-      }
-    }
-  }
+  er["ent"] = parseEntities(rawEntities)
+  er["rel"] = parseSpecializations(rawRelationships)
+  er["aent"] = parseAssociativeEntities(rawAssociativeEntities)
+  er["spe"] = parseSpecializations(rawSpecializations)
 
   console.log(er)
 
-  return { rawEntities, rawRelationships, rawAssociatveEntities: rawAssociativeEntities, rawSpecializations }
-}
-
-const removeAccents = (text: string) => {
-  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  return { rawEntities, rawRelationships, rawAssociativeEntities, rawSpecializations }
 }
 
 export const Code = router
