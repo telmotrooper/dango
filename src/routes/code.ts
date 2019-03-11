@@ -46,7 +46,7 @@ const parseCode = (code: string) => {
   er["aent"] = parseAssociativeEntities(rawAssociativeEntities)
   er["spe"] = parseSpecializations(rawSpecializations)
 
-  console.log(er)
+  // console.log(er)
 
   return { rawEntities, rawRelationships, rawAssociativeEntities, rawSpecializations }
 }
