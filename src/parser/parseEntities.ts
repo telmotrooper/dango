@@ -1,6 +1,4 @@
 const parseEntities = (rawEntities: string[] | null) => {
-  // console.log(rawEntities)
-
   if (rawEntities) {
     const entities = []
 
@@ -15,8 +13,6 @@ const parseEntities = (rawEntities: string[] | null) => {
         data = []
       }
 
-      // data.forEach((entry) => console.log(entry))
-
       if (id) {
         entities.push(
           {
@@ -27,7 +23,6 @@ const parseEntities = (rawEntities: string[] | null) => {
       }
     }
 
-    console.log(entities)
     return entities
   }
 }

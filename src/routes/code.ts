@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express"
 import parseAssociativeEntities from "../parser/parseAssociativeEntities"
 import parseEntities from "../parser/parseEntities"
+import parseRelationships from "../parser/parseRelationships"
 import parseSpecializations from "../parser/parseSpecializations"
 
 const router: Router = Router()
@@ -42,11 +43,14 @@ const parseCode = (code: string) => {
   }
 
   er["ent"] = parseEntities(rawEntities)
-  er["rel"] = parseSpecializations(rawRelationships)
+  er["rel"] = parseRelationships(rawRelationships)
   er["aent"] = parseAssociativeEntities(rawAssociativeEntities)
   er["spe"] = parseSpecializations(rawSpecializations)
 
-  // console.log(er)
+  // console.log(er["ent"])
+  console.log(er["rel"])
+  // console.log(er["aent"])
+  // console.log(er["spe"])
 
   return { rawEntities, rawRelationships, rawAssociativeEntities, rawSpecializations }
 }
