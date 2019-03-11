@@ -1,3 +1,8 @@
 .mb-1 {
   margin-bottom: 1em;
 }
+
+html, body {
+  height: 100%;
+  overflow: auto;
+}
