@@ -88,8 +88,9 @@ const saveCode = () => {
 
 const openParserModal = (jsonCode) => {
   const element = document.getElementById("json-code")
-  // element.innerHTML = JSON.stringify(jsonCode, null, "&nbsp;")
-  element.innerHTML = jsonCode
+
+  const json = JSON.parse(jsonCode)
+  element.value = JSON.stringify(json, null, 2)
 
   const modal = document.getElementById("parser-modal")
   modal.classList.add("is-active");
