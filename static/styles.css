@@ -2,6 +2,10 @@
   margin-bottom: 1em;
 }
 
+.jc-flex-end {
+  justify-content: flex-end !important;
+}
+
 html, body {
   height: 100%;
   overflow: auto;
