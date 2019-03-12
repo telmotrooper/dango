@@ -8,10 +8,9 @@ const router: Router = Router()
 
 router.post("/", (req: Request, res: Response) => {
   const { codebox } = req.body
-
   const er = parseCode(codebox)
 
-  res.sendStatus(200)
+  res.json(er)
 })
 
 const parseCode = (code: string) => {

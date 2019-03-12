@@ -64,7 +64,7 @@ const submitCode = () => {
 
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4 && xhr.status === 200) {
-      console.log(xhr.responseText);
+      openParserModal(xhr.responseText)
     }
   }
 }
@@ -84,4 +84,18 @@ const saveCode = () => {
   a.href = url;
   a.download = "er.txt";
   a.click();
+}
+
+const openParserModal = (jsonCode) => {
+  const element = document.getElementById("json-code")
+  // element.innerHTML = JSON.stringify(jsonCode, null, "&nbsp;")
+  element.innerHTML = jsonCode
+
+  const modal = document.getElementById("parser-modal")
+  modal.classList.add("is-active");
+}
+
+const closeParserModal = () => {
+  const modal = document.getElementById("parser-modal")
+  modal.classList.remove("is-active");
 }
