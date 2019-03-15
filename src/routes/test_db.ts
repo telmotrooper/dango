@@ -1,0 +1,24 @@
+import { Request, Response, Router } from "express"
+
+import { driver } from "../misc/neo4jDriver"
+
+const router: Router = Router()
+
+router.get("/", async (req: Request, res: Response) => {
+  const session = driver.session()
+
+  try {
+    const result = await session.run("MATCH (n) RETURN n LIMIT 5")
+
+    session.close()
+    res.sendStatus(200)
+
+  } catch (error) {
+    console.error(error)
+
+    session.close()
+    res.sendStatus(500)
+  }
+})
+
+export const TestDB = router
