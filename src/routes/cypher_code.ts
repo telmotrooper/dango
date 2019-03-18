@@ -5,10 +5,13 @@ import parseCode from "../parser/parseCode"
 const router: Router = Router()
 
 router.post("/", (req: Request, res: Response) => {
-  const { codebox } = req.body
-  const er = parseCode(codebox)
+  const { er } = req.body
 
-  res.json(er)
+  const erCode = JSON.parse(er)
+
+  console.log(erCode)
+
+  res.sendStatus(200)
 })
 
-export const ERCode = router
+export const CypherCode = router

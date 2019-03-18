@@ -8,6 +8,7 @@ import path from "path"
 import normalizePort from "./misc/normalizePort"
 
 // Route imports
+import { CypherCode } from "./routes/cypher_code"
 import { ERCode } from "./routes/er_code"
 import { Index } from "./routes/index"
 import { TestDB } from "./routes/test_db"
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, "../static")))
 app.use("/", Index)
 app.use("/ercode", ERCode)
 app.use("/testdb", TestDB)
+app.use("/cyphercode", CypherCode)
 
 // Set port and start listening to it
 app.listen(port, () => console.log(
