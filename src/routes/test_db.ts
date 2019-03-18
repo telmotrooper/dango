@@ -14,10 +14,10 @@ router.get("/", async (req: Request, res: Response) => {
     res.sendStatus(200)
 
   } catch (error) {
-    console.error(error)
+    // console.error(error)
 
     session.close()
-    res.sendStatus(500)
+    res.sendStatus(503) // Service Unavailable
   }
 })
 
