@@ -37,7 +37,7 @@
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Resultado do parser (JSON)</p>
-          <button class="delete" aria-label="close" onclick="closeParserModal()"></button>
+          <button class="delete" aria-label="close" onclick="closeModal('parser')"></button>
         </header>
         <section class="modal-card-body">
           <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
@@ -46,13 +46,32 @@
           <button class="button is-success"
             onclick="submitCypher()"">Generate graph database</button>
           <button class="button"
-            onclick="closeParserModal()">Cancel</button>
+            onclick="closeModal('parser')">Cancel</button>
+        </footer>
+      </div>
+    </div>
+
+    <div class="modal" id="cypher-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Resultado do conversor ER para Cypher</p>
+          <button class="delete" aria-label="close" onclick="closeModal('cypher')"></button>
+        </header>
+        <section class="modal-card-body">
+          <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="cypher-code"></textarea>
+        </section>
+        <footer class="modal-card-foot jc-flex-end">
+          <!-- <button class="button is-success"
+            onclick="submitCypher()"">Generate graph database</button> -->
+          <button class="button"
+            onclick="closeModal('cypher')">Cancel</button>
         </footer>
       </div>
     </div>
 
     <script src="/codebox.js"></script>
-    <script src="/modal.js"></script>
+    <script src="/modals.js"></script>
     <script src="/cypher.js"></script>
   </body>
 </html>
