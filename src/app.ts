@@ -8,7 +8,7 @@ import path from "path"
 import normalizePort from "./misc/normalizePort"
 
 // Route imports
-import { Code } from "./routes/code"
+import { ERCode } from "./routes/er_code"
 import { Index } from "./routes/index"
 import { TestDB } from "./routes/test_db"
 
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "../static")))
 
 // Routes
 app.use("/", Index)
-app.use("/code", Code)
+app.use("/ercode", ERCode)
 app.use("/testdb", TestDB)
 
 // Set port and start listening to it
