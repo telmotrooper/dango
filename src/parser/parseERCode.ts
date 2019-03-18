@@ -3,7 +3,7 @@ import parseEntities from "./parseEntities"
 import parseRelationships from "./parseRelationships"
 import parseSpecializations from "./parseSpecializations"
 
-const parseCode = (code: string) => {
+const parseERCode = (code: string) => {
   // g = all matches
   // i = case-insensitive
 
@@ -28,4 +28,4 @@ const parseCode = (code: string) => {
   return er
 }
 
-export default parseCode
+export default parseERCode

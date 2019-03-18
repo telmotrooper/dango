@@ -1,17 +1,15 @@
 import { Request, Response, Router } from "express"
 
-import parseCode from "../parser/parseCode"
+import erToCypher from "../misc/erToCypher"
 
 const router: Router = Router()
 
 router.post("/", (req: Request, res: Response) => {
   const { er } = req.body
 
-  const erCode = JSON.parse(er)
+  const cypherCode = erToCypher(er)
 
-  console.log(erCode)
-
-  res.sendStatus(200)
+  res.end(cypherCode)
 })
 
 export const CypherCode = router
