@@ -43,12 +43,15 @@
           <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
         </section>
         <footer class="modal-card-foot jc-flex-end">
-          <button class="button is-success">Generate graph database</button>
-          <button class="button" onclick="closeParserModal()">Cancel</button>
+          <button class="button is-success"
+            onclick="submitCypher()"">Generate graph database</button>
+          <button class="button"
+            onclick="closeParserModal()">Cancel</button>
         </footer>
       </div>
     </div>
 
-    <script src="/index.js"></script>
+    <script src="/codebox.js"></script>
+    <script src="/modal.js"></script>
   </body>
 </html>
