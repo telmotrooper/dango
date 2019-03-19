@@ -4,7 +4,7 @@ const submitCypher = () => {
   const xhr = new XMLHttpRequest();
   const data = {er: erCode.value}
 
-  xhr.open("POST", "/cyphercode");
+  xhr.open("POST", "/cypher-code");
   xhr.setRequestHeader("Content-Type", "application/json");
 
   xhr.send(JSON.stringify(data));

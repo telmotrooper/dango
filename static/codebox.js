@@ -60,7 +60,7 @@ const submitCode = () => {
 
   const data = {codebox: codebox.value}
 
-  xhr.open("POST", "/ercode");
+  xhr.open("POST", "/er-code");
   xhr.setRequestHeader("Content-Type", "application/json");
 
   xhr.send(JSON.stringify(data));
