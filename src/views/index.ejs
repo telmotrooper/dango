@@ -40,6 +40,7 @@
           <button class="delete" aria-label="close" onclick="closeModal('parser')"></button>
         </header>
         <section class="modal-card-body">
+          <p class="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
           <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
         </section>
         <footer class="modal-card-foot jc-space-between">
@@ -59,6 +60,7 @@
           <button class="delete" aria-label="close" onclick="closeModal('cypher')"></button>
         </header>
         <section class="modal-card-body">
+          <p class="mb-05 ta-j">This is a schema for the Neo4j graph database (written in the Cypher query language) based on your Entity-Relationship Diagram:</p>
           <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="get-cypher-from-er"></textarea>
         </section>
         <footer class="modal-card-foot jc-space-between">
