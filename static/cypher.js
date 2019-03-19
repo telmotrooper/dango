@@ -11,7 +11,8 @@ const submitCypher = () => {
 
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4 && xhr.status === 200) {
-      openParserModal(xhr.responseText)
+      closeModal("parser")
+      openCypherModal(xhr.responseText)
     }
   }
 }

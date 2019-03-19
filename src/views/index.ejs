@@ -36,7 +36,7 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Resultado do parser (JSON)</p>
+          <p class="modal-card-title"><b>Parser output</b> <i>(JSON)</i></p>
           <button class="delete" aria-label="close" onclick="closeModal('parser')"></button>
         </header>
         <section class="modal-card-body">
@@ -55,7 +55,7 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Resultado do conversor ER para Cypher</p>
+          <p class="modal-card-title"><b>Converter output</b> <i>(Cypher)</i></p>
           <button class="delete" aria-label="close" onclick="closeModal('cypher')"></button>
         </header>
         <section class="modal-card-body">
@@ -64,8 +64,8 @@
         <footer class="modal-card-foot jc-flex-end">
           <!-- <button class="button is-success"
             onclick="submitCypher()"">Generate graph database</button> -->
-          <button class="button"
-            onclick="closeModal('cypher')">Cancel</button>
+          <button class="button is-success"
+            onclick="closeModal('cypher')">OK</button>
         </footer>
       </div>
     </div>
