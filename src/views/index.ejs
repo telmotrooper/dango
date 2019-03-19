@@ -17,7 +17,7 @@
     
         <section id="top-menu" class="columns">
           <div class="column">
-            <button class="button is-fullwidth" onclick="clearERCode()">Clear</button>
+            <button class="button is-fullwidth" onclick="openClearModal()">Clear</button>
           </div>
           <div class="column">
             <button class="button is-fullwidth" onclick="saveERCode()">Save to device</button> 
@@ -75,6 +75,22 @@
         </footer>
       </div>
     </div>
+
+    <div class="modal" id="clear-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <section class="modal-card-body">
+            <p>Are you sure you wanna clear your code?</p>
+            <p><b>WARNING: This action is irreversible.</b></p>
+          </section>
+          <footer class="modal-card-foot jc-space-between">
+            <button class="button is-danger"
+              onclick="clearERCode()">Yes</button>
+            <button class="button"
+              onclick="closeModal('clear')">No</button>
+          </footer>
+        </div>
+      </div>
 
     <script src="/codebox.js"></script>
     <script src="/modals.js"></script>

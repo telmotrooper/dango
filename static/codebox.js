@@ -74,6 +74,7 @@ const submitCode = () => {
 
 const clearERCode = () => {
   codebox.value = ""
+  closeModal('clear')
 }
 
 const saveERCode = () => {

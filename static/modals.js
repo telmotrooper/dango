@@ -1,3 +1,8 @@
+const closeModal = (name) => {
+  const modal = document.getElementById(`${name}-modal`)
+  modal.classList.remove("is-active");
+}
+
 const openParserModal = (jsonCode) => {
   const element = document.getElementById("json-code")
 
@@ -6,11 +11,6 @@ const openParserModal = (jsonCode) => {
 
   const modal = document.getElementById("parser-modal")
   modal.classList.add("is-active");
-}
-
-const closeModal = (name) => {
-  const modal = document.getElementById(`${name}-modal`)
-  modal.classList.remove("is-active");
 }
 
 const openCypherModal = (cypherCode) => {
@@ -22,7 +22,7 @@ const openCypherModal = (cypherCode) => {
   modal.classList.add("is-active");
 }
 
-const closeCypherModal = () => {
-  const modal = document.getElementById("cypher-modal")
-  modal.classList.remove("is-active");
+const openClearModal = (cypherCode) => {
+  const modal = document.getElementById("clear-modal")
+  modal.classList.add("is-active");
 }
