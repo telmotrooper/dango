@@ -42,11 +42,11 @@
         <section class="modal-card-body">
           <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
         </section>
-        <footer class="modal-card-foot jc-flex-end">
-          <button class="button is-success"
-            onclick="submitCypher()"">Generate graph database</button>
+        <footer class="modal-card-foot jc-space-between">
           <button class="button"
-            onclick="closeModal('parser')">Cancel</button>
+            onclick="closeModal('parser')">Save to device</button>
+          <button class="button is-success"
+            onclick="submitCypher()"">Convert to Cypher</button>
         </footer>
       </div>
     </div>
@@ -61,11 +61,19 @@
         <section class="modal-card-body">
           <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="cypher-code"></textarea>
         </section>
-        <footer class="modal-card-foot jc-flex-end">
+        <footer class="modal-card-foot jc-space-between">
           <!-- <button class="button is-success"
             onclick="submitCypher()"">Generate graph database</button> -->
-          <button class="button is-success"
-            onclick="closeModal('cypher')">OK</button>
+          <button class="button"
+            onclick="closeModal('cypher')">Save to device</button>
+          
+          <div>
+            <button class="button is-info"
+              onclick="closeModal('cypher')">Generate visualization</button>
+            <button class="button is-success"
+              onclick="closeModal('cypher')">Run in Neo4j instance</button>
+          </div>
+
         </footer>
       </div>
     </div>

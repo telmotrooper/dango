@@ -6,6 +6,10 @@
   justify-content: flex-end !important;
 }
 
+.jc-space-between {
+  justify-content: space-between !important;
+}
+
 html, body {
   height: 100%;
   overflow: auto;
