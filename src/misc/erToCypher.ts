@@ -1,5 +1,9 @@
+import { lowerAndRemoveAccents } from "../misc/removeAccents"
+import { ER } from "./interfaces"
+
 const erToCypher = (er: string) => {
-  const erCode = JSON.parse(er)
+  const erCode: ER = JSON.parse(er)
+  const schema = ""
 
   return "CREATE CONSTRAINT ON (bibliotecarios:Bibliotecário) ASSERT exists(bibliotecarios.CPF)"
 }
