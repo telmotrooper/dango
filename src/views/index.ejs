@@ -46,7 +46,7 @@
           <button class="button"
             onclick="saveJSONCode()">Save to device</button>
           <button class="button is-success"
-            onclick="submitCypher()"">Convert to Cypher</button>
+            onclick="getCypherFromER()"">Convert to Cypher</button>
         </footer>
       </div>
     </div>
@@ -59,7 +59,7 @@
           <button class="delete" aria-label="close" onclick="closeModal('cypher')"></button>
         </header>
         <section class="modal-card-body">
-          <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="cypher-code"></textarea>
+          <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="get-cypher-from-er"></textarea>
         </section>
         <footer class="modal-card-foot jc-space-between">
           <button class="button"
@@ -67,9 +67,9 @@
           
           <div>
             <button class="button is-info"
-              onclick="closeModal('cypher')">Generate visualization</button>
+              onclick="">Generate visualization</button>
             <button class="button is-success"
-              onclick="closeModal('cypher')">Run in Neo4j instance</button>
+              onclick="">Run in Neo4j instance</button>
           </div>
 
         </footer>

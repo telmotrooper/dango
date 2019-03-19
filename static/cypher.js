@@ -1,10 +1,10 @@
-const submitCypher = () => {
+const getCypherFromER = () => {
   const erCode = document.querySelector("[id=json-code]")
 
   const xhr = new XMLHttpRequest();
   const data = {er: erCode.value}
 
-  xhr.open("POST", "/cypher-code");
+  xhr.open("POST", "/get-cypher-from-er");
   xhr.setRequestHeader("Content-Type", "application/json");
 
   xhr.send(JSON.stringify(data));

@@ -1,6 +1,6 @@
 const codebox = document.querySelector("[name=codebox]")
 const jsonCode = document.querySelector("[id=json-code]")
-const cypherCode = document.querySelector("[id=cypher-code]")
+const cypherCode = document.querySelector("[id=get-cypher-from-er]")
 
 
 codebox.addEventListener("keydown", (e) => {

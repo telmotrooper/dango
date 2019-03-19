@@ -12,4 +12,4 @@ router.post("/", (req: Request, res: Response) => {
   res.end(cypherCode)
 })
 
-export const CypherCode = router
+export const GetCypherFromER = router

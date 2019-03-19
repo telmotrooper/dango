@@ -8,8 +8,8 @@ import path from "path"
 import normalizePort from "./misc/normalizePort"
 
 // Route imports
-import { CypherCode } from "./routes/cypher_code"
 import { ERCode } from "./routes/er_code"
+import { GetCypherFromER } from "./routes/get_cypher_from_er"
 import { Index } from "./routes/index"
 import { RunInNeo4j } from "./routes/run_in_neo4j"
 import { TestDB } from "./routes/test_db"
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, "../static")))
 app.use("/", Index)
 app.use("/er-code", ERCode)
 app.use("/test-db", TestDB)
-app.use("/cypher-code", CypherCode)
+app.use("/get-cypher-from-er", GetCypherFromER)
 app.use("/run-in-neo4j", RunInNeo4j)
 
 // Set port and start listening to it

@@ -14,7 +14,7 @@ const closeModal = (name) => {
 }
 
 const openCypherModal = (cypherCode) => {
-  const element = document.getElementById("cypher-code")
+  const element = document.getElementById("get-cypher-from-er")
 
   element.value = cypherCode
 
