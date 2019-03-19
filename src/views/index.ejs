@@ -17,10 +17,10 @@
     
         <section id="top-menu" class="columns">
           <div class="column">
-            <button class="button is-fullwidth" onclick="clearCode()">Clear</button>
+            <button class="button is-fullwidth" onclick="clearERCode()">Clear</button>
           </div>
           <div class="column">
-            <button class="button is-fullwidth" onclick="saveCode()">Save to device</button> 
+            <button class="button is-fullwidth" onclick="saveERCode()">Save to device</button> 
           </div>
         </section>
       
@@ -44,7 +44,7 @@
         </section>
         <footer class="modal-card-foot jc-space-between">
           <button class="button"
-            onclick="closeModal('parser')">Save to device</button>
+            onclick="saveJSONCode()">Save to device</button>
           <button class="button is-success"
             onclick="submitCypher()"">Convert to Cypher</button>
         </footer>
@@ -65,7 +65,7 @@
           <!-- <button class="button is-success"
             onclick="submitCypher()"">Generate graph database</button> -->
           <button class="button"
-            onclick="closeModal('cypher')">Save to device</button>
+            onclick="saveCypherCode()">Save to device</button>
           
           <div>
             <button class="button is-info"

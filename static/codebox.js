@@ -1,4 +1,7 @@
 const codebox = document.querySelector("[name=codebox]")
+const jsonCode = document.querySelector("[id=json-code]")
+const cypherCode = document.querySelector("[id=cypher-code]")
+
 
 codebox.addEventListener("keydown", (e) => {
   let { keyCode } = e;
@@ -69,11 +72,11 @@ const submitCode = () => {
   }
 }
 
-const clearCode = () => {
+const clearERCode = () => {
   codebox.value = ""
 }
 
-const saveCode = () => {
+const saveERCode = () => {
   const file = new Blob([codebox.value], {type: "text/plain"});
   const url = URL.createObjectURL(file);
 
@@ -83,5 +86,31 @@ const saveCode = () => {
 
   a.href = url;
   a.download = "er.txt";
+  a.click();
+}
+
+const saveJSONCode = () => {
+  const file = new Blob([jsonCode.value], {type: "text/plain"});
+  const url = URL.createObjectURL(file);
+
+  const a = document.createElement("a");
+  a.style = "display: none";
+  document.body.appendChild(a);
+
+  a.href = url;
+  a.download = "er_json.txt";
+  a.click();
+}
+
+const saveCypherCode = () => {
+  const file = new Blob([cypherCode.value], {type: "text/plain"});
+  const url = URL.createObjectURL(file);
+
+  const a = document.createElement("a");
+  a.style = "display: none";
+  document.body.appendChild(a);
+
+  a.href = url;
+  a.download = "cypher.txt";
   a.click();
 }
