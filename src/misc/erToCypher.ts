@@ -1,11 +1,17 @@
-import { lowerAndRemoveAccents } from "../misc/removeAccents"
+import { lowerAndRemoveAccents as LRA } from "../misc/removeAccents"
 import { ER } from "./interfaces"
 
 const erToCypher = (er: string) => {
   const erCode: ER = JSON.parse(er)
-  const schema = ""
+  let schema = ""
 
-  return "CREATE CONSTRAINT ON (bibliotecarios:Bibliotecário) ASSERT exists(bibliotecarios.CPF)"
+  for (const ent of erCode.ent) {
+    for (const data of ent.data) {
+      schema += `CREATE CONSTRAINT ON (${LRA(ent.id)}:${ent.id}) ASSERT exists(${LRA(ent.id)}.${data});\n`
+    }
+  }
+
+  return schema
 }
 
 export default erToCypher
