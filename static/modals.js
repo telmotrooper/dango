@@ -1,3 +1,8 @@
+const openSimpleModal = (name) => {
+  const modal = document.getElementById(`${name}-modal`)
+  modal.classList.add("is-active");
+}
+
 const closeModal = (name) => {
   const modal = document.getElementById(`${name}-modal`)
   modal.classList.remove("is-active");
@@ -19,10 +24,5 @@ const openCypherModal = (cypherCode) => {
   element.value = cypherCode
 
   const modal = document.getElementById("cypher-modal")
-  modal.classList.add("is-active");
-}
-
-const openClearModal = (cypherCode) => {
-  const modal = document.getElementById("clear-modal")
   modal.classList.add("is-active");
 }
