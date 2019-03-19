@@ -6,6 +6,14 @@
   margin-bottom: 0.5em;
 }
 
+.mt-minus-05 {
+  margin-top: -0.5em;
+}
+
+.fs-09 {
+  font-size: 0.9em;
+}
+
 .ta-j {
   text-align: justify;
 }
