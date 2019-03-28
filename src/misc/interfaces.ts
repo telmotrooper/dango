@@ -8,7 +8,8 @@ interface ER {  // entity-relationship diagram
 
 interface Ent { // entity
   id: string,
-  data: string[]
+  data: string[],
+  pk: string[]
 }
 
 interface Rel { // relationship

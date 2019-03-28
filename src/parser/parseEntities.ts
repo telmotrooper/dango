@@ -5,10 +5,26 @@ const parseEntities = (rawEntities: string[] | null) => {
     for (const ent of rawEntities) {
       const id = ent.match(/(?<=\w )\w[^ ]+/gi)
       const rawData = ent.match(/[^{\}]+(?=})/gi)
-      let data
+      let dataArray
+      let data = []
+      const pk = []
 
       if (rawData !== null) {
-        data = rawData[0].match(/(\S)+/gi)
+        dataArray = rawData[0].match(/(\S)+/gi)
+
+        if (dataArray) {
+          data = []
+
+          for (let i = 0; i < dataArray.length; i += 1) {
+            if (dataArray[i] !== "pk") {
+              data.push(dataArray[i])
+            } else {
+              pk.push(dataArray[i - 1])
+            }
+          }
+
+        }
+
       } else {
         data = []
       }
@@ -18,11 +34,13 @@ const parseEntities = (rawEntities: string[] | null) => {
           {
             id: id[0],
             data,
+            pk,
           },
         )
       }
     }
 
+    console.log(entities)
     return entities
   }
 }
