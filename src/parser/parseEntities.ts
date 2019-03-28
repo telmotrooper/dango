@@ -40,7 +40,6 @@ const parseEntities = (rawEntities: string[] | null) => {
       }
     }
 
-    console.log(entities)
     return entities
   }
 }
