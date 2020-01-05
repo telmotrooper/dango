@@ -3,4 +3,5 @@
 
 # Folders
 node_modules/
-
+.cache/
+build/
