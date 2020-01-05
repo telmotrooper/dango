@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": { "*": ["types/*"] },
-    "target": "esnext",
-    "strict": true,
+    "target": "ESNext",
+    "moduleResolution": "Node",
     "esModuleInterop": true
   }
 }
