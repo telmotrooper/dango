@@ -23,12 +23,19 @@
             <button class="button is-fullwidth" onclick="saveERCode()">Save to device</button> 
           </div>
         </section>
-      
-        <section id="form">
-          <p class="mb-05 fs-09 mt-minus-05">We've made a simple notation to represent ER diagrams in human-readable code! Learn more <a onclick="openSimpleModal('help')">here</a>.</p>
-          <textarea class="textarea has-fixed-size is-small mb-1" rows="18" name="codebox"></textarea>
-          <button class="button is-primary is-fullwidth" onclick="submitCode()">Send</button>
-        </section>
+
+        <p class="mb-05 fs-09 mt-minus-05">We've made a simple notation to represent ER diagrams in human-readable code! Learn more <a onclick="openSimpleModal('help')">here</a>.</p>
+
+        <div class="columns">
+          <section id="form" class="column is-two-fifths">
+            <textarea class="textarea has-fixed-size is-small mb-1" rows="18" name="codebox"></textarea>
+            <button class="button is-primary is-fullwidth" onclick="submitCode()">Send</button>
+          </section>
+          <section id="vis" class="column">
+            <p>Placeholder for visualization</p>
+          </section>
+        </div>
+
     
       </div>
     </section>

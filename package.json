@@ -21,6 +21,7 @@
     "dotenv": "^7.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "graphviz": "0.0.9",
     "morgan": "^1.9.1",
     "neo4j-driver": "^1.7.3"
   },
