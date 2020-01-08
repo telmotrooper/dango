@@ -66,11 +66,7 @@ app.use("/run-in-neo4j", RunInNeo4j)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it
-app.listen(port, () => console.log(
-  `--------------------------------------------------\n` +
-  `Application running on http://localhost:${port}\n` +
-  `--------------------------------------------------`,
-))
+app.listen(port)
 
 const typeCheck = () => {
   exec('npm run type-check', (error, stdout, stderr) => {

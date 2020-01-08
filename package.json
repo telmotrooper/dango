@@ -25,7 +25,9 @@
     "http-proxy-middleware": "^0.20.0",
     "morgan": "^1.9.1",
     "neo4j-driver": "^1.7.3",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10",
