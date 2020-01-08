@@ -1,0 +1,32 @@
+.mb-1 {
+  margin-bottom: 1em;
+}
+
+.mb-05 {
+  margin-bottom: 0.5em;
+}
+
+.mt-minus-05 {
+  margin-top: -0.5em;
+}
+
+.fs-09 {
+  font-size: 0.9em;
+}
+
+.ta-j {
+  text-align: justify;
+}
+
+.jc-flex-end {
+  justify-content: flex-end !important;
+}
+
+.jc-space-between {
+  justify-content: space-between !important;
+}
+
+html, body {
+  height: 100%;
+  overflow: auto;
+}

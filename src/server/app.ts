@@ -23,7 +23,7 @@ import { TestDB } from "./routes/test_db"
 const app: express.Application = express()
 const port: number = normalizePort(process.env.PORT || 8000)
 
-const entryFiles = join(__dirname, 'client/index.html');
+const entryFiles = join(__dirname, '../client/index.html');
 
 const bundler = new Bundler(entryFiles, { // more at https://parceljs.org/cli.html#options
   sourceMaps: true,
@@ -55,7 +55,7 @@ app.use(express.json())
 // View engine setup
 app.set("views", __dirname + "/views")
 app.set("view engine", "ejs")
-app.use(express.static(path.join(__dirname, "../static")))
+app.use(express.static(path.join(__dirname, "../../static")))
 
 // Routes
 app.use("/app", Index)

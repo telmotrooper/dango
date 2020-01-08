@@ -3,7 +3,7 @@
     "start": "./node_modules/nodemon/bin/nodemon.js"
   },
   "nodemonConfig": {
-    "exec": "ts-node --files src/app.ts",
+    "exec": "ts-node --files src/server/app.ts",
     "ext": "ts,js,ejs,css",
     "watch": [
       "src",
