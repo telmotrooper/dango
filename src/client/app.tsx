@@ -1,34 +1,35 @@
 import * as React from "react"
 import ReactDOM from "react-dom"
+import { NotationModal } from "./NotationModal"
 
 class App extends React.Component<any, any> {
   render() {
     return (
       <React.Fragment>
-        <section class="section">
-          <div class="container is-fluid">
-            <header class="mb-1">
-              <h1 class="title">Dango</h1>
-              <h2 class="subtitle">ER diagrams to graph databases</h2>
+        <section className="section">
+          <div className="container is-fluid">
+            <header className="mb-1">
+              <h1 className="title">Dango</h1>
+              <h2 className="subtitle">ER diagrams to graph databases</h2>
             </header>
         
-            <section id="top-menu" class="columns">
-              <div class="column">
-                <button class="button is-fullwidth" onclick="openSimpleModal('clear')()">Clear</button>
+            <section id="top-menu" className="columns">
+              <div className="column">
+                {/* <button className="button is-fullwidth" onClick={openSimpleModal('clear')()}>Clear</button> */}
               </div>
-              <div class="column">
-                <button class="button is-fullwidth" onclick="saveERCode()">Save to device</button> 
+              <div className="column">
+                {/* <button className="button is-fullwidth" onClick={saveERCode()}>Save to device</button>  */}
               </div>
             </section>
 
-            <p class="mb-05 fs-09 mt-minus-05">We've made a simple notation to represent ER diagrams in human-readable code! Learn more <a onclick="openSimpleModal('help')">here</a>.</p>
+            {/* <p className="mb-05 fs-09 mt-minus-05">We've made a simple notation to represent ER diagrams in human-readable code! Learn more <a onClick={openSimpleModal('help')}>here</a>.</p> */}
 
-            <div class="columns">
-              <section id="form" class="column is-two-fifths">
-                <textarea class="textarea has-fixed-size is-small mb-1" rows="18" name="codebox"></textarea>
-                <button class="button is-primary is-fullwidth" onclick="submitCode()">Send</button>
+            <div className="columns">
+              <section id="form" className="column is-two-fifths">
+                <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox"></textarea>
+                {/* <button className="button is-primary is-fullwidth" onClick={submitCode()}>Send</button> */}
               </section>
-              <section id="vis" class="column">
+              <section id="vis" className="column">
                 <p>Placeholder for visualization</p>
               </section>
             </div>
@@ -37,81 +38,65 @@ class App extends React.Component<any, any> {
           </div>
         </section>
 
-        <div class="modal" id="parser-modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title"><b>Parser output</b> <i>(JSON)</i></p>
-              <button class="delete" aria-label="close" onclick="closeModal('parser')"></button>
+        <NotationModal />
+        <div className="modal" id="parser-modal">
+          <div className="modal-background"></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title"><b>Parser output</b> <i>(JSON)</i></p>
+              {/* <button className="delete" aria-label="close" onClick={closeModal('parser')}></button> */}
             </header>
-            <section class="modal-card-body">
-              <p class="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
-              <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
+            <section className="modal-card-body">
+              <p className="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
+              <textarea readOnly className="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
             </section>
-            <footer class="modal-card-foot jc-space-between">
-              <button class="button"
-                onclick="saveJSONCode()">Save to device</button>
-              <button class="button is-success"
-                onclick="getCypherFromER()">Convert to Cypher</button>
+            <footer className="modal-card-foot jc-space-between">
+              {/* <button className="button"
+                onClick={saveJSONCode()}>Save to device</button> */}
+              {/* <button className="button is-success"
+                onClick={getCypherFromER()}>Convert to Cypher</button> */}
             </footer>
           </div>
         </div>
 
-        <div class="modal" id="cypher-modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title"><b>Converter output</b> <i>(Cypher)</i></p>
-              <button class="delete" aria-label="close" onclick="closeModal('cypher')"></button>
+        <div className="modal" id="cypher-modal">
+          <div className="modal-background"></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title"><b>Converter output</b> <i>(Cypher)</i></p>
+              {/* <button className="delete" aria-label="close" onClick={closeModal('cypher')}></button> */}
             </header>
-            <section class="modal-card-body">
-              <p class="mb-05 ta-j">This is a schema for the Neo4j graph database (written in the Cypher query language) based on your Entity-Relationship Diagram:</p>
-              <textarea readonly class="textarea has-fixed-size is-small mb-1" rows="18" id="get-cypher-from-er"></textarea>
+            <section className="modal-card-body">
+              <p className="mb-05 ta-j">This is a schema for the Neo4j graph database (written in the Cypher query language) based on your Entity-Relationship Diagram:</p>
+              <textarea readOnly className="textarea has-fixed-size is-small mb-1" rows="18" id="get-cypher-from-er"></textarea>
             </section>
-            <footer class="modal-card-foot jc-space-between">
-              <button class="button"
-                onclick="saveCypherCode()">Save to device</button>
+            <footer className="modal-card-foot jc-space-between">
+              {/* <button className="button"
+                onClick={saveCypherCode()}>Save to device</button> */}
               
               <div>
-                <button class="button is-info"
-                  onclick="">Generate visualization</button>
-                <button class="button is-success"
-                  onclick="">Run in Neo4j instance</button>
+                {/* <button className="button is-info"
+                  onClick={}>Generate visualization</button>
+                <button className="button is-success"
+                  onClick={}>Run in Neo4j instance</button> */}
               </div>
 
             </footer>
           </div>
         </div>
 
-        <div class="modal" id="clear-modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <section class="modal-card-body">
+        <div className="modal" id="clear-modal">
+          <div className="modal-background"></div>
+          <div className="modal-card">
+            <section className="modal-card-body">
               <p>Are you sure you wanna clear your code?</p>
               <p><b>WARNING: This action is irreversible.</b></p>
             </section>
-            <footer class="modal-card-foot jc-space-between">
-              <button class="button is-danger"
-                onclick="clearERCode()">Yes</button>
-              <button class="button"
-                onclick="closeModal('clear')">No</button>
-            </footer>
-          </div>
-        </div>
-
-        <div class="modal" id="help-modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title"><b>Notation</b></p>
-              <button class="delete" aria-label="close" onclick="closeModal('help')"></button>
-            </header>
-            <section class="modal-card-body">
-              <p class="mb-05 ta-j"><b>TODO:</b> Explain notation here.</p>
-            </section>
-            <footer class="modal-card-foot jc-flex-end">
-              <button class="button"
-                onclick="closeModal('help')">OK</button>
+            <footer className="modal-card-foot jc-space-between">
+              {/* <button className="button is-danger"
+                onClick={clearERCode()}>Yes</button> */}
+              {/* <button className="button"
+                onClick={closeModal('clear')}>No</button> */}
             </footer>
           </div>
         </div>
