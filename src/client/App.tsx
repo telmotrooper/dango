@@ -1,9 +1,12 @@
 import React, { useState } from "react"
 import ReactDOM from "react-dom"
-import { HelpModal } from "./HelpModal"
+import { HelpModal } from "./modals/HelpModal"
+import { ClearModal } from "./modals/ClearModal"
 
 const App = () => {
   const [ showHelpModal, setShowHelpModal ] = useState(false)
+  const [ showClearModal, setShowClearModal ] = useState(false)
+
 
   return (
     <React.Fragment>
@@ -16,7 +19,7 @@ const App = () => {
       
           <section id="top-menu" className="columns">
             <div className="column">
-              {/* <button className="button is-fullwidth" onClick={openSimpleModal('clear')()}>Clear</button> */}
+              <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>Clear</button>
             </div>
             <div className="column">
               {/* <button className="button is-fullwidth" onClick={saveERCode()}>Save to device</button>  */}
@@ -92,21 +95,10 @@ const App = () => {
         </div>
       </div>
 
-      <div className="modal" id="clear-modal">
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <section className="modal-card-body">
-            <p>Are you sure you wanna clear your code?</p>
-            <p><b>WARNING: This action is irreversible.</b></p>
-          </section>
-          <footer className="modal-card-foot jc-space-between">
-            {/* <button className="button is-danger"
-              onClick={clearERCode()}>Yes</button> */}
-            {/* <button className="button"
-              onClick={closeModal('clear')}>No</button> */}
-          </footer>
-        </div>
-      </div>
+      <ClearModal
+        show={showClearModal}
+        setShow={() => setShowClearModal(!showClearModal)}
+      />
     </React.Fragment>
   )
 }
