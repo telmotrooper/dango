@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
-import { saveToDevice } from "./utils/saveToDevice"
+import { saveToDevice } from "./utils/codebox"
 
 const App = () => {
   const [ showHelpModal, setShowHelpModal ] = useState(false)
