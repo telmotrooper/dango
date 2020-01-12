@@ -1,28 +1,28 @@
-import React, { useState } from "react"
+import React, { createRef, Fragment, useState } from "react"
 import ReactDOM from "react-dom"
 import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
+import { Header } from "./Header"
+import { saveToDevice } from "./utils/saveToDevice"
 
 const App = () => {
   const [ showHelpModal, setShowHelpModal ] = useState(false)
   const [ showClearModal, setShowClearModal ] = useState(false)
 
+  const checkboxRef = createRef()
 
   return (
-    <React.Fragment>
+    <Fragment>
       <section className="section">
         <div className="container is-fluid">
-          <header className="mb-1">
-            <h1 className="title">Dango</h1>
-            <h2 className="subtitle">ER diagrams to graph databases</h2>
-          </header>
+          <Header />
       
           <section id="top-menu" className="columns">
             <div className="column">
               <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>Clear</button>
             </div>
             <div className="column">
-              {/* <button className="button is-fullwidth" onClick={saveERCode()}>Save to device</button>  */}
+              <button className="button is-fullwidth" onClick={() => saveToDevice(checkboxRef)}>Save to device</button> 
             </div>
           </section>
 
@@ -32,7 +32,7 @@ const App = () => {
 
           <div className="columns">
             <section id="form" className="column is-two-fifths">
-              <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox"></textarea>
+              <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
               {/* <button className="button is-primary is-fullwidth" onClick={submitCode()}>Send</button> */}
             </section>
             <section id="vis" className="column">
@@ -99,7 +99,7 @@ const App = () => {
         show={showClearModal}
         setShow={() => setShowClearModal(!showClearModal)}
       />
-    </React.Fragment>
+    </Fragment>
   )
 }
 
