@@ -1,4 +1,6 @@
-const saveToDevice = (codebox: any) => {
+import { RefObject } from "react"
+
+const saveToDevice = (codebox: RefObject<any>) => {
   const file = new Blob([codebox.current.value], {type: "text/plain"})
   const url = URL.createObjectURL(file)
 
