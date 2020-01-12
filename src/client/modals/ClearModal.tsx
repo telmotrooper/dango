@@ -1,12 +1,14 @@
-import React from "react"
+import React, { RefObject } from "react"
+import { clearCode } from "../utils/codebox"
 
 interface Props {
+  checkbox: RefObject<any>;
   show: boolean;
-  setShow: any;
+  setShow: (boolean) => void;
 }
 
 const ClearModal = React.memo((props: Props) => {
-  const { show, setShow } = props
+  const { checkbox, show, setShow } = props
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="clear-modal">
@@ -17,8 +19,8 @@ const ClearModal = React.memo((props: Props) => {
           <p><b>WARNING: This action is irreversible.</b></p>
         </section>
         <footer className="modal-card-foot jc-space-between">
-          {/* <button className="button is-danger"
-            onClick={clearERCode()}>Yes</button> */}
+          <button className="button is-danger"
+            onClick={() => clearCode(checkbox, setShow)}>Yes</button>
           <button className="button"
             onClick={() => setShow(!show)}>No</button>
         </footer>

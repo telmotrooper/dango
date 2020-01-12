@@ -13,4 +13,9 @@ const saveToDevice = (codebox: RefObject<any>): void => {
   a.click()
 }
 
-export { saveToDevice }
+const clearCode = (codebox: RefObject<any>, setShow: (boolean) => void) => {
+  codebox.current.value = ""
+  setShow(false)
+}
+
+export { clearCode, saveToDevice }

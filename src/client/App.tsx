@@ -96,6 +96,7 @@ const App = () => {
       </div>
 
       <ClearModal
+        checkbox={checkboxRef}
         show={showClearModal}
         setShow={() => setShowClearModal(!showClearModal)}
       />
