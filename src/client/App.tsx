@@ -5,10 +5,13 @@ import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode } from "./utils/requests"
+import { ParserModal } from "./modals/ParserModal"
 
 const App = () => {
-  const [ showHelpModal, setShowHelpModal ] = useState(false)
-  const [ showClearModal, setShowClearModal ] = useState(false)
+  const [ showClearModal , setShowClearModal  ] = useState(false)
+  const [ showHelpModal  , setShowHelpModal   ] = useState(false)
+  const [ showParserModal, setShowParserModal ] = useState(false)
+
 
   const checkboxRef = createRef()
 
@@ -37,7 +40,7 @@ const App = () => {
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
-              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef)}>Send</button>
+              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef, setShowParserModal)}>Send</button>
             </section>
             <section id="vis" className="column">
               <p>Placeholder for visualization</p>
@@ -53,25 +56,10 @@ const App = () => {
         setShow={() => setShowHelpModal(!showHelpModal)}
       />
 
-      <div className="modal" id="parser-modal">
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title"><b>Parser output</b> <i>(JSON)</i></p>
-            {/* <button className="delete" aria-label="close" onClick={closeModal('parser')}></button> */}
-          </header>
-          <section className="modal-card-body">
-            <p className="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
-            <textarea readOnly className="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
-          </section>
-          <footer className="modal-card-foot jc-space-between">
-            {/* <button className="button"
-              onClick={saveJSONCode()}>Save to device</button> */}
-            {/* <button className="button is-success"
-              onClick={getCypherFromER()}>Convert to Cypher</button> */}
-          </footer>
-        </div>
-      </div>
+      <ParserModal
+        show={showParserModal}
+        setShow={() => setShowParserModal(!showParserModal)}
+      />
 
       <div className="modal" id="cypher-modal">
         <div className="modal-background"></div>

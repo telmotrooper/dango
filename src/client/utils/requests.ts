@@ -1,11 +1,12 @@
 import axios from "axios"
 import { RefObject } from "react"
 
-const submitCode = (codebox: RefObject<any>) => {
+const submitCode = (codebox: RefObject<any>, setShow: (boolean) => void) => {
   axios.post("/er-code", {
     codebox: codebox.current.value
   }).then((res) => {
     console.log("Done")
+    setShow(true)
   })
 
   // xhr.open("POST", "/er-code");
