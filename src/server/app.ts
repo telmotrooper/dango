@@ -1,10 +1,9 @@
 import dotenv from "dotenv"
 dotenv.config()
 
-import Proxy from 'http-proxy-middleware';
-import Bundler from 'parcel-bundler';
-import { join } from 'path';
-import { exec } from 'child_process';
+import Bundler from "parcel-bundler"
+import { join } from "path"
+import { exec } from "child_process"
 
 import express from "express"
 import morgan from "morgan"
@@ -35,15 +34,9 @@ const bundler = new Bundler(entryFiles, { // more at https://parceljs.org/cli.ht
 
 bundler.on('bundled', () => {
   console.log('\n' + bold(`Running application on ` + blue(`http://localhost:${port}`)) + '\n');
-
-  if (process.argv[2] === '--cheap') {
-    console.log(yellow('Running without type and lint checking and without source maps to save memory.\n'));
-  } else {
-    console.log('A type and lint checking report is being generated...\n');
-    typeCheck();
-    lintCheck();
-  }
-
+  // console.log('A type and lint checking report is being generated...\n');
+  // typeCheck();
+  // lintCheck();
 });
 
 // HTTP request logger (can be safely disabled if wanted)
@@ -68,39 +61,39 @@ app.use("/", bundler.middleware())
 // Set port and start listening to it
 app.listen(port)
 
-const typeCheck = () => {
-  exec('npm run type-check', (error, stdout, stderr) => {
-    const output = stdout.split('\n');
+// const typeCheck = () => {
+//   exec('npm run type-check', (error, stdout, stderr) => {
+//     const output = stdout.split('\n');
 
-    if (output.length > 5) {  // 5 lines = output with no errors found
-      console.log('\n' + red(bold((output.length - 5) + ' type error(s) found:') + '\n'));
+//     if (output.length > 5) {  // 5 lines = output with no errors found
+//       console.log('\n' + red(bold((output.length - 5) + ' type error(s) found:') + '\n'));
 
-      for (let i = 4; i < output.length; i++) {
-        console.log(red(output[i]) + '\n');
-      }
-    } else {
-      console.log('\n' + green(bold('No type errors found.')) + '\n');
-    }
+//       for (let i = 4; i < output.length; i++) {
+//         console.log(red(output[i]) + '\n');
+//       }
+//     } else {
+//       console.log('\n' + green(bold('No type errors found.')) + '\n');
+//     }
 
-  });
-};
+//   });
+// };
 
-const lintCheck = () => {
-  exec('npm run lint', (error, stdout, stderr) => {
-    const output = stdout.split('\n');
+// const lintCheck = () => {
+//   exec('npm run lint', (error, stdout, stderr) => {
+//     const output = stdout.split('\n');
 
-    if (output.length > 5) {  // 5 lines = output with no errors found
-      console.log('\n' + red(bold((output.length - 7) + ' lint error(s) found:') + '\n'));
+//     if (output.length > 5) {  // 5 lines = output with no errors found
+//       console.log('\n' + red(bold((output.length - 7) + ' lint error(s) found:') + '\n'));
 
-      for (let i = 5; i < output.length - 2; i++) { // "- 2" because the two last lines are always empty
-        console.log(red(output[i]) + '\n');
-      }
-    } else {
-      console.log('\n' + green(bold('No lint errors found.')) + '\n');
-    }
+//       for (let i = 5; i < output.length - 2; i++) { // "- 2" because the two last lines are always empty
+//         console.log(red(output[i]) + '\n');
+//       }
+//     } else {
+//       console.log('\n' + green(bold('No lint errors found.')) + '\n');
+//     }
 
-  });
-};
+//   });
+// };
 
 // ANSI escape codes for formatting in the terminal
 const bold   = (str: string) => '\u001b[1m'  + str + '\u001b[22m';
