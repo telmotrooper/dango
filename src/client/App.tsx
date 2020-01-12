@@ -1,15 +1,18 @@
-import React, { createRef, Fragment, useState } from "react"
+import React, { createRef, Fragment, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
-import { saveToDevice } from "./utils/codebox"
+import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 
 const App = () => {
   const [ showHelpModal, setShowHelpModal ] = useState(false)
   const [ showClearModal, setShowClearModal ] = useState(false)
 
   const checkboxRef = createRef()
+
+  // Enable auto complete only when "checkbox" already exists in the DOM 
+  useEffect(() => setupAutoComplete(checkboxRef))
 
   return (
     <Fragment>
