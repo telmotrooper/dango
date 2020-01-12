@@ -4,6 +4,7 @@ import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
+import { submitCode } from "./utils/requests"
 
 const App = () => {
   const [ showHelpModal, setShowHelpModal ] = useState(false)
@@ -36,7 +37,7 @@ const App = () => {
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
-              {/* <button className="button is-primary is-fullwidth" onClick={submitCode()}>Send</button> */}
+              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef)}>Send</button>
             </section>
             <section id="vis" className="column">
               <p>Placeholder for visualization</p>
