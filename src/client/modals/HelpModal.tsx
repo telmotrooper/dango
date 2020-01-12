@@ -1,8 +1,8 @@
 import React from "react"
 
 interface Props {
-  show: boolean,
-  setShow: any
+  show: boolean;
+  setShow: any;
 }
 
 const HelpModal = React.memo((props: Props) => {
