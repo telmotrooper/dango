@@ -1,4 +1,4 @@
-import { v1 as neo4j } from "neo4j-driver"
+import neo4j from "neo4j-driver"
 
 const { DB_HOST, DB_USER, DB_PASS } = process.env
 
