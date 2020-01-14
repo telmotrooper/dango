@@ -7,14 +7,17 @@ import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
 import { GenericObject } from "./utils/interfaces"
+import { CypherModal } from "./modals/CypherModal"
 
 const App = () => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
   const [ showHelpModal  , setShowHelpModal   ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
+  const [ showCypherModal, setShowCypherModal ] = useState(false)
   const [ parserContent,   _setParserContent ] = useState({})
+  const [ cypherContent,   setCypherContent ] = useState({})
 
-  const setContext = (json: GenericObject) => {
+  const setParserContext = (json: GenericObject) => {
     const text = JSON.stringify(json, null, 2)
     _setParserContent(text)
   }
@@ -46,7 +49,7 @@ const App = () => {
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
-              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef, setShowParserModal, setContext)}>Send</button>
+              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef, setShowParserModal, setParserContext)}>Send</button>
             </section>
             <section id="vis" className="column">
               <p>Placeholder for visualization</p>
@@ -68,31 +71,11 @@ const App = () => {
         setShow={() => setShowParserModal(!showParserModal)}
       />
 
-      <div className="modal" id="cypher-modal">
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title"><b>Converter output</b> <i>(Cypher)</i></p>
-            {/* <button className="delete" aria-label="close" onClick={closeModal('cypher')}></button> */}
-          </header>
-          <section className="modal-card-body">
-            <p className="mb-05 ta-j">This is a schema for the Neo4j graph database (written in the Cypher query language) based on your Entity-Relationship Diagram:</p>
-            <textarea readOnly className="textarea has-fixed-size is-small mb-1" rows="18" id="get-cypher-from-er"></textarea>
-          </section>
-          <footer className="modal-card-foot jc-space-between">
-            {/* <button className="button"
-              onClick={saveCypherCode()}>Save to device</button> */}
-            
-            <div>
-              {/* <button className="button is-info"
-                onClick={}>Generate visualization</button>
-              <button className="button is-success"
-                onClick={}>Run in Neo4j instance</button> */}
-            </div>
-
-          </footer>
-        </div>
-      </div>
+      <CypherModal
+        content={cypherContent}
+        show={showCypherModal}
+        setShow={() => setCypherContent(!showCypherModal)}
+      />
 
       <ClearModal
         checkbox={checkboxRef}
