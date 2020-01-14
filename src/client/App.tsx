@@ -6,12 +6,18 @@ import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
+import { GenericObject } from "./utils/interfaces"
 
 const App = () => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
   const [ showHelpModal  , setShowHelpModal   ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
+  const [ parserContent,   _setParserContent ] = useState({})
 
+  const setContext = (json: GenericObject) => {
+    const text = JSON.stringify(json, null, 2)
+    _setParserContent(text)
+  }
 
   const checkboxRef = createRef()
 
@@ -40,7 +46,7 @@ const App = () => {
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
-              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef, setShowParserModal)}>Send</button>
+              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef, setShowParserModal, setContext)}>Send</button>
             </section>
             <section id="vis" className="column">
               <p>Placeholder for visualization</p>
@@ -57,6 +63,7 @@ const App = () => {
       />
 
       <ParserModal
+        content={parserContent}
         show={showParserModal}
         setShow={() => setShowParserModal(!showParserModal)}
       />

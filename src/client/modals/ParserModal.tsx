@@ -3,10 +3,11 @@ import React, { RefObject } from "react"
 interface Props {
   show: boolean;
   setShow: (boolean) => void;
+  content: string;
 }
 
 const ParserModal = React.memo((props: Props) => {
-  const { show, setShow } = props
+  const { content, show, setShow } = props
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="parser-modal">
@@ -18,7 +19,7 @@ const ParserModal = React.memo((props: Props) => {
       </header>
       <section className="modal-card-body">
         <p className="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
-        <textarea readOnly className="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
+        <textarea readOnly={true} value={content} className="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
       </section>
       <footer className="modal-card-foot jc-space-between">
         {/* <button className="button"
