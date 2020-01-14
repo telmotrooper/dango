@@ -35,7 +35,7 @@ const App = () => {
               <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>Clear</button>
             </div>
             <div className="column">
-              <button className="button is-fullwidth" onClick={() => saveToDevice(checkboxRef)}>Save to device</button> 
+              <button className="button is-fullwidth" onClick={() => saveToDevice(checkboxRef, "er.txt")}>Save to device</button> 
             </div>
           </section>
 

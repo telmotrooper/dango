@@ -5,7 +5,7 @@ const clearCode = (codebox: RefObject<any>, setShow: (boolean) => void): void =>
   setShow(false)
 }
 
-const saveToDevice = (codebox: RefObject<any>): void => {
+const saveToDevice = (codebox: RefObject<any>, filename: string): void => {
   const file = new Blob([codebox.current.value], {type: "text/plain"})
   const url = URL.createObjectURL(file)
 
@@ -14,7 +14,7 @@ const saveToDevice = (codebox: RefObject<any>): void => {
   document.body.appendChild(a)
 
   a.href = url
-  a.download = "er.txt"
+  a.download = filename
   a.click()
 }
 
