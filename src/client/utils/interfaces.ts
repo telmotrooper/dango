@@ -2,4 +2,10 @@ interface GenericObject {
   [property: string]: any;
 }
 
-export { GenericObject }
+interface RequestStore {
+  data: GenericObject | Array<unknown>;
+  loading: boolean;
+  error: string | null;
+}
+
+export { GenericObject, RequestStore }
