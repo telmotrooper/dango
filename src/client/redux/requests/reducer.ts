@@ -2,10 +2,12 @@ import { initialState } from "./store";
 import { RequestsState } from "./store"
 import { AnyAction } from "redux";
 import { REQUESTS } from "./actions";
+import { submitCode } from "../../utils/requests";
 
 const requestsReducer = (state: RequestsState = initialState, action: AnyAction): RequestsState => {
   switch (action.type) {
     case REQUESTS.SUBMIT_CODE:
+      submitCode(action.payload)
       return {
         ...state,
         submitCode: { data: null, loading: true, error: null }

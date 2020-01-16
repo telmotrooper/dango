@@ -3,8 +3,7 @@ import { RefObject } from "react"
 import { store } from "../App"
 import { REQUESTS, submitCodeAction, submitCodeSuccess, submitCodeError } from "../redux/requests/actions"
 
-const submitCode = async (textArea: RefObject<any>,
-  setShow: (boolean) => void, setContent: (string) => void) => {
+const submitCode = async (textArea: RefObject<unknown>) => {
   try {
     const res = await axios.post("/er-code", {
       codebox: textArea.current.value,
