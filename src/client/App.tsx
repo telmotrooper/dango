@@ -4,7 +4,7 @@ import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
-import { submitCode } from "./utils/requests"
+import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
 import { GenericObject } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
@@ -31,6 +31,12 @@ const App = () => {
     const res = await submitCode(ref.current.value)
     setParserContent(res.data)
     setShowParserModal(true)
+  }
+
+  const handleGetCypherFromER = (ref: RefObject<unknown>) => async (): Promise<void> => {
+    const res = await getCypherFromER(ref.current.value)
+    setCypherContent(res.data)
+    setShowCypherModal(true)
   }
 
   return (
@@ -75,6 +81,7 @@ const App = () => {
         content={parserContent}
         show={showParserModal}
         setShow={() => setShowParserModal(!showParserModal)}
+        onSubmit={handleGetCypherFromER}
       />
 
       <CypherModal

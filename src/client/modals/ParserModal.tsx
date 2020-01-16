@@ -5,10 +5,11 @@ interface Props {
   show: boolean;
   setShow: (boolean) => void;
   content: string;
+  onSubmit: (code: string) => Promise<void>;
 }
 
 const ParserModal = React.memo((props: Props) => {
-  const { content, show, setShow } = props
+  const { content, show, setShow, onSubmit } = props
 
   const textAreaRef = createRef()
 
@@ -28,8 +29,8 @@ const ParserModal = React.memo((props: Props) => {
       <footer className="modal-card-foot jc-space-between">
         <button className="button"
           onClick={() => saveToDevice(textAreaRef, "er_json.txt")}>Save to device</button>
-        {/* <button className="button is-success"
-          onClick={getCypherFromER()}>Convert to Cypher</button> */}
+        <button className="button is-success"
+          onClick={onSubmit(textAreaRef)}>Convert to Cypher</button>
       </footer>
     </div>
   </div>
