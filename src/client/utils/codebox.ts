@@ -1,11 +1,11 @@
 import { RefObject } from "react"
 
-const clearCode = (codebox: RefObject<any>, setShow: (boolean) => void): void => {
+const clearCode = (codebox: RefObject<unknown>, setShow: (boolean) => void): void => {
   codebox.current.value = ""
   setShow(false)
 }
 
-const saveToDevice = (codebox: RefObject<any>, filename: string): void => {
+const saveToDevice = (codebox: RefObject<unknown>, filename: string): void => {
   const file = new Blob([codebox.current.value], {type: "text/plain"})
   const url = URL.createObjectURL(file)
 
@@ -18,10 +18,10 @@ const saveToDevice = (codebox: RefObject<any>, filename: string): void => {
   a.click()
 }
 
-const setupAutoComplete= (codebox: RefObject<any>): void => {
+const setupAutoComplete= (codebox: RefObject<unknown>): void => {
   codebox.current.addEventListener("keydown", (e) => {
-    let { keyCode } = e;
-    let { value, selectionStart, selectionEnd } = codebox.current;
+    const { keyCode } = e;
+    const { value, selectionStart, selectionEnd } = codebox.current;
   
     // console.log(`Key code: ${keyCode}`)
   

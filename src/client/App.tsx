@@ -8,6 +8,10 @@ import { submitCode } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
 import { GenericObject } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
+import { createStore } from "redux"
+import { rootReducer } from "./redux/rootReducer"
+
+const store = createStore(rootReducer)
 
 const App = () => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -87,3 +91,5 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById("app"))
+
+export { store }
