@@ -51,7 +51,6 @@ app.set("view engine", "ejs")
 app.use(express.static(path.join(__dirname, "../../static")))
 
 // Routes
-app.use("/app", Index)
 app.use("/er-code", ERCode)
 app.use("/test-db", TestDB)
 app.use("/get-cypher-from-er", GetCypherFromER)
