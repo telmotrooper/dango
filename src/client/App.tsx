@@ -18,7 +18,7 @@ const App = () => {
   const [ parserContent,   _setParserContent ] = useState({})
   const [ cypherContent,   setCypherContent ] = useState({})
 
-  const setParserContext = (json: GenericObject) => {
+  const setParserContent = (json: GenericObject) => {
     const text = JSON.stringify(json, null, 2)
     _setParserContent(text)
   }
@@ -27,6 +27,13 @@ const App = () => {
 
   // Enable auto complete only when "checkbox" already exists in the DOM 
   useEffect(() => setupAutoComplete(checkboxRef))
+
+  const handleSubmitCode = (code: string) => async () => {
+    const res = await submitCode(code) as any
+    console.log(res.data)
+    setParserContent(res.data)
+    setShowParserModal(true)
+  }
 
   return (
     <Fragment>
@@ -50,7 +57,7 @@ const App = () => {
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
-              <button className="button is-primary is-fullwidth" onClick={() => submitCode(checkboxRef.current.value)}>Send</button>
+              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef && checkboxRef.current && checkboxRef.current.value)}>Send</button>
             </section>
             <section id="vis" className="column">
               <p>Placeholder for visualization</p>
