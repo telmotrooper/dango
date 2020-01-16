@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import { RefObject } from "react"
 
-const submitCode = (code: string): Promise<unknown> =>
+const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/er-code", {
     codebox: code,
   })

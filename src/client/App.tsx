@@ -29,8 +29,7 @@ const App = () => {
   useEffect(() => setupAutoComplete(checkboxRef))
 
   const handleSubmitCode = (code: string) => async () => {
-    const res = await submitCode(code) as any
-    console.log(res.data)
+    const res = await submitCode(code)
     setParserContent(res.data)
     setShowParserModal(true)
   }
