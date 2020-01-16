@@ -10,6 +10,9 @@ interface Props {
 const ClearModal = React.memo((props: Props) => {
   const { checkbox, show, setShow } = props
 
+  const handleClearCode = (): void => clearCode(checkbox, setShow)
+  const handleSetShow = (): void => setShow(!show)
+
   return (
     <div className={"modal" + (show ? " is-active": "")} id="clear-modal">
       <div className="modal-background"></div>
@@ -20,9 +23,9 @@ const ClearModal = React.memo((props: Props) => {
         </section>
         <footer className="modal-card-foot jc-space-between">
           <button className="button is-danger"
-            onClick={() => clearCode(checkbox, setShow)}>Yes</button>
+            onClick={handleClearCode}>Yes</button>
           <button className="button"
-            onClick={() => setShow(!show)}>No</button>
+            onClick={handleSetShow}>No</button>
         </footer>
       </div>
     </div>

@@ -3,20 +3,18 @@ dotenv.config()
 
 import Bundler from "parcel-bundler"
 import { join } from "path"
-import { exec } from "child_process"
 
 import express from "express"
 import morgan from "morgan"
-import path from "path"
 
 import normalizePort from "./misc/normalizePort"
 
 // Route imports
 import { ERCode } from "./routes/er_code"
 import { GetCypherFromER } from "./routes/get_cypher_from_er"
-import { Index } from "./routes/index"
 import { RunInNeo4j } from "./routes/run_in_neo4j"
 import { TestDB } from "./routes/test_db"
+import { bold, blue } from "./misc/consoleUtils"
 
 // Basic settings
 const app: express.Application = express()
@@ -48,7 +46,7 @@ app.use(express.json())
 // View engine setup
 app.set("views", __dirname + "/views")
 app.set("view engine", "ejs")
-app.use(express.static(path.join(__dirname, "../../static")))
+// app.use(express.static(path.join(__dirname, "../../static")))
 
 // Routes
 app.use("/er-code", ERCode)
@@ -93,10 +91,3 @@ app.listen(port)
 
 //   });
 // };
-
-// ANSI escape codes for formatting in the terminal
-const bold   = (str: string) => '\u001b[1m'  + str + '\u001b[22m';
-const red    = (str: string) => '\u001b[31m' + str + '\u001b[0m';
-const green  = (str: string) => '\u001b[32m' + str + '\u001b[0m';
-const blue   = (str: string) => '\u001b[34m' + str + '\u001b[0m';
-const yellow = (str: string) => '\u001b[33m' + str + '\u001b[0m';
