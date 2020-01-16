@@ -8,7 +8,6 @@ import { submitCode } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
 import { GenericObject } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
-import { createStore } from "redux"
 
 const App = () => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -28,7 +27,7 @@ const App = () => {
   // Enable auto complete only when "checkbox" already exists in the DOM 
   useEffect(() => setupAutoComplete(checkboxRef))
 
-  const handleSubmitCode = (code: string) => async () => {
+  const handleSubmitCode = (code: string) => async (): Promise<void> => {
     const res = await submitCode(code)
     setParserContent(res.data)
     setShowParserModal(true)

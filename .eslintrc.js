@@ -12,6 +12,7 @@ module.exports = {
   ],
   rules: {
     "prefer-const": "warn",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "react/display-name": "off"
   }
 };
