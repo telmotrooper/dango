@@ -2,7 +2,7 @@ import React, { RefObject } from "react"
 import { clearCode } from "../utils/codebox"
 
 interface Props {
-  checkbox: RefObject<any>;
+  checkbox: RefObject<unknown>;
   show: boolean;
   setShow: (boolean) => void;
 }

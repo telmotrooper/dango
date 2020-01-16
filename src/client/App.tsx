@@ -17,7 +17,7 @@ const App = () => {
   const [ parserContent,   _setParserContent ] = useState({})
   const [ cypherContent,   setCypherContent ] = useState({})
 
-  const setParserContent = (json: GenericObject) => {
+  const setParserContent = (json: GenericObject): void => {
     const text = JSON.stringify(json, null, 2)
     _setParserContent(text)
   }
@@ -87,7 +87,7 @@ const App = () => {
       <CypherModal
         content={cypherContent}
         show={showCypherModal}
-        setShow={() => setCypherContent(!showCypherModal)}
+        setShow={() => setShowCypherModal(!showCypherModal)}
       />
 
       <ClearModal

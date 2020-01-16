@@ -9,7 +9,7 @@ router.post("/", (req: Request, res: Response) => {
 
   const cypherCode = erToCypher(er)
 
-  res.end(cypherCode)
+  res.json(cypherCode)
 })
 
 export const GetCypherFromER = router

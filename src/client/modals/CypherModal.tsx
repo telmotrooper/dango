@@ -18,7 +18,7 @@ const CypherModal = React.memo((props: Props) => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title"><b>Converter output</b> <i>(Cypher)</i></p>
-          {/* <button className="delete" aria-label="close" onClick={closeModal('cypher')}></button> */}
+          <button className="delete" aria-label="close" onClick={() => setShow(false)}></button>
         </header>
         <section className="modal-card-body">
           <p className="mb-05 ta-j">This is a schema for the Neo4j graph database (written in the Cypher query language) based on your Entity-Relationship Diagram:</p>
