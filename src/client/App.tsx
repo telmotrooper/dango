@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useEffect, useState } from "react"
+import React, { createRef, Fragment, RefObject, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
@@ -27,8 +27,8 @@ const App = () => {
   // Enable auto complete only when "checkbox" already exists in the DOM 
   useEffect(() => setupAutoComplete(checkboxRef))
 
-  const handleSubmitCode = (code: string) => async (): Promise<void> => {
-    const res = await submitCode(code)
+  const handleSubmitCode = (ref: RefObject<unknown>) => async (): Promise<void> => {
+    const res = await submitCode(ref.current.value)
     setParserContent(res.data)
     setShowParserModal(true)
   }
@@ -55,7 +55,7 @@ const App = () => {
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows="18" name="codebox" ref={checkboxRef} />
-              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef && checkboxRef.current && checkboxRef.current.value)}>Send</button>
+              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef)}>Send</button>
             </section>
             <section id="vis" className="column">
               <p>Placeholder for visualization</p>
