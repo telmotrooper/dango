@@ -11,6 +11,7 @@ module.exports = {
     "plugin:react/recommended"
   ],
   rules: {
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "react/no-unescaped-entities": "off"
   }
 };

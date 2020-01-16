@@ -1,22 +1,26 @@
 import axios from "axios"
 import { RefObject } from "react"
-import { store } from "../App"
-import { REQUESTS, submitCodeAction, submitCodeSuccess, submitCodeError } from "../redux/requests/actions"
 
-const submitCode = async (textArea: RefObject<unknown>) => {
-  try {
-    const res = await axios.post("/er-code", {
-      codebox: textArea.current.value,
-    })
+const submitCode = (code: string): Promise<unknown> =>
+  axios.post("/er-code", {
+    codebox: code,
+  })
 
-    store.dispatch(submitCodeSuccess(res.data))
-  } catch (err) {
-    store.dispatch(submitCodeError(err.message))
-  }
 
-  // setContent(res.data)
-  // setShow(true)
-}
+// const submitCode = async (textArea: RefObject<unknown>) => {
+//   try {
+//     const res = await axios.post("/er-code", {
+//       codebox: textArea.current.value,
+//     })
+
+//     store.dispatch(submitCodeSuccess(res.data))
+//   } catch (err) {
+//     store.dispatch(submitCodeError(err.message))
+//   }
+
+//   // setContent(res.data)
+//   // setShow(true)
+// }
 
 // const submitCode = async (textArea: RefObject<any>,
 //   setShow: (boolean) => void, setContent: (string) => void) => {
