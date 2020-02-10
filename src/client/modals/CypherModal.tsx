@@ -30,10 +30,8 @@ const CypherModal = React.memo((props: Props) => {
             onClick={() => saveToDevice(textAreaRef, "cypher.txt")}>Save to device</button>
           
           <div>
-            {/* <button className="button is-info"
-              onClick={}>Generate visualization</button>
-            <button className="button is-success"
-              onClick={}>Run in Neo4j instance</button> */}
+            <button className="button is-info">Generate visualization</button>
+            <button className="button is-success">Run in Neo4j instance</button>
           </div>
 
         </footer>
