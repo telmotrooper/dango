@@ -9,7 +9,7 @@ import { ParserModal } from "./modals/ParserModal"
 import { GenericObject } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 
-const App = () => {
+const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
   const [ showHelpModal  , setShowHelpModal   ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
@@ -100,5 +100,3 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById("app"))
-
-export { store }
