@@ -14,8 +14,8 @@ const App = (): JSX.Element => {
   const [ showHelpModal  , setShowHelpModal   ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
   const [ showCypherModal, setShowCypherModal ] = useState(false)
-  const [ parserContent,   _setParserContent ] = useState({})
-  const [ cypherContent,   setCypherContent ] = useState({})
+  const [ parserContent,   _setParserContent ] = useState("")
+  const [ cypherContent,   setCypherContent ] = useState("")
 
   const setParserContent = (json: GenericObject): void => {
     const text = JSON.stringify(json, null, 2)
