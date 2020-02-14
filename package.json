@@ -2,7 +2,8 @@
   "scripts": {
     "start": "./node_modules/nodemon/bin/nodemon.js",
     "clean": "rm -rf .cache build",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "lint-check": "eslint src --ext .ts,.tsx"
   },
   "nodemonConfig": {
     "exec": "ts-node --files src/server/app.ts",
