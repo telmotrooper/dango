@@ -14,5 +14,10 @@ module.exports = {
     "prefer-const": "warn",
     "react/no-unescaped-entities": "off",
     "react/display-name": "off"
+  },
+  settings: {
+    react: {
+      version: "detect"
+    }
   }
 };
