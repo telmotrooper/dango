@@ -1,3 +1,5 @@
+import { RefObject } from "react"
+
 interface GenericObject {
   [property: string]: any;
 }
@@ -8,4 +10,6 @@ interface RequestStore {
   error: string | null;
 }
 
-export { GenericObject, RequestStore }
+type CodeboxRef = RefObject<HTMLTextAreaElement>;
+
+export { CodeboxRef, GenericObject, RequestStore }

@@ -6,7 +6,7 @@ import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
-import { GenericObject } from "./utils/interfaces"
+import { GenericObject, CodeboxRef } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 
 const App = (): JSX.Element => {
@@ -27,13 +27,13 @@ const App = (): JSX.Element => {
   // Enable auto complete only when "checkbox" already exists in the DOM 
   useEffect(() => setupAutoComplete(checkboxRef))
 
-  const handleSubmitCode = (ref: RefObject<HTMLTextAreaElement>) => async (): Promise<void> => {
+  const handleSubmitCode = (ref: CodeboxRef) => async (): Promise<void> => {
     const res = await submitCode(ref.current.value)
     setParserContent(res.data)
     setShowParserModal(true)
   }
 
-  const handleGetCypherFromER = (ref: RefObject<HTMLInputElement>) => async (): Promise<void> => {
+  const handleGetCypherFromER = (ref: CodeboxRef) => async (): Promise<void> => {
     const res = await getCypherFromER(ref.current.value)
     setCypherContent(res.data)
     setShowCypherModal(true)
