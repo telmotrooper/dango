@@ -5,13 +5,13 @@ interface Props {
   show: boolean;
   setShow: (boolean) => void;
   content: string;
-  onSubmit: (code: string) => Promise<void>;
+  onSubmit: (ref: RefObject<HTMLTextAreaElement>) => () => Promise<void>;
 }
 
 const ParserModal = React.memo((props: Props) => {
   const { content, show, setShow, onSubmit } = props
 
-  const textAreaRef = createRef()
+  const textAreaRef = createRef<HTMLTextAreaElement>()
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="parser-modal">
@@ -24,7 +24,7 @@ const ParserModal = React.memo((props: Props) => {
       <section className="modal-card-body">
         <p className="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
         <textarea ref={textAreaRef} readOnly={true} value={content}
-          className="textarea has-fixed-size is-small mb-1" rows="18" id="json-code"></textarea>
+          className="textarea has-fixed-size is-small mb-1" rows={18} id="json-code"></textarea>
       </section>
       <footer className="modal-card-foot jc-space-between">
         <button className="button"
