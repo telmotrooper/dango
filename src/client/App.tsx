@@ -22,12 +22,12 @@ const App = (): JSX.Element => {
     _setParserContent(text)
   }
 
-  const checkboxRef = createRef()
+  const checkboxRef = createRef<HTMLTextAreaElement>()
 
   // Enable auto complete only when "checkbox" already exists in the DOM 
   useEffect(() => setupAutoComplete(checkboxRef))
 
-  const handleSubmitCode = (ref: RefObject<HTMLInputElement>) => async (): Promise<void> => {
+  const handleSubmitCode = (ref: RefObject<HTMLTextAreaElement>) => async (): Promise<void> => {
     const res = await submitCode(ref.current.value)
     setParserContent(res.data)
     setShowParserModal(true)
@@ -74,26 +74,26 @@ const App = (): JSX.Element => {
 
       <HelpModal
         show={showHelpModal}
-        setShow={() => setShowHelpModal(!showHelpModal)}
+        setShow={(): void => setShowHelpModal(!showHelpModal)}
       />
 
       <ParserModal
         content={parserContent}
         show={showParserModal}
-        setShow={() => setShowParserModal(!showParserModal)}
+        setShow={(): void => setShowParserModal(!showParserModal)}
         onSubmit={handleGetCypherFromER}
       />
 
       <CypherModal
         content={cypherContent}
         show={showCypherModal}
-        setShow={() => setShowCypherModal(!showCypherModal)}
+        setShow={(): void => setShowCypherModal(!showCypherModal)}
       />
 
       <ClearModal
         checkbox={checkboxRef}
         show={showClearModal}
-        setShow={() => setShowClearModal(!showClearModal)}
+        setShow={(): void => setShowClearModal(!showClearModal)}
       />
     </Fragment>
   )
