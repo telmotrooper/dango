@@ -64,7 +64,7 @@ const App = (): JSX.Element => {
               <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={checkboxRef} />
               <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef)}>Send</button>
             </section>
-            <section id="vis" className="column">
+            <section id="vis" className="column vis">
               <Graphviz
                 options={{
                   zoom: true,
