@@ -8,6 +8,7 @@ import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
 import { GenericObject, CodeboxRef } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
+import { Graphviz } from "graphviz-react"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -64,7 +65,22 @@ const App = (): JSX.Element => {
               <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef)}>Send</button>
             </section>
             <section id="vis" className="column">
-              <p>Placeholder for visualization</p>
+              <Graphviz dot={
+                `graph G {
+                  bibliotecarios [label="Bibliotecários", shape=rectangle, style=filled]
+
+                  cpf [label="CPF", shape=doublecircle, fixedsize=true, height=0.5, width=0.5, fontsize=10]
+                  nome [label="Nome", shape=circle, fixedsize=true, size=0.5, fontsize=10]
+                  salario[label="Salário", shape=circle, fixedsize=true, size=0.5, fontsize=10]
+
+                  estagiarios [label="Estagiários", shape=rectangle, style=filled]
+
+                  bibliotecarios -- cpf
+                  bibliotecarios -- nome
+                  bibliotecarios -- salario   
+                  bibliotecarios -- estagiarios
+                }`
+              } />
             </section>
           </div>
 
