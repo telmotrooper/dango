@@ -61,26 +61,40 @@ const App = (): JSX.Element => {
 
           <div className="columns">
             <section id="form" className="column is-two-fifths">
-              <textarea className="textarea has-fixed-size is-small mb-1" rows={18} name="codebox" ref={checkboxRef} />
+              <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={checkboxRef} />
               <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef)}>Send</button>
             </section>
             <section id="vis" className="column">
-              <Graphviz dot={
-                `graph G {
-                  bibliotecarios [label="Bibliotecários", shape=rectangle, style=filled]
-
-                  cpf [label="CPF", shape=doublecircle, fixedsize=true, height=0.5, width=0.5, fontsize=10]
-                  nome [label="Nome", shape=circle, fixedsize=true, size=0.5, fontsize=10]
-                  salario[label="Salário", shape=circle, fixedsize=true, size=0.5, fontsize=10]
-
-                  estagiarios [label="Estagiários", shape=rectangle, style=filled]
-
-                  bibliotecarios -- cpf
-                  bibliotecarios -- nome
-                  bibliotecarios -- salario   
-                  bibliotecarios -- estagiarios
-                }`
-              } />
+              <Graphviz
+                options={{
+                  zoom: true
+                }}
+                dot={
+                  `graph G {
+                    bibliotecarios [label="Bibliotecários", shape=rectangle, style=filled]
+                
+                    cpf [label="CPF", shape=doublecircle, fixedsize=true, height=0.5, width=0.5, fontsize=10]
+                    nome [label="Nome", shape=circle, fixedsize=true, size=0.5, fontsize=10]
+                    salario[label="Salário", shape=circle, fixedsize=true, size=0.5, fontsize=10]
+                
+                    estagiarios [label="Estagiários", shape=rectangle, style=filled]
+                
+                    bibliotecarios -- cpf
+                    bibliotecarios -- nome
+                    bibliotecarios -- salario   
+                    bibliotecarios -- estagiarios
+                    
+                    a
+                    b
+                    c
+                    d
+                    e
+                    f
+                    g
+                    h
+                    j
+                }`}
+              />
             </section>
           </div>
 
