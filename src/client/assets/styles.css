@@ -28,6 +28,10 @@
 
 #vis > div {
   height: 100%;
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
 }
 
 html, body, #app {
