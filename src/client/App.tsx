@@ -67,7 +67,9 @@ const App = (): JSX.Element => {
             <section id="vis" className="column">
               <Graphviz
                 options={{
-                  zoom: true
+                  zoom: true,
+                  height: "100%",
+                  width: "100%"
                 }}
                 dot={
                   `graph G {
