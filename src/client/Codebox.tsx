@@ -28,7 +28,7 @@ const Codebox = React.memo((props: Props) => {
   , [debouncedCode])
 
   return (
-    <section id="form" className="column is-two-fifths">
+    <section id="form" className="column is-one-third">
       <textarea
         name="codebox"
         ref={textAreaRef}
