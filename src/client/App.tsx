@@ -9,6 +9,7 @@ import { ParserModal } from "./modals/ParserModal"
 import { GenericObject, TextArea } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 import { Graphviz } from "graphviz-react"
+import { Codebox } from "./Codebox"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -65,12 +66,10 @@ const App = (): JSX.Element => {
           </p>
 
           <div className="columns">
-            <section id="form" className="column is-two-fifths">
-              <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={textAreaRef} />
-              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(textAreaRef)}>
-                Send
-              </button>
-            </section>
+            <Codebox
+              textAreaRef={textAreaRef}
+              handleSubmit={handleSubmitCode(textAreaRef)}
+            />
             <section id="vis" className="column vis">
               <Graphviz
                 options={{
