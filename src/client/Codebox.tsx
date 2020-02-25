@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { TextArea } from "./utils/interfaces"
 
 interface Props {
@@ -11,7 +11,15 @@ const Codebox = React.memo((props: Props) => {
 
   return (
     <section id="form" className="column is-two-fifths">
-      <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={textAreaRef} />
+      <textarea
+        name="codebox"
+        ref={textAreaRef}
+        className="textarea has-fixed-size is-small mb-1"
+        rows={25}
+        onChange={(event: ChangeEvent<HTMLTextAreaElement>): void => {
+          console.log(`Code updated:\n${event.target.value}`)
+        }}
+      />
       <button className="button is-primary is-fullwidth" onClick={handleSubmit}>
         Send
       </button>
