@@ -16,9 +16,14 @@ const Codebox = React.memo((props: Props) => {
 
   useEffect(
     () => {
-      if (debouncedCode !== "") {
-        submitCode(debouncedCode)
-      }
+        async function handleSubmitCode(): Promise<void> {
+          if (debouncedCode !== "") {
+            const res = await submitCode(debouncedCode)
+            console.log(res.data)
+          }
+        }
+
+        handleSubmitCode()
     }
   , [debouncedCode])
 
