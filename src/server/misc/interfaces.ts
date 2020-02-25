@@ -1,40 +1,40 @@
 
 interface ER {  // entity-relationship diagram
-  ent: Ent[],
-  rel: Rel[],
-  aent: AEnt[],
-  spe: Spe[]
+  ent: Ent[];
+  rel: Rel[];
+  aent: AEnt[];
+  spe: Spe[];
 }
 
 interface Ent { // entity
-  id: string,
-  data: string[],
-  pk: string[]
+  id: string;
+  data: string[];
+  pk: string[];
 }
 
 interface Rel { // relationship
-  id: string,
-  ent1: Conn
-  ent2: Conn
+  id: string;
+  ent1: Conn;
+  ent2: Conn;
 }
 
 interface Conn {  // connection
-  id: string,
-  cardinality: string,
+  id: string;
+  cardinality: string;
 }
 
 interface AEnt {
-  id: string,
-  ent1: Conn,
-  ent2: Conn,
-  data: string[]
+  id: string;
+  ent1: Conn;
+  ent2: Conn;
+  data: string[];
 }
 
 interface Spe {
-  id: string,
-  total: boolean,
-  disjoint: boolean,
-  entities: string[]
+  id: string;
+  total: boolean;
+  disjoint: boolean;
+  entities: string[];
 }
 
 export { ER }
