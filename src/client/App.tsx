@@ -49,12 +49,12 @@ const App = (): JSX.Element => {
       
           <section id="top-menu" className="columns">
             <div className="column">
-              <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>
+              <button className="button is-fullwidth" onClick={(): void => setShowClearModal(!showClearModal)}>
                 Clear
               </button>
             </div>
             <div className="column">
-              <button className="button is-fullwidth" onClick={() => saveToDevice(textAreaRef, "er.txt")}>
+              <button className="button is-fullwidth" onClick={(): void => saveToDevice(textAreaRef, "er.txt")}>
                 Save to device
               </button> 
             </div>
