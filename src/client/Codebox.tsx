@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState, useEffect } from "react"
 import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
+import { submitCode } from "./utils/requests"
 
 interface Props {
   textAreaRef: TextArea;
@@ -15,7 +16,9 @@ const Codebox = React.memo((props: Props) => {
 
   useEffect(
     () => {
-      console.log(debouncedCode)
+      if (debouncedCode !== "") {
+        submitCode(debouncedCode)
+      }
     }
   , [debouncedCode])
 

@@ -8,7 +8,7 @@ const parseERCode = (code: string): ER => {
   // g = all matches
   // i = case-insensitive
 
-  // classify objects
+  // classify objects, note: positive lookahead regex seems not to be supported by Firefox
   const rawEntities = code.match(/(?:^|[^a])(?=(ent ))[^\}]+}/gi) // match "ent", but not "aent"
   const rawRelationships = code.match(/(?=(rel ))[^\}]+}/gi)
   const rawAssociativeEntities = code.match(/(?=(aent ))[^\}]+}/gi)
