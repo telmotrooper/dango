@@ -48,21 +48,28 @@ const App = (): JSX.Element => {
       
           <section id="top-menu" className="columns">
             <div className="column">
-              <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>Clear</button>
+              <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>
+                Clear
+              </button>
             </div>
             <div className="column">
-              <button className="button is-fullwidth" onClick={() => saveToDevice(textAreaRef, "er.txt")}>Save to device</button> 
+              <button className="button is-fullwidth" onClick={() => saveToDevice(textAreaRef, "er.txt")}>
+                Save to device
+              </button> 
             </div>
           </section>
 
           <p className="mb-05 fs-09 mt-minus-05">
-            We've made a simple notation to represent ER diagrams in human-readable code! Learn more <a onClick={() => setShowHelpModal(!showHelpModal)}>here</a>.
+            We've made a simple notation to represent ER diagrams in human-readable code!
+            Learn more <a onClick={(): void => setShowHelpModal(!showHelpModal)}>here</a>.
           </p>
 
           <div className="columns">
             <section id="form" className="column is-two-fifths">
               <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={textAreaRef} />
-              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(textAreaRef)}>Send</button>
+              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(textAreaRef)}>
+                Send
+              </button>
             </section>
             <section id="vis" className="column vis">
               <Graphviz
@@ -99,8 +106,6 @@ const App = (): JSX.Element => {
               />
             </section>
           </div>
-
-      
         </div>
       </section>
 

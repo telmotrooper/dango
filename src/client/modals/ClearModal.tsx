@@ -22,11 +22,13 @@ const ClearModal = React.memo((props: Props) => {
           <p>Are you sure you wanna clear your code?</p>
           <p><b>WARNING: This action is irreversible.</b></p>
         </section>
-        <footer className="modal-card-foot jc-space-between">
-          <button className="button is-danger"
-            onClick={handleClearCode}>Yes</button>
-          <button className="button"
-            onClick={handleSetShow}>No</button>
+        <footer className="modal-card-foot jc-flex-end">
+          <button className="button" onClick={handleSetShow}>
+            No
+          </button>
+          <button className="button is-danger" onClick={handleClearCode}>
+            Yes
+          </button>
         </footer>
       </div>
     </div>

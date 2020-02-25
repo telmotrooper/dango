@@ -41,7 +41,6 @@ const CypherModal = React.memo((props: Props) => {
               Run in Neo4j instance
             </button>
           </div>
-
         </footer>
       </div>
     </div>
