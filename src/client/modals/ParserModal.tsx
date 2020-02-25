@@ -1,12 +1,12 @@
 import React, { createRef } from "react"
 import { saveToDevice } from "../utils/codebox"
-import { CodeboxRef } from "../utils/interfaces"
+import { TextArea } from "../utils/interfaces"
 
 interface Props {
   show: boolean;
   setShow: (boolean) => void;
   content: string;
-  onSubmit: (ref: CodeboxRef) => () => Promise<void>;
+  onSubmit: (ref: TextArea) => () => Promise<void>;
 }
 
 const ParserModal = React.memo((props: Props) => {

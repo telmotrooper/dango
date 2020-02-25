@@ -1,11 +1,11 @@
-import { RefObject } from "react"
+import { TextArea } from "./interfaces"
 
-const clearCode = (codebox: RefObject<unknown>, setShow: (boolean) => void): void => {
+const clearCode = (codebox: TextArea, setShow: (boolean) => void): void => {
   codebox.current.value = ""
   setShow(false)
 }
 
-const saveToDevice = (codebox: RefObject<unknown>, filename: string): void => {
+const saveToDevice = (codebox: TextArea, filename: string): void => {
   const file = new Blob([codebox.current.value], {type: "text/plain"})
   const url = URL.createObjectURL(file)
 
@@ -18,7 +18,7 @@ const saveToDevice = (codebox: RefObject<unknown>, filename: string): void => {
   a.click()
 }
 
-const setupAutoComplete= (codebox: RefObject<unknown>): void => {
+const setupAutoComplete= (codebox: TextArea): void => {
   codebox.current.addEventListener("keydown", (e) => {
     const { keyCode } = e;
     const { value, selectionStart, selectionEnd } = codebox.current;

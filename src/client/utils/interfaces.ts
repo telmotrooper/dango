@@ -1,6 +1,7 @@
 import { RefObject } from "react"
 
 interface GenericObject {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [property: string]: any;
 }
 
@@ -10,6 +11,6 @@ interface RequestStore {
   error: string | null;
 }
 
-type CodeboxRef = RefObject<HTMLTextAreaElement>;
+type TextArea = RefObject<HTMLTextAreaElement>;
 
-export { CodeboxRef, GenericObject, RequestStore }
+export { TextArea, GenericObject, RequestStore }

@@ -1,8 +1,9 @@
-import React, { RefObject } from "react"
+import React from "react"
 import { clearCode } from "../utils/codebox"
+import { TextArea } from "../utils/interfaces"
 
 interface Props {
-  checkbox: RefObject<unknown>;
+  checkbox: TextArea;
   show: boolean;
   setShow: (boolean) => void;
 }

@@ -1,4 +1,4 @@
-import React, { createRef, RefObject } from "react"
+import React, { createRef } from "react"
 import { saveToDevice } from "../utils/codebox"
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 const CypherModal = React.memo((props: Props) => {
   const { content, show, setShow } = props
 
-  const textAreaRef = createRef()
+  const textAreaRef = createRef<HTMLTextAreaElement>()
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="cypher-modal">
@@ -23,7 +23,7 @@ const CypherModal = React.memo((props: Props) => {
         <section className="modal-card-body">
           <p className="mb-05 ta-j">This is a schema for the Neo4j graph database (written in the Cypher query language) based on your Entity-Relationship Diagram:</p>
           <textarea ref={textAreaRef} readOnly={true} value={content}
-            className="textarea has-fixed-size is-small mb-1" rows="18" id="get-cypher-from-er" />
+            className="textarea has-fixed-size is-small mb-1" rows={18} id="get-cypher-from-er" />
         </section>
         <footer className="modal-card-foot jc-space-between">
           <button className="button"

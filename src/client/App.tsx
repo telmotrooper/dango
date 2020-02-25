@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, RefObject, useEffect, useState } from "react"
+import React, { createRef, Fragment, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
@@ -6,7 +6,7 @@ import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
-import { GenericObject, CodeboxRef } from "./utils/interfaces"
+import { GenericObject, TextArea } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 import { Graphviz } from "graphviz-react"
 
@@ -23,18 +23,18 @@ const App = (): JSX.Element => {
     _setParserContent(text)
   }
 
-  const checkboxRef = createRef<HTMLTextAreaElement>()
+  const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  // Enable auto complete only when "checkbox" already exists in the DOM 
-  useEffect(() => setupAutoComplete(checkboxRef))
+  // Enable auto complete only when codebox already exists in the DOM 
+  useEffect(() => setupAutoComplete(textAreaRef))
 
-  const handleSubmitCode = (ref: CodeboxRef) => async (): Promise<void> => {
+  const handleSubmitCode = (ref: TextArea) => async (): Promise<void> => {
     const res = await submitCode(ref.current.value)
     setParserContent(res.data)
     setShowParserModal(true)
   }
 
-  const handleGetCypherFromER = (ref: CodeboxRef) => async (): Promise<void> => {
+  const handleGetCypherFromER = (ref: TextArea) => async (): Promise<void> => {
     const res = await getCypherFromER(ref.current.value)
     setCypherContent(res.data)
     setShowCypherModal(true)
@@ -51,7 +51,7 @@ const App = (): JSX.Element => {
               <button className="button is-fullwidth" onClick={() => setShowClearModal(!showClearModal)}>Clear</button>
             </div>
             <div className="column">
-              <button className="button is-fullwidth" onClick={() => saveToDevice(checkboxRef, "er.txt")}>Save to device</button> 
+              <button className="button is-fullwidth" onClick={() => saveToDevice(textAreaRef, "er.txt")}>Save to device</button> 
             </div>
           </section>
 
@@ -61,8 +61,8 @@ const App = (): JSX.Element => {
 
           <div className="columns">
             <section id="form" className="column is-two-fifths">
-              <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={checkboxRef} />
-              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(checkboxRef)}>Send</button>
+              <textarea className="textarea has-fixed-size is-small mb-1" rows={25} name="codebox" ref={textAreaRef} />
+              <button className="button is-primary is-fullwidth" onClick={handleSubmitCode(textAreaRef)}>Send</button>
             </section>
             <section id="vis" className="column vis">
               <Graphviz
@@ -123,7 +123,7 @@ const App = (): JSX.Element => {
       />
 
       <ClearModal
-        checkbox={checkboxRef}
+        checkbox={textAreaRef}
         show={showClearModal}
         setShow={(): void => setShowClearModal(!showClearModal)}
       />
