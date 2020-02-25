@@ -1,4 +1,4 @@
-import { lower, upper } from "./removeAccents"
+import { lower, upper } from "../../shared/removeAccents"
 import { ER } from "./interfaces"
 
 const erToCypher = (er: string) => {
