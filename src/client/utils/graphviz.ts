@@ -21,7 +21,8 @@ const convertER = (code: ER): string => {
     diagram += getEntity(ent.id) + "\n"
 
     for (const attribute of ent.data) {
-      diagram += getAttribute(ent.id, attribute) + "\n"
+      const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
+      diagram += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
       diagram += getConnection(ent.id, attribute) + "\n"
     }
   }
