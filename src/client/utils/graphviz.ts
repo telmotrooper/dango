@@ -4,11 +4,11 @@ import { ER } from "../../server/misc/interfaces"
 const getEntity = (entityName: string): string =>
   `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled]`
 
-const getAttribute = (attributeName: string, primaryKey?: boolean): string =>
-  `${lower(attributeName)} [label="${attributeName}", shape=${primaryKey ? "doublecircle" : "circle"}, fixedsize=true, height=0.5, width=0.5, fontsize=10]`
+const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string =>
+  `${lower(entityName + "_" + attributeName)} [label="${attributeName}", shape=${primaryKey ? "doublecircle" : "circle"}, fixedsize=true, height=0.5, width=0.5, fontsize=10]`
 
 const getConnection = (entityName: string, attributeName: string): string =>
-  `${lower(entityName)} -- ${lower(attributeName)}`
+  `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
 
 const convertER = (code: ER): string => {
   if (Object.entries(code).length === 0) {
@@ -21,7 +21,7 @@ const convertER = (code: ER): string => {
     diagram += getEntity(ent.id) + "\n"
 
     for (const attribute of ent.data) {
-      diagram += getAttribute(attribute) + "\n"
+      diagram += getAttribute(ent.id, attribute) + "\n"
       diagram += getConnection(ent.id, attribute) + "\n"
     }
   }
