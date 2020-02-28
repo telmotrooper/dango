@@ -2,28 +2,32 @@ import React, { ChangeEvent, useState, useEffect } from "react"
 import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
+import { convertER } from "./utils/graphviz"
 
 interface Props {
   textAreaRef: TextArea;
   handleSubmit: () => Promise<void>;
+  handleUpdate: (diagram: string) => void;
 }
 
 const Codebox = React.memo((props: Props) => {
-  const { textAreaRef, handleSubmit } = props
+  const { textAreaRef, handleSubmit, handleUpdate } = props
 
   const [ code, setCode ] = useState("")
   const debouncedCode = useDebounce(code, 500)
 
   useEffect(
     () => {
-        async function handleSubmitCode(): Promise<void> {
-          if (debouncedCode !== "") {
-            const res = await submitCode(debouncedCode)
-            console.log(res.data)
-          }
-        }
+      async function handleSubmitCode(): Promise<void> {
+        if (debouncedCode !== "") {
+          const res = await submitCode(debouncedCode)
 
-        handleSubmitCode()
+          // Convert ER to Graphviz and update diagram
+          handleUpdate(convertER(res.data))
+        }
+      }
+
+      handleSubmitCode()
     }
   , [debouncedCode])
 

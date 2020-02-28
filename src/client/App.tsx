@@ -18,6 +18,7 @@ const App = (): JSX.Element => {
   const [ showCypherModal, setShowCypherModal ] = useState(false)
   const [ parserContent,   _setParserContent ] = useState("")
   const [ cypherContent,   setCypherContent ] = useState("")
+  const [ diagram, setDiagram ] = useState("")
 
   const setParserContent = (json: GenericObject): void => {
     const text = JSON.stringify(json, null, 2)
@@ -69,6 +70,7 @@ const App = (): JSX.Element => {
             <Codebox
               textAreaRef={textAreaRef}
               handleSubmit={handleSubmitCode(textAreaRef)}
+              handleUpdate={setDiagram}
             />
             <section id="vis" className="column vis">
               <Graphviz
@@ -77,31 +79,7 @@ const App = (): JSX.Element => {
                   height: "100%",
                   width: "100%"
                 }}
-                dot={
-                  `graph G {
-                    bibliotecarios [label="Bibliotecários", shape=rectangle, style=filled]
-                
-                    cpf [label="CPF", shape=doublecircle, fixedsize=true, height=0.5, width=0.5, fontsize=10]
-                    nome [label="Nome", shape=circle, fixedsize=true, size=0.5, fontsize=10]
-                    salario[label="Salário", shape=circle, fixedsize=true, size=0.5, fontsize=10]
-                
-                    estagiarios [label="Estagiários", shape=rectangle, style=filled]
-                
-                    bibliotecarios -- cpf
-                    bibliotecarios -- nome
-                    bibliotecarios -- salario   
-                    bibliotecarios -- estagiarios
-                    
-                    a
-                    b
-                    c
-                    d
-                    e
-                    f
-                    g
-                    h
-                    j
-                }`}
+                dot={diagram || `graph G {}`}
               />
             </section>
           </div>
