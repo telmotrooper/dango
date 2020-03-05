@@ -15,10 +15,15 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey?: bo
 const getConnection = (entityName: string, attributeName: string): string =>
   `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
 
+const getConnectionForRelationship = (entityName1: string, entityName2: string): string =>
+  `${lower(entityName1)} -- ${lower(entityName2)}`
+
 const getRelationship = (relationshipName: string): string =>
   `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}"]`
 
 const convertER = (code: ER): string => {
+  console.log(code)
+
   if (Object.entries(code).length === 0) {
     return "graph G {}"
   }
@@ -37,6 +42,9 @@ const convertER = (code: ER): string => {
 
   for (const rel of code.rel) {
     diagram += getRelationship(rel.id) + "\n"
+    diagram += getConnectionForRelationship(rel.ent1.id, rel.id) + "\n"
+    diagram += getConnectionForRelationship(rel.id, rel.ent2.id) + "\n"
+  
   }
 
   diagram += "\n}"
