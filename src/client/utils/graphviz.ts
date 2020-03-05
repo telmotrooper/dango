@@ -19,7 +19,7 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string):
   `${lower(entityName1)} -- ${lower(entityName2)}`
 
 const getRelationship = (relationshipName: string): string =>
-  `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}"]`
+  `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5]`
 
 const convertER = (code: ER): string => {
   console.log(code)
