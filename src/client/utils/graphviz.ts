@@ -30,21 +30,24 @@ const convertER = (code: ER): string => {
 
   let diagram = "graph G {\n"
 
-  for (const ent of code.ent) {
-    diagram += getEntity(ent.id) + "\n"
-
-    for (const attribute of ent.data) {
-      const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
-      diagram += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
-      diagram += getConnection(ent.id, attribute) + "\n"
+  if (code.ent) {
+    for (const ent of code.ent) {
+      diagram += getEntity(ent.id) + "\n"
+  
+      for (const attribute of ent.data) {
+        const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
+        diagram += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
+        diagram += getConnection(ent.id, attribute) + "\n"
+      }
     }
   }
 
-  for (const rel of code.rel) {
-    diagram += getRelationship(rel.id) + "\n"
-    diagram += getConnectionForRelationship(rel.ent1.id, rel.id) + "\n"
-    diagram += getConnectionForRelationship(rel.id, rel.ent2.id) + "\n"
-  
+  if (code.rel) {
+    for (const rel of code.rel) {
+      diagram += getRelationship(rel.id) + "\n"
+      diagram += getConnectionForRelationship(rel.ent1.id, rel.id) + "\n"
+      diagram += getConnectionForRelationship(rel.id, rel.ent2.id) + "\n"
+    }
   }
 
   diagram += "\n}"

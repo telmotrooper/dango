@@ -1,9 +1,9 @@
 
 interface ER {  // entity-relationship diagram
-  ent: Ent[];
-  rel: Rel[];
-  aent: AEnt[];
-  spe: Spe[];
+  ent?: Ent[];
+  rel?: Rel[];
+  aent?: AEnt[];
+  spe?: Spe[];
 }
 
 interface Ent { // entity
