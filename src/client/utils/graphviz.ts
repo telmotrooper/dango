@@ -21,6 +21,11 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string):
 const getRelationship = (relationshipName: string): string =>
   `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5]`
 
+const getAEnt = (entityName: string): string =>
+  `subgraph ${"cluster_" + lower(entityName)} {
+		${lower(entityName)} [shape=diamond]
+	}`
+
 const convertER = (code: ER): string => {
   console.log(code)
 
@@ -47,6 +52,12 @@ const convertER = (code: ER): string => {
       diagram += getRelationship(rel.id) + "\n"
       diagram += getConnectionForRelationship(rel.ent1.id, rel.id) + "\n"
       diagram += getConnectionForRelationship(rel.id, rel.ent2.id) + "\n"
+    }
+  }
+
+  if (code.aent) {
+    for (const aent of code.aent) {
+      diagram += getAEnt(aent.id)
     }
   }
 
