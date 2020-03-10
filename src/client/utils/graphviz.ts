@@ -23,7 +23,9 @@ const getRelationship = (relationshipName: string): string =>
 
 const getAEnt = (entityName: string): string =>
   `subgraph ${"cluster_" + lower(entityName)} {
-		${lower(entityName)} [shape=diamond]
+    style=filled
+    fillcolor="#f8ec88"
+		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}"]
 	}`
 
 const convertER = (code: ER): string => {
