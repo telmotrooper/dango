@@ -2,8 +2,9 @@ import parseAssociativeEntities from "./parseAssociativeEntities"
 import parseEntities from "./parseEntities"
 import parseRelationships from "./parseRelationships"
 import parseSpecializations from "./parseSpecializations"
+import { ER } from "../misc/interfaces"
 
-const parseERCode = (code: string) => {
+const parseERCode = (code: string): ER => {
   // g = all matches
   // i = case-insensitive
 
@@ -13,7 +14,7 @@ const parseERCode = (code: string) => {
   const rawAssociativeEntities = code.match(/(?=(aent ))[^\}]+}/gi)
   const rawSpecializations = code.match(/(?=(spe ))[^\}]+}/gi)
 
-  const er: any = {
+  const er: ER = {
     ent: [],
     rel: [],
     aent: [],

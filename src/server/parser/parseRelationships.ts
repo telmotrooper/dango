@@ -1,6 +1,8 @@
-const parseRelationships = (rawRelationships: string[] | null) => {
+import { Rel } from "../misc/interfaces"
+
+const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
   if (rawRelationships) {
-    const relationships = []
+    const relationships: Rel[] = []
 
     for (const rel of rawRelationships) {
       const id = rel.match(/(?<=\w )\w[^ ]+/gi)

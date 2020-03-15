@@ -1,6 +1,8 @@
-const parseEntities = (rawEntities: string[] | null) => {
+import { Ent } from "../misc/interfaces"
+
+const parseEntities = (rawEntities: string[] | null): Ent[] => {
   if (rawEntities) {
-    const entities = []
+    const entities: Ent[] = []
 
     for (const ent of rawEntities) {
       const id = ent.match(/(?<=\w )\w[^ ]+/gi)

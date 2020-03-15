@@ -1,6 +1,8 @@
-const parseSpecializations = (rawSpecializations: string[] | null) => {
+import { Spe } from "../misc/interfaces"
+
+const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
   if (rawSpecializations) {
-    const specializations = []
+    const specializations: Spe[] = []
 
     for (const spe of rawSpecializations) {
       const rawData = spe.match(/[^{\}]+(?=})/gi)

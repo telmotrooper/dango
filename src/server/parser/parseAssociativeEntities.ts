@@ -1,6 +1,8 @@
-const parseAssociativeEntities = (rawAssociativeEntities: string[] | null) => {
+import { AEnt } from "../misc/interfaces"
+
+const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt[] => {
   if (rawAssociativeEntities) {
-    const associativeEntities = []
+    const associativeEntities: AEnt[] = []
 
     for (const aent of rawAssociativeEntities) {
       const id = aent.match(/(?<=\w )\w[^ ]+/gi)

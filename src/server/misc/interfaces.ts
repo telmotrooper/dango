@@ -25,6 +25,7 @@ interface Conn {  // connection
 
 interface AEnt {
   id: string;
+  // ent: Conn[];
   ent1: Conn;
   ent2: Conn;
   data: string[];
@@ -37,4 +38,4 @@ interface Spe {
   entities: string[];
 }
 
-export { ER }
+export { AEnt, Ent, ER, Rel, Spe }
