@@ -5,7 +5,7 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
     const relationships: Rel[] = []
 
     for (const rel of rawRelationships) {
-      const id = rel.match(/(?<=\w )\w[^ ]+/gi)
+      const id: string = rel.match(/(?<=\w )\w[^ ]+/gi).toString()
       const rawData = rel.match(/[^{\}]+(?=})/gi)
 
       let data
@@ -17,7 +17,7 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
       if (id && data) {
         relationships.push(
           {
-            id: id[0],
+            id: id,
             ent1: {
               id: data[0],
               cardinality: data[1].substr(1, 3),

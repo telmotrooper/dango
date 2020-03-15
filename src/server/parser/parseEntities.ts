@@ -5,7 +5,7 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
     const entities: Ent[] = []
 
     for (const ent of rawEntities) {
-      const id = ent.match(/(?<=\w )\w[^ ]+/gi)
+      const id: string = ent.match(/(?<=\w )\w[^ ]+/gi).toString()
       const rawData = ent.match(/[^{\}]+(?=})/gi)
       let dataArray
       let data = []
@@ -34,7 +34,7 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
       if (id) {
         entities.push(
           {
-            id: id[0],
+            id: id,
             data,
             pk,
           },
