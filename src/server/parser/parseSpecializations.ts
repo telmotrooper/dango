@@ -5,7 +5,7 @@ const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
     const specializations: Spe[] = []
 
     for (const spe of rawSpecializations) {
-      const rawData = spe.match(/[^{\}]+(?=})/gi)
+      const rawData = spe.match(/[^{}]+(?=})/gi)
 
       let data: string[]
       let total = null

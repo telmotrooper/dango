@@ -9,10 +9,10 @@ const parseERCode = (code: string): ER => {
   // i = case-insensitive
 
   // classify objects
-  const rawEntities = code.match(/(?:^|[^a])(?=(ent ))[^\}]+}/gi) // match "ent", but not "aent"
-  const rawRelationships = code.match(/(?=(rel ))[^\}]+}/gi)
-  const rawAssociativeEntities = code.match(/(?=(aent ))[^\}]+}/gi)
-  const rawSpecializations = code.match(/(?=(spe ))[^\}]+}/gi)
+  const rawEntities = code.match(/(?:^|[^a])(?=(ent ))[^}]+}/gi) // match "ent", but not "aent"
+  const rawRelationships = code.match(/(?=(rel ))[^}]+}/gi)
+  const rawAssociativeEntities = code.match(/(?=(aent ))[^}]+}/gi)
+  const rawSpecializations = code.match(/(?=(spe ))[^}]+}/gi)
 
   const er: ER = {
     ent: [],
