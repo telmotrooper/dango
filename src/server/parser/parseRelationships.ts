@@ -5,7 +5,7 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
     const relationships: Rel[] = []
 
     for (const rel of rawRelationships) {
-      const id: string = rel.match(/(?<=\w )\w[^ ]+/gi).toString()
+      const id: string = rel.match(/(?<=\w )\w[^ ]+/gi)[0]
       const rawData = rel.match(/[^{\}]+(?=})/gi)
 
       let data

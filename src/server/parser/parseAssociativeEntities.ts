@@ -5,7 +5,7 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
     const associativeEntities: AEnt[] = []
 
     for (const aent of rawAssociativeEntities) {
-      const id: string = aent.match(/(?<=\w )\w[^ ]+/gi).toString()
+      const id: string = aent.match(/(?<=\w )\w[^ ]+/gi)[0]
       const rawData = aent.match(/[^{\}]+(?=})/gi)
       let data
       const temp = []
