@@ -4,5 +4,4 @@
 # Folders
 node_modules/
 .cache/
-.vscode/
 build/

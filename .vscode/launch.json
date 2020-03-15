@@ -1,0 +1,34 @@
+{
+  // The options related to Firefox require the extension "Debugger for Firefox" to be installed.
+  // "Firefox (Attach)" requires Firefox to be run as "firefox -start-debugger-server".
+  "configurations": [
+      {
+        "name": "Firefox (Launch)",
+        "type": "firefox",
+        "request": "launch",
+        "reAttach": true,
+        "url": "http://localhost:8000/",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "name": "Firefox (Attach)",
+        "type": "firefox",
+        "request": "attach"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "TS Node (Launch)",
+        "env": {
+            "TS_NODE_FILES": "true"
+        },
+        "runtimeArgs": [
+            "-r",
+            "ts-node/register",
+        ],
+        "args": [
+            "${workspaceFolder}/src/server/app.ts"
+        ]
+     }
+  ]
+}
