@@ -4,7 +4,7 @@ import { TextArea } from "../utils/interfaces"
 
 interface Props {
   show: boolean;
-  setShow: (boolean) => void;
+  setShow: (arg0: boolean) => void;
   content: string;
   onSubmit: (ref: TextArea) => () => Promise<void>;
 }

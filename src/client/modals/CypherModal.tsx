@@ -3,7 +3,7 @@ import { saveToDevice } from "../utils/codebox"
 
 interface Props {
   show: boolean;
-  setShow: (boolean) => void;
+  setShow: (arg0: boolean) => void;
   content: string;
 }
 

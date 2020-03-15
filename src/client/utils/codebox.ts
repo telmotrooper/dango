@@ -1,6 +1,6 @@
 import { TextArea } from "./interfaces"
 
-const clearCode = (codebox: TextArea, setShow: (boolean) => void): void => {
+const clearCode = (codebox: TextArea, setShow: (arg0: boolean) => void): void => {
   codebox.current.value = ""
   setShow(false)
 }

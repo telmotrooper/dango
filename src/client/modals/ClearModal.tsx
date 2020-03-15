@@ -5,7 +5,7 @@ import { TextArea } from "../utils/interfaces"
 interface Props {
   checkbox: TextArea;
   show: boolean;
-  setShow: (boolean) => void;
+  setShow: (arg0: boolean) => void;
 }
 
 const ClearModal = React.memo((props: Props) => {

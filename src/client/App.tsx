@@ -76,8 +76,8 @@ const App = (): JSX.Element => {
               <Graphviz
                 options={{
                   zoom: true,
-                  height: "100%",
-                  width: "100%"
+                  height: ("100%" as unknown as number),
+                  width: ("100%" as unknown as number)
                 }}
                 dot={diagram || `graph G {}`}
               />
