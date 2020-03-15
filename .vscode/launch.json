@@ -16,9 +16,9 @@
         "request": "attach"
       },
       {
+        "name": "TS Node (Launch)",
         "type": "node",
         "request": "launch",
-        "name": "TS Node (Launch)",
         "env": {
             "TS_NODE_FILES": "true"
         },
