@@ -4,6 +4,7 @@ import { ER } from "../../server/misc/interfaces"
 const entityColor       = "#f8ec88"
 const attributeColor    = "#79bddc"
 const relationshipColor = "#dc9079"
+const fontName          = "mono"
 
 /**
  * Split attribute name into multiple lines to fit shape.
@@ -12,7 +13,7 @@ const relationshipColor = "#dc9079"
 const getLabel = (attributeName: string): string => {
   let label: string = attributeName
 
-  if(attributeName.length > 6) {
+  if(attributeName.length > 7) {
     label = attributeName.substr(0, 6) + "\\n" + attributeName.substr(6, attributeName.length-1)
   }
 
@@ -20,13 +21,13 @@ const getLabel = (attributeName: string): string => {
 }
 
 const getEntity = (entityName: string): string =>
-  `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}"]`
+  `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}", fontname="${fontName}"]`
 
 const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
   const label = getLabel(attributeName)
 
   return `${lower(entityName + "_" + attributeName)} [label="${label}", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
-  `style=filled, fixedsize=true, height=0.5, width=0.5, fontsize=10, fillcolor="${attributeColor}"]`
+  `style=filled, fixedsize=true, height=0.5, width=0.5, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}"]`
 }
 
 
@@ -37,13 +38,13 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string):
   `${lower(entityName1)} -- ${lower(entityName2)}`
 
 const getRelationship = (relationshipName: string): string =>
-  `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5]`
+  `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5, fontname="${fontName}"]`
 
 const getAEnt = (entityName: string): string =>
   `subgraph ${"cluster_" + lower(entityName)} {
     style=filled
     fillcolor="#f8ec88"
-		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}"]
+		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fontname="${fontName}"]
 	}`
 
 const convertER = (code: ER): string => {
