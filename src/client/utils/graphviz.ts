@@ -5,12 +5,30 @@ const entityColor       = "#f8ec88"
 const attributeColor    = "#79bddc"
 const relationshipColor = "#dc9079"
 
+/**
+ * Split attribute name into multiple lines to fit shape.
+ * @param attributeName 
+ */
+const getLabel = (attributeName: string): string => {
+  let label: string = attributeName
+
+  if(attributeName.length > 6) {
+    label = attributeName.substr(0, 6) + "\\n" + attributeName.substr(6, attributeName.length-1)
+  }
+
+  return label
+}
+
 const getEntity = (entityName: string): string =>
   `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}"]`
 
-const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string =>
-  `${lower(entityName + "_" + attributeName)} [label="${attributeName}", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
+const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
+  const label = getLabel(attributeName)
+
+  return `${lower(entityName + "_" + attributeName)} [label="${label}", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
   `style=filled, fixedsize=true, height=0.5, width=0.5, fontsize=10, fillcolor="${attributeColor}"]`
+}
+
 
 const getConnection = (entityName: string, attributeName: string): string =>
   `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
