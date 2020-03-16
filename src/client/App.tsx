@@ -31,15 +31,19 @@ const App = (): JSX.Element => {
   useEffect(() => setupAutoComplete(textAreaRef))
 
   const handleSubmitCode = (ref: TextArea) => async (): Promise<void> => {
-    const res = await submitCode(ref.current.value)
-    setParserContent(res.data)
-    setShowParserModal(true)
+    if (ref.current) {
+      const res = await submitCode(ref.current.value)
+      setParserContent(res.data)
+      setShowParserModal(true)
+    }
   }
 
   const handleGetCypherFromER = (ref: TextArea) => async (): Promise<void> => {
-    const res = await getCypherFromER(ref.current.value)
-    setCypherContent(res.data)
-    setShowCypherModal(true)
+    if (ref.current) {
+      const res = await getCypherFromER(ref.current.value)
+      setCypherContent(res.data)
+      setShowCypherModal(true)
+    }
   }
 
   return (

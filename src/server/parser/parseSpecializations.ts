@@ -7,9 +7,9 @@ const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
     for (const spe of rawSpecializations) {
       const rawData = spe.match(/[^{}]+(?=})/gi)
 
-      let data: string[]
-      let total = null
-      let disjoint = null
+      let data: string[] | null
+      let total = false
+      let disjoint = false
       const temp = []
 
       if (rawData !== null) {
@@ -19,14 +19,10 @@ const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
           const cardinality = data[1].substr(1, 3)
           if (cardinality[0] === "t") {
             total = true
-          } else {
-            total = false
           }
 
           if (cardinality[2] === "d") {
             disjoint = true
-          } else {
-            disjoint = false
           }
 
           for (let i = 2; i < data.length; i++) {
@@ -51,6 +47,8 @@ const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
     }
 
     return specializations
+  } else {
+    return []
   }
 }
 

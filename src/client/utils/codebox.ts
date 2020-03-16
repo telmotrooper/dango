@@ -1,21 +1,26 @@
 import { TextArea } from "./interfaces"
 
 const clearCode = (codebox: TextArea, setShow: (arg0: boolean) => void): void => {
-  codebox.current.value = ""
+  if(codebox.current) {
+    codebox.current.value = ""
+  }
+  
   setShow(false)
 }
 
 const saveToDevice = (codebox: TextArea, filename: string): void => {
-  const file = new Blob([codebox.current.value], {type: "text/plain"})
-  const url = URL.createObjectURL(file)
-
-  const a = document.createElement("a")
-  a.style.display = "none"
-  document.body.appendChild(a)
-
-  a.href = url
-  a.download = filename
-  a.click()
+  if (codebox.current) {
+    const file = new Blob([codebox.current.value], {type: "text/plain"})
+    const url = URL.createObjectURL(file)
+  
+    const a = document.createElement("a")
+    a.style.display = "none"
+    document.body.appendChild(a)
+  
+    a.href = url
+    a.download = filename
+    a.click()
+  }
 }
 
 const setupAutoComplete= (codebox: TextArea): void => {

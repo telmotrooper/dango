@@ -5,7 +5,15 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
     const relationships: Rel[] = []
 
     for (const rel of rawRelationships) {
-      const id: string = rel.match(/(?<=\w )\w[^ ]+/gi)[0]
+      const match: string[] | null = rel.match(/(?<=\w )\w[^ ]+/gi)
+      let id: string
+
+      if(match && match[0]) {
+        id = match[0]
+      } else {
+        id = ""
+      }
+
       const rawData = rel.match(/[^{}]+(?=})/gi)
 
       let data
@@ -32,6 +40,8 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
     }
 
     return relationships
+  } else {
+    return []
   }
 }
 
