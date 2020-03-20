@@ -14,12 +14,14 @@ router.post("/", async (req: Request, res: Response) => {
     const result = await session.run("MATCH (n) RETURN n LIMIT 5")
 
     session.close()
+    driver.close()
     res.sendStatus(200)
 
   } catch (error) {
     // console.error(error)
 
     session.close()
+    driver.close()
     res.sendStatus(503) // Service Unavailable
   }
 })
