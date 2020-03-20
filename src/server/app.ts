@@ -3,18 +3,16 @@ dotenv.config()
 
 import Bundler from "parcel-bundler"
 import { join } from "path"
-
 import express from "express"
 import morgan from "morgan"
 
 import normalizePort from "./misc/normalizePort"
-
-// Route imports
 import { ERCode } from "./routes/er_code"
 import { GetCypherFromER } from "./routes/get_cypher_from_er"
 import { RunInNeo4j } from "./routes/run_in_neo4j"
 import { TestDB } from "./routes/test_db"
 import { bold, blue } from "./misc/consoleUtils"
+import { typeCheck, lintCheck } from "./misc/codeChecks"
 
 // Basic settings
 const app: express.Application = express()
@@ -32,9 +30,9 @@ const bundler = new Bundler(entryFiles, { // more at https://parceljs.org/cli.ht
 
 bundler.on('bundled', () => {
   console.log('\n' + bold(`Running application on ` + blue(`http://localhost:${port}`)) + '\n');
-  // console.log('A type and lint checking report is being generated...\n');
-  // typeCheck();
-  // lintCheck();
+  console.log(blue('A type and lint checking report is being generated...\n'));
+  typeCheck();
+  lintCheck();
 });
 
 // HTTP request logger (can be safely disabled if wanted)
@@ -57,37 +55,3 @@ app.use("/", bundler.middleware())
 
 // Set port and start listening to it
 app.listen(port)
-
-// const typeCheck = () => {
-//   exec('npm run type-check', (error, stdout, stderr) => {
-//     const output = stdout.split('\n');
-
-//     if (output.length > 5) {  // 5 lines = output with no errors found
-//       console.log('\n' + red(bold((output.length - 5) + ' type error(s) found:') + '\n'));
-
-//       for (let i = 4; i < output.length; i++) {
-//         console.log(red(output[i]) + '\n');
-//       }
-//     } else {
-//       console.log('\n' + green(bold('No type errors found.')) + '\n');
-//     }
-
-//   });
-// };
-
-// const lintCheck = () => {
-//   exec('npm run lint', (error, stdout, stderr) => {
-//     const output = stdout.split('\n');
-
-//     if (output.length > 5) {  // 5 lines = output with no errors found
-//       console.log('\n' + red(bold((output.length - 7) + ' lint error(s) found:') + '\n'));
-
-//       for (let i = 5; i < output.length - 2; i++) { // "- 2" because the two last lines are always empty
-//         console.log(red(output[i]) + '\n');
-//       }
-//     } else {
-//       console.log('\n' + green(bold('No lint errors found.')) + '\n');
-//     }
-
-//   });
-// };
