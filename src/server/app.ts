@@ -1,6 +1,5 @@
 import dotenv from "dotenv"
 dotenv.config()
-
 import Bundler from "parcel-bundler"
 import { join } from "path"
 import express from "express"
@@ -10,7 +9,6 @@ import { normalizePort } from "./misc/normalizePort"
 import { ERCode } from "./routes/er_code"
 import { GetCypherFromER } from "./routes/get_cypher_from_er"
 import { RunInNeo4j } from "./routes/run_in_neo4j"
-import { TestDB } from "./routes/test_db"
 import { bold, blue } from "./misc/consoleUtils"
 import { typeCheck, lintCheck } from "./misc/codeChecks"
 
@@ -48,7 +46,6 @@ app.set("view engine", "ejs")
 
 // Routes
 app.use("/er-code", ERCode)
-app.use("/test-db", TestDB)
 app.use("/get-cypher-from-er", GetCypherFromER)
 app.use("/run-in-neo4j", RunInNeo4j)
 app.use("/", bundler.middleware())
