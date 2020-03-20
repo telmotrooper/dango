@@ -1,8 +1,9 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER } from "./interfaces"
 
-const erToCypher = (er: string) => {
+const erToCypher = (er: string): string => {
   const erCode: ER = JSON.parse(er)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { ent, rel, aent, spe } = erCode
   let schema = ""
 
@@ -26,6 +27,7 @@ const erToCypher = (er: string) => {
 
   if (aent) {
     for (const associativeEntity of aent) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, ent1, ent2, id } = associativeEntity
   
       // Relationship property existence constraint

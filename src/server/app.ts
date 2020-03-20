@@ -6,7 +6,7 @@ import { join } from "path"
 import express from "express"
 import morgan from "morgan"
 
-import normalizePort from "./misc/normalizePort"
+import { normalizePort } from "./misc/normalizePort"
 import { ERCode } from "./routes/er_code"
 import { GetCypherFromER } from "./routes/get_cypher_from_er"
 import { RunInNeo4j } from "./routes/run_in_neo4j"

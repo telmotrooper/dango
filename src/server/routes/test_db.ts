@@ -8,6 +8,7 @@ router.get("/", async (req: Request, res: Response) => {
   const session = driver.session()
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const result = await session.run("MATCH (n) RETURN n LIMIT 5")
 
     session.close()
