@@ -25,7 +25,7 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
           data = []
 
           for (let i = 0; i < dataArray.length; i += 1) {
-            if (dataArray[i] !== "pk") {
+            if (dataArray[i] !== "*") {
               data.push(dataArray[i])
             } else {
               pk.push(dataArray[i - 1])
