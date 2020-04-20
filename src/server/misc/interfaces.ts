@@ -26,6 +26,7 @@ export interface AEnt {
   id: string;
   entities: Conn[];
   data: string[];
+  pk: string[];
 }
 
 export interface Spe {

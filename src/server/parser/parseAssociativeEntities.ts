@@ -21,7 +21,8 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
         const aent: AEnt = {
           id,
           entities: [],
-          data: []
+          data: [],
+          pk: []
         }
 
         data = rawData[0].match(/(\S)+/gi)
@@ -29,13 +30,17 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
 
         if (data) {
           for (let i = 0; i < data.length; i++) {
-            if (data[i+1] && data[i+1][0] == "(") {  // entity followed by its cardinality
+            if (data[i+1] && data[i+1][0] == "(") { // entity followed by its cardinality
               const ent: Conn = {
                 id: data[i],
                 cardinality: data[i+1]
               }
               aent.entities.push(ent)
-            } else if (data[i][0] != "(" && data[i][0] != "*") {
+            } else if (data[i][0] == "*") { // primary key
+              if (data[i-1]) {
+                aent.pk.push(data[i-1])
+              }
+            } else if (data[i][0] != "(") { // attribute
               aent.data.push(data[i])
             }
           }
