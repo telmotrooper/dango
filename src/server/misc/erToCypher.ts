@@ -9,10 +9,10 @@ const erToCypher = (er: string): string => {
 
   if (ent) {
     for (const entity of ent) {
-      const { data, id, pk } = entity
+      const { attributes, id, pk } = entity
   
       // Node property existence constraints
-      for (const item of data) {
+      for (const item of attributes) {
         schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${id}) ASSERT exists(${lower(id)[0]}.${item});\n`
       }
   

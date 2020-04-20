@@ -7,7 +7,7 @@ export interface ER {  // entity-relationship diagram
 
 export interface Ent { // entity
   id: string;
-  data: string[];
+  attributes: string[];
   pk: string[];
 }
 

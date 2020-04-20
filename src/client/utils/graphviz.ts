@@ -60,7 +60,7 @@ const convertER = (code: ER): string => {
     for (const ent of code.ent) {
       diagram += getEntity(ent.id) + "\n"
   
-      for (const attribute of ent.data) {
+      for (const attribute of ent.attributes) {
         const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
         diagram += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
         diagram += getConnection(ent.id, attribute) + "\n"

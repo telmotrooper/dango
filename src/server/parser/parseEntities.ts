@@ -14,18 +14,18 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
       
       const rawData = ent.match(/[^{}]+(?=})/gi)
       let dataArray
-      let data = []
+      let attributes = []
       const pk = []
 
       if (rawData !== null) {
         dataArray = rawData[0].match(/(\S)+/gi)
 
         if (dataArray) {
-          data = []
+          attributes = []
 
           for (let i = 0; i < dataArray.length; i += 1) {
             if (dataArray[i] !== "*") {
-              data.push(dataArray[i])
+              attributes.push(dataArray[i])
             } else {
               pk.push(dataArray[i - 1])
             }
@@ -34,14 +34,14 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
         }
 
       } else {
-        data = []
+        attributes = []
       }
 
       if (id) {
         entities.push(
           {
-            id: id,
-            data,
+            id,
+            attributes,
             pk,
           },
         )
