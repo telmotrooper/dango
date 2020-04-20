@@ -1,17 +1,15 @@
 import { AEnt, Conn } from "../misc/interfaces"
 
 const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt[] => {
-  if (rawAssociativeEntities) {
-    const associativeEntities: AEnt[] = []
+  const associativeEntities: AEnt[] = []
 
+  if (rawAssociativeEntities) {
     for (const aent of rawAssociativeEntities) {
       const match: string[] | null = aent.match(/(?<=\w )\w[^ ]+/gi)
-      let id: string
+      let id = ""
 
       if (match && match[0]) {
         id = match[0]
-      } else {
-        id = ""
       }
 
       const rawData = aent.match(/[^{}]+(?=})/gi)
@@ -49,11 +47,9 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
         associativeEntities.push(aent)
       }
     }
+  }
 
   return associativeEntities
-  } else {
-    return []
-  }
 }
 
 export default parseAssociativeEntities

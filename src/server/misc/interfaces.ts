@@ -15,6 +15,7 @@ export interface Rel { // relationship
   id: string;
   ent1: Conn;
   ent2: Conn;
+  data: string[];
 }
 
 export interface Conn {  // connection
