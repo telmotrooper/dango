@@ -18,7 +18,7 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
       let data: string[] | null
 
       if (rawData !== null) {
-        let aent: AEnt = {
+        const aent: AEnt = {
           id,
           entities: [],
           data: []
