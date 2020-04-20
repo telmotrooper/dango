@@ -23,12 +23,8 @@ export interface Conn {  // connection
   cardinality: string;
 }
 
-export interface AEnt {
-  id: string;
-  entities: Conn[];
-  attributes: string[];
-  pk: string[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AEnt extends Rel { }
 
 export interface Spe {
   id: string;
