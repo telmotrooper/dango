@@ -1,4 +1,4 @@
-import { AEnt } from "../misc/interfaces"
+import { AEnt, Conn } from "../misc/interfaces"
 
 const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt[] => {
   if (rawAssociativeEntities) {
@@ -8,47 +8,45 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
       const match: string[] | null = aent.match(/(?<=\w )\w[^ ]+/gi)
       let id: string
 
-      if(match && match[0]) {
+      if (match && match[0]) {
         id = match[0]
       } else {
         id = ""
       }
 
       const rawData = aent.match(/[^{}]+(?=})/gi)
-      let data
-      const temp = []
+      let data: string[] | null
 
       if (rawData !== null) {
-        data = rawData[0].match(/(\S)+/gi)
+        let aent: AEnt = {
+          id,
+          entities: [],
+          data: []
+        }
 
-        if (data && data.length > 4) {
-          for (let i = 4; i < data.length; i++) {
-            temp.push(data[i])
+        data = rawData[0].match(/(\S)+/gi)
+        // const lines = rawData[0].split("\n").filter(line => line != "")
+
+        if (data) {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i+1] && data[i+1][0] == "(") {  // entity followed by its cardinality
+              const ent: Conn = {
+                id: data[i],
+                cardinality: data[i+1]
+              }
+              aent.entities.push(ent)
+            } else if (data[i][0] != "(" && data[i][0] != "*") {
+              aent.data.push(data[i])
+            }
           }
         }
-      }
-
-      if (id && data) {
-        associativeEntities.push(
-          {
-            id: id,
-            ent1: {
-              id: data[0],
-              cardinality: data[1].substr(1, 3),
-            },
-            ent2: {
-              id: data[2],
-              cardinality: data[3].substr(1, 3),
-            },
-            data: temp,
-          },
-        )
+        
+        associativeEntities.push(aent)
       }
     }
 
-    return associativeEntities
-  }
-  else {
+  return associativeEntities
+  } else {
     return []
   }
 }
