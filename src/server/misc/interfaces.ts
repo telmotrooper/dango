@@ -13,8 +13,7 @@ export interface Ent { // entity
 
 export interface Rel { // relationship
   id: string;
-  ent1: Conn;
-  ent2: Conn;
+  entities: Conn[];
   attributes: string[];
   pk: string[];
 }

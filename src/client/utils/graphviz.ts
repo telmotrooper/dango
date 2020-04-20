@@ -71,8 +71,8 @@ const convertER = (code: ER): string => {
   if (code.rel) {
     for (const rel of code.rel) {
       diagram += getRelationship(rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.ent1.id, rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.id, rel.ent2.id) + "\n"
+      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id) + "\n"
+      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id) + "\n"
     }
   }
 

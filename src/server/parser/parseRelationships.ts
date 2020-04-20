@@ -22,17 +22,22 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
         if (id && data) {
           const rel: Rel = {
             id,
-            ent1: {
-              id: data[0],
-              cardinality: data[1].substr(1, 3),
-            },
-            ent2: {
-              id: data[2],
-              cardinality: data[3].substr(1, 3),
-            },
+            entities: [],
             attributes: [],
             pk: []
           }
+
+          rel.entities.push({
+              id: data[0],
+              cardinality: data[1].substr(1, 3),
+            }
+          )
+
+          rel.entities.push({
+              id: data[2],
+              cardinality: data[3].substr(1, 3),
+            }
+          )
 
           for (let i = 4; i < data.length; i += 1) {
             if (data[i] !== "*") {
