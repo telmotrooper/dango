@@ -30,13 +30,13 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
               id: data[2],
               cardinality: data[3].substr(1, 3),
             },
-            data: [],
+            attributes: [],
             pk: []
           }
 
           for (let i = 4; i < data.length; i += 1) {
             if (data[i] !== "*") {
-              rel.data.push(data[i])
+              rel.attributes.push(data[i])
             } else {
               rel.pk.push(data[i - 1])
             }

@@ -19,7 +19,7 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
         const aent: AEnt = {
           id,
           entities: [],
-          data: [],
+          attributes: [],
           pk: []
         }
 
@@ -39,7 +39,7 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
                 aent.pk.push(data[i-1])
               }
             } else if (data[i][0] != "(") { // attribute
-              aent.data.push(data[i])
+              aent.attributes.push(data[i])
             }
           }
         }

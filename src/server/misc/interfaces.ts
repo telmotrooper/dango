@@ -15,7 +15,7 @@ export interface Rel { // relationship
   id: string;
   ent1: Conn;
   ent2: Conn;
-  data: string[];
+  attributes: string[];
   pk: string[];
 }
 
@@ -27,7 +27,7 @@ export interface Conn {  // connection
 export interface AEnt {
   id: string;
   entities: Conn[];
-  data: string[];
+  attributes: string[];
   pk: string[];
 }
 
