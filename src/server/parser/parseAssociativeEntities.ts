@@ -7,11 +7,7 @@ const parseAssociativeEntities = (
   if (rawAssociativeEntities) {
     for (const aent of rawAssociativeEntities) {
       const match: string[] | null = aent.match(/(?<=\w )\w[^ ]+/gi)
-      let id = ""
-
-      if (match && match[0]) {
-        id = match[0]
-      }
+      const id: string = match?.[0] ?? ""
 
       const rawData = aent.match(/[^{}]+(?=})/gi)
       let data: string[] | null
