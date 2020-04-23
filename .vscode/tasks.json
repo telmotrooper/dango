@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "npm start",
+      "problemMatcher": []
+    }
+  ]
+}
