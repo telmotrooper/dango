@@ -23,8 +23,9 @@ export interface Conn {  // connection
   cardinality: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AEnt extends Rel { }
+export interface AEnt extends Rel {
+  relationships: string[];
+}
 
 export interface Spe {
   id: string;

@@ -1,6 +1,7 @@
-import { AEnt, Conn } from "../misc/interfaces"
+import { AEnt, Conn, Rel } from "../misc/interfaces"
 
-const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt[] => {
+const parseAssociativeEntities = (
+  rawAssociativeEntities: string[] | null, relationships: Rel[]): AEnt[] => {
   const associativeEntities: AEnt[] = []
 
   if (rawAssociativeEntities) {
@@ -20,7 +21,8 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
           id,
           entities: [],
           attributes: [],
-          pk: []
+          pk: [],
+          relationships: []
         }
 
         data = rawData[0].match(/(\S)+/gi)
@@ -43,6 +45,13 @@ const parseAssociativeEntities = (rawAssociativeEntities: string[] | null): AEnt
             }
           }
         }
+
+        // Get relationships that include this associative entity
+        const rel: Rel[] = relationships.filter(
+          relationship => relationship.entities.filter(
+            entity => entity.id == aent.id).length >= 1)
+        
+        aent.relationships = rel.map(rel => rel.id);
         
         associativeEntities.push(aent)
       }
