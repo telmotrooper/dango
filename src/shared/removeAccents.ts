@@ -12,5 +12,4 @@ const upper = (text: string): string => {
   return temp.toUpperCase()
 }
 
-export default removeAccents
 export { lower, removeAccents, upper }
