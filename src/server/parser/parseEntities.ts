@@ -1,11 +1,12 @@
 import { Ent } from "../misc/interfaces"
+import { wordsPreceededByAWord } from "../misc/regex"
 
 const parseEntities = (rawEntities: string[] | null): Ent[] => {
   if (rawEntities) {
     const entities: Ent[] = []
 
     for (const ent of rawEntities) {
-      const match: string[] | null = ent.match(/(?<=\w )\w[^ ]+/gi)
+      const match: string[] | null = ent.match(wordsPreceededByAWord)
       const id: string = match?.[0] ?? ""
 
       const rawData = ent.match(/[^{}]+(?=})/gi)
