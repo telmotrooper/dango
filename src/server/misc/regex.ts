@@ -9,11 +9,8 @@ export const allBetweenCurlyBrackets = /[^{]+(?=})/gi
 
 export const allButWhitespace = /(\S)+/gi
 
-export const allFromAentUpToClosingCurlyBrackets = /(?=(aent ))[^}]+}/gi
-
-// Does not match "aent"
+// Matches "ent", but not "aent"
 export const allFromEntUpToClosingCurlyBrackets = /(?:^|[^a])(?=(ent ))[^}]+}/gi
 
-export const allFromRelUpToClosingCurlyBrackets = /(?=(rel ))[^}]+}/gi
-
-export const allFromSpeUpToClosingCurlyBrackets = /(?=(spe ))[^}]+}/gi
+export const allFromTextUpToClosingCurlyBrackets = (text: string): RegExp =>
+  new RegExp(`(?=(${text} ))[^}]+}`, "gi")
