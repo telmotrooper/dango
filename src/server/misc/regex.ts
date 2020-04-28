@@ -6,7 +6,8 @@
  * 
  * Useful page: https://regex101.com/ */
 
-export const secondWordFound = /(?<=\w )\w[^ ]+/
+// TODO: This regex seems not to work with single character words (e.g. ent X { }), gotta fix it.
+export const secondWordFound = /(?<=\w )\w[^ ]+/gi
 
 export const allBetweenCurlyBrackets = /[^{]+(?=})/
 

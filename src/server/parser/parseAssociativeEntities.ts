@@ -5,47 +5,45 @@ const parseAssociativeEntities = (
   rawAssociativeEntities: string[], relationships: Rel[]): AEnt[] => {
   const associativeEntities: AEnt[] = []
 
-  if (rawAssociativeEntities) {
-    for (const aent of rawAssociativeEntities) {
-      const id: string = aent.match(secondWordFound)?.[0] ?? ""
+  for (const aent of rawAssociativeEntities) {
+    const id: string = aent.match(secondWordFound)?.[0] ?? ""
 
-      const data: string[] = aent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
+    const data: string[] = aent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
 
-      const associativeEntity: AEnt = {
-        id,
-        entities: [],
-        attributes: [],
-        pk: [],
-        relationships: []
-      }
+    const associativeEntity: AEnt = {
+      id,
+      entities: [],
+      attributes: [],
+      pk: [],
+      relationships: []
+    }
 
-      if (data) {
-        for (let i = 0; i < data.length; i++) {
-          if (data[i+1] && data[i+1][0] == "(") { // entity followed by its cardinality
-            const ent: Conn = {
-              id: data[i],
-              cardinality: data[i+1]
-            }
-            associativeEntity.entities.push(ent)
-          } else if (data[i][0] == "*") { // primary key
-            if (data[i-1]) {
-              associativeEntity.pk.push(data[i-1])
-            }
-          } else if (data[i][0] != "(") { // attribute
-            associativeEntity.attributes.push(data[i])
+    if (data) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i+1] && data[i+1][0] == "(") { // entity followed by its cardinality
+          const ent: Conn = {
+            id: data[i],
+            cardinality: data[i+1]
           }
+          associativeEntity.entities.push(ent)
+        } else if (data[i][0] == "*") { // primary key
+          if (data[i-1]) {
+            associativeEntity.pk.push(data[i-1])
+          }
+        } else if (data[i][0] != "(") { // attribute
+          associativeEntity.attributes.push(data[i])
         }
       }
-
-      // Get relationships that include this associative entity
-      const rel: Rel[] = relationships.filter(
-        relationship => relationship.entities.filter(
-          entity => entity.id == associativeEntity.id).length >= 1)
-      
-      associativeEntity.relationships = rel.map(rel => rel.id);
-      
-      associativeEntities.push(associativeEntity)
     }
+
+    // Get relationships that include this associative entity
+    const rel: Rel[] = relationships.filter(
+      relationship => relationship.entities.filter(
+        entity => entity.id == associativeEntity.id).length >= 1)
+    
+    associativeEntity.relationships = rel.map(rel => rel.id);
+    
+    associativeEntities.push(associativeEntity)
   }
 
   return associativeEntities

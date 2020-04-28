@@ -4,24 +4,24 @@ import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../m
 const parseEntities = (rawEntities: string[]): Ent[] => {
   const entities: Ent[] = []
 
-  if (rawEntities) {
-    for (const ent of rawEntities) {
-      const id: string = ent.match(secondWordFound)?.[0] ?? ""
+  for (const ent of rawEntities) {
+    let x = ent.match(secondWordFound)
+    
+    const id: string = ent.match(secondWordFound)?.[0] ?? ""
 
-      const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
-      const attributes: string[] = []
-      const pk: string[] = []
+    const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
+    const attributes: string[] = []
+    const pk: string[] = []
 
-      for (let i = 0; i < data.length; i += 1) {
-        if (data[i] !== "*") {
-          attributes.push(data[i])
-        } else {
-          pk.push(data[i - 1])
-        }
+    for (let i = 0; i < data.length; i += 1) {
+      if (data[i] !== "*") {
+        attributes.push(data[i])
+      } else {
+        pk.push(data[i - 1])
       }
-
-      entities.push({ id, attributes, pk })
     }
+
+    entities.push({ id, attributes, pk })
   }
 
   return entities
