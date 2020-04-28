@@ -6,7 +6,7 @@
  * 
  * Useful page: https://regex101.com/ */
 
-export const wordsPreceededByAWord = /(?<=\w )\w[^ ]+/gi
+export const secondWordFound = /(?<=\w )\w[^ ]+/
 
 export const allBetweenCurlyBrackets = /[^{]+(?=})/gi
 
