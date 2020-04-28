@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express"
 
-import parseERCode from "../parser/parseERCode"
+import { parseERCode } from "../parser/parseERCode"
 
 const router: Router = Router()
 

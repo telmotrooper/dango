@@ -1,7 +1,7 @@
 import { Ent } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
 
-const parseEntities = (rawEntities: string[] | null): Ent[] => {
+const parseEntities = (rawEntities: string[]): Ent[] => {
   if (rawEntities) {
     const entities: Ent[] = []
 

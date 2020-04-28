@@ -1,7 +1,7 @@
 import { Rel } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
 
-const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
+const parseRelationships = (rawRelationships: string[]): Rel[] => {
   const relationships: Rel[] = []
 
   if (rawRelationships) {

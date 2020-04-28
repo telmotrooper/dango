@@ -1,7 +1,7 @@
 import { Spe } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace } from "../misc/regex"
 
-const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
+const parseSpecializations = (rawSpecializations: string[]): Spe[] => {
   if (rawSpecializations) {
     const specializations: Spe[] = []
 

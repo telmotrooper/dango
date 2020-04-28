@@ -7,10 +7,10 @@ import { allFromEntUpToClosingCurlyBrackets, allFromTextUpToClosingCurlyBrackets
 
 const parseERCode = (code: string): ER => {
   // 1st level regexes - classify objects
-  const rawEntities = code.match(allFromEntUpToClosingCurlyBrackets)
-  const rawRelationships = code.match(allFromTextUpToClosingCurlyBrackets("rel"))
-  const rawAssociativeEntities = code.match(allFromTextUpToClosingCurlyBrackets("aent"))
-  const rawSpecializations = code.match(allFromTextUpToClosingCurlyBrackets("spe"))
+  const rawEntities: string[] = code.match(allFromEntUpToClosingCurlyBrackets) ?? []
+  const rawRelationships: string[] = code.match(allFromTextUpToClosingCurlyBrackets("rel")) ?? []
+  const rawAssociativeEntities: string[] = code.match(allFromTextUpToClosingCurlyBrackets("aent")) ?? []
+  const rawSpecializations: string[] = code.match(allFromTextUpToClosingCurlyBrackets("spe")) ?? []
 
   const er: ER = {
     ent: [],
@@ -28,4 +28,4 @@ const parseERCode = (code: string): ER => {
   return er
 }
 
-export default parseERCode
+export { parseERCode }

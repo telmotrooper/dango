@@ -2,7 +2,7 @@ import { AEnt, Conn, Rel } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
 
 const parseAssociativeEntities = (
-  rawAssociativeEntities: string[] | null, relationships: Rel[]): AEnt[] => {
+  rawAssociativeEntities: string[], relationships: Rel[]): AEnt[] => {
   const associativeEntities: AEnt[] = []
 
   if (rawAssociativeEntities) {
