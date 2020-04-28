@@ -6,10 +6,6 @@ import { ER } from "../misc/interfaces"
 import { allFromEntUpToClosingCurlyBrackets, allFromTextUpToClosingCurlyBrackets } from "../misc/regex"
 
 const parseERCode = (code: string): ER => {
-  // g = all matches
-  // i = case-insensitive
-
-
   // 1st level regexes - classify objects
   const rawEntities = code.match(allFromEntUpToClosingCurlyBrackets)
   const rawRelationships = code.match(allFromTextUpToClosingCurlyBrackets("rel"))
