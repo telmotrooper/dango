@@ -1,7 +1,7 @@
-import parseAssociativeEntities from "./parseAssociativeEntities"
-import parseEntities from "./parseEntities"
-import parseRelationships from "./parseRelationships"
-import parseSpecializations from "./parseSpecializations"
+import { parseAssociativeEntities } from "./parseAssociativeEntities"
+import { parseEntities } from "./parseEntities"
+import { parseRelationships } from "./parseRelationships"
+import { parseSpecializations } from "./parseSpecializations"
 import { ER } from "../misc/interfaces"
 import { allFromEntUpToClosingCurlyBrackets, allFromTextUpToClosingCurlyBrackets } from "../misc/regex"
 
@@ -19,7 +19,7 @@ const parseERCode = (code: string): ER => {
     spe: [],
   }
 
-  // 2nd level regex
+  // 2nd level regexes
   er["ent"] = parseEntities(rawEntities)
   er["rel"] = parseRelationships(rawRelationships)
   er["aent"] = parseAssociativeEntities(rawAssociativeEntities, er["rel"])

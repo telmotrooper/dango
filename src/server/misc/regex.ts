@@ -8,7 +8,7 @@
 
 export const secondWordFound = /(?<=\w )\w[^ ]+/
 
-export const allBetweenCurlyBrackets = /[^{]+(?=})/gi
+export const allBetweenCurlyBrackets = /[^{]+(?=})/
 
 export const allButWhitespace = /(\S)+/gi
 

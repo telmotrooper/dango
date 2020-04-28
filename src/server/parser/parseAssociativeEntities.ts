@@ -57,4 +57,4 @@ const parseAssociativeEntities = (
   return associativeEntities
 }
 
-export default parseAssociativeEntities
+export { parseAssociativeEntities }

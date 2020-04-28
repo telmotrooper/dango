@@ -52,4 +52,4 @@ const parseRelationships = (rawRelationships: string[]): Rel[] => {
   return relationships
 }
 
-export default parseRelationships
+export { parseRelationships }

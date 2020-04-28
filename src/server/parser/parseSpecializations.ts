@@ -53,4 +53,4 @@ const parseSpecializations = (rawSpecializations: string[]): Spe[] => {
   }
 }
 
-export default parseSpecializations
+export { parseSpecializations }

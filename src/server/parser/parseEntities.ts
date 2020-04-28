@@ -8,32 +8,23 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
     for (const ent of rawEntities) {
       const id: string = ent.match(secondWordFound)?.[0] ?? ""
 
-      const rawData: string[] = ent.match(allBetweenCurlyBrackets) ?? []
-      let dataArray: string[] = []
+      const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
       const attributes: string[] = []
       const pk: string[] = []
 
-      if (rawData !== null) {
-        dataArray = rawData[0]?.match(allButWhitespace) || []
-
-        if (dataArray) {
-          for (let i = 0; i < dataArray.length; i += 1) {
-            if (dataArray[i] !== "*") {
-              attributes.push(dataArray[i])
-            } else {
-              pk.push(dataArray[i - 1])
-            }
-          }
+      for (let i = 0; i < data.length; i += 1) {
+        if (data[i] !== "*") {
+          attributes.push(data[i])
+        } else {
+          pk.push(data[i - 1])
         }
       }
 
-      if (id) {
-        entities.push({ id, attributes, pk })
-      }
+      entities.push({ id, attributes, pk })
     }
   }
 
   return entities
 }
 
-export default parseEntities
+export { parseEntities }
