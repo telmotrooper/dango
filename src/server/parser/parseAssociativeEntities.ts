@@ -1,4 +1,5 @@
 import { AEnt, Conn, Rel } from "../misc/interfaces"
+import { everythingBetweenCurlyBraces, everythingButWhitespace, wordsPreceededByAWord } from "../misc/regex"
 
 const parseAssociativeEntities = (
   rawAssociativeEntities: string[] | null, relationships: Rel[]): AEnt[] => {
@@ -6,10 +7,10 @@ const parseAssociativeEntities = (
 
   if (rawAssociativeEntities) {
     for (const aent of rawAssociativeEntities) {
-      const match: string[] | null = aent.match(/(?<=\w )\w[^ ]+/gi)
+      const match: string[] | null = aent.match(wordsPreceededByAWord)
       const id: string = match?.[0] ?? ""
 
-      const rawData = aent.match(/[^{}]+(?=})/gi)
+      const rawData = aent.match(everythingBetweenCurlyBraces)
       let data: string[] | null
 
       if (rawData !== null) {
@@ -21,7 +22,7 @@ const parseAssociativeEntities = (
           relationships: []
         }
 
-        data = rawData[0].match(/(\S)+/gi)
+        data = rawData[0].match(everythingButWhitespace)
         // const lines = rawData[0].split("\n").filter(line => line != "")
 
         if (data) {

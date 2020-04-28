@@ -1,11 +1,12 @@
 import { Spe } from "../misc/interfaces"
+import { everythingBetweenCurlyBraces, everythingButWhitespace } from "../misc/regex"
 
 const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
   if (rawSpecializations) {
     const specializations: Spe[] = []
 
     for (const spe of rawSpecializations) {
-      const rawData = spe.match(/[^{}]+(?=})/gi)
+      const rawData = spe.match(everythingBetweenCurlyBraces)
 
       let data: string[] | null
       let total = false
@@ -13,7 +14,7 @@ const parseSpecializations = (rawSpecializations: string[] | null): Spe[] => {
       const temp = []
 
       if (rawData !== null) {
-        data = rawData[0].match(/(\S)+/gi)
+        data = rawData[0].match(everythingButWhitespace)
 
         if (data) {
           const cardinality = data[1].substr(1, 3)
