@@ -11,6 +11,9 @@ export const allButWhitespace = /(\S)+/gi
 
 export const allFromAentUpToClosingCurlyBrackets = /(?=(aent ))[^}]+}/gi
 
+// Does not match "aent"
+export const allFromEntUpToClosingCurlyBrackets = /(?:^|[^a])(?=(ent ))[^}]+}/gi
+
 export const allFromRelUpToClosingCurlyBrackets = /(?=(rel ))[^}]+}/gi
 
 export const allFromSpeUpToClosingCurlyBrackets = /(?=(spe ))[^}]+}/gi
