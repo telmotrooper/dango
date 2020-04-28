@@ -9,4 +9,8 @@ export const allBetweenCurlyBrackets = /[^{]+(?=})/gi
 
 export const allButWhitespace = /(\S)+/gi
 
+export const allFromAentUpToClosingCurlyBrackets = /(?=(aent ))[^}]+}/gi
+
+export const allFromRelUpToClosingCurlyBrackets = /(?=(rel ))[^}]+}/gi
+
 export const allFromSpeUpToClosingCurlyBrackets = /(?=(spe ))[^}]+}/gi

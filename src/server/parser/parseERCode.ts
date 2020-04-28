@@ -3,7 +3,7 @@ import parseEntities from "./parseEntities"
 import parseRelationships from "./parseRelationships"
 import parseSpecializations from "./parseSpecializations"
 import { ER } from "../misc/interfaces"
-import { allFromSpeUpToClosingCurlyBrackets } from "../misc/regex"
+import { allFromAentUpToClosingCurlyBrackets, allFromRelUpToClosingCurlyBrackets, allFromSpeUpToClosingCurlyBrackets } from "../misc/regex"
 
 const parseERCode = (code: string): ER => {
   // g = all matches
@@ -11,8 +11,8 @@ const parseERCode = (code: string): ER => {
 
   // 1st level regexes - classify objects
   const rawEntities = code.match(/(?:^|[^a])(?=(ent ))[^}]+}/gi) // match "ent", but not "aent"
-  const rawRelationships = code.match(/(?=(rel ))[^}]+}/gi)
-  const rawAssociativeEntities = code.match(/(?=(aent ))[^}]+}/gi)
+  const rawRelationships = code.match(allFromRelUpToClosingCurlyBrackets)
+  const rawAssociativeEntities = code.match(allFromAentUpToClosingCurlyBrackets)
   const rawSpecializations = code.match(allFromSpeUpToClosingCurlyBrackets)
 
   const er: ER = {
