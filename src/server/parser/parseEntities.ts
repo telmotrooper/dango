@@ -1,21 +1,21 @@
 import { Ent } from "../misc/interfaces"
-import { wordsPreceededByAWord } from "../misc/regex"
+import { everythingBetweenCurlyBraces, everythingButWhitespace, wordsPreceededByAWord } from "../misc/regex"
 
 const parseEntities = (rawEntities: string[] | null): Ent[] => {
   if (rawEntities) {
     const entities: Ent[] = []
 
     for (const ent of rawEntities) {
-      const match: string[] | null = ent.match(wordsPreceededByAWord)
+      const match: string[] | null = ent.match(wordsPreceededByAWord) // should not be "gi", only first match is used
       const id: string = match?.[0] ?? ""
 
-      const rawData = ent.match(/[^{}]+(?=})/gi)
+      const rawData = ent.match(everythingBetweenCurlyBraces)
       let dataArray
       let attributes = []
       const pk = []
 
       if (rawData !== null) {
-        dataArray = rawData[0].match(/(\S)+/gi)
+        dataArray = rawData[0].match(everythingButWhitespace)
 
         if (dataArray) {
           attributes = []

@@ -2,3 +2,7 @@
  * (?<=a)b matches the b (and only the b) in "cab", but does not match "bed" or "debt". */
 
 export const wordsPreceededByAWord = /(?<=\w )\w[^ ]+/gi
+
+export const everythingBetweenCurlyBraces = /[^{]+(?=})/gi
+
+export const everythingButWhitespace = /(\S)+/gi
