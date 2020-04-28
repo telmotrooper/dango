@@ -6,8 +6,7 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
     const entities: Ent[] = []
 
     for (const ent of rawEntities) {
-      const match: string[] = ent.match(secondWordFound) || [] // should not be "gi", only first match is used
-      const id: string = match?.[0] ?? ""
+      const id: string = ent.match(secondWordFound)?.[0] || ""
 
       const rawData = ent.match(allBetweenCurlyBrackets)
       let dataArray: string[] = []

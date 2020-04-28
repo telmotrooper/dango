@@ -7,8 +7,7 @@ const parseAssociativeEntities = (
 
   if (rawAssociativeEntities) {
     for (const aent of rawAssociativeEntities) {
-      const match: string[] = aent.match(secondWordFound) || []
-      const id: string = match?.[0] ?? ""
+      const id: string = aent.match(secondWordFound)?.[0] || ""
 
       const rawData = aent.match(allBetweenCurlyBrackets)
       let data: string[] | null

@@ -7,9 +7,7 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
   if (rawRelationships) {
 
     for (const rel of rawRelationships) {
-      const match: string[] = rel.match(secondWordFound) || []
-      const id: string = match?.[0] ?? ""
-
+      const id: string = rel.match(secondWordFound)?.[0] || ""
 
       const rawData = rel.match(allBetweenCurlyBrackets)
       let data: string[] | null
