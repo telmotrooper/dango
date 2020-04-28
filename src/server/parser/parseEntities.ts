@@ -10,15 +10,13 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
 
       const rawData: string[] = ent.match(allBetweenCurlyBrackets) ?? []
       let dataArray: string[] = []
-      let attributes: string[] = []
+      const attributes: string[] = []
       const pk: string[] = []
 
       if (rawData !== null) {
         dataArray = rawData[0]?.match(allButWhitespace) || []
 
         if (dataArray) {
-          attributes = []
-
           for (let i = 0; i < dataArray.length; i += 1) {
             if (dataArray[i] !== "*") {
               attributes.push(dataArray[i])
@@ -26,11 +24,7 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
               pk.push(dataArray[i - 1])
             }
           }
-
         }
-
-      } else {
-        attributes = []
       }
 
       if (id) {
