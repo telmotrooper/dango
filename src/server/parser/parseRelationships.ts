@@ -7,13 +7,13 @@ const parseRelationships = (rawRelationships: string[]): Rel[] => {
   if (rawRelationships) {
 
     for (const rel of rawRelationships) {
-      const id: string = rel.match(secondWordFound)?.[0] || ""
+      const id: string = rel.match(secondWordFound)?.[0] ?? ""
 
       const rawData = rel.match(allBetweenCurlyBrackets)
       let data: string[] | null
 
       if (rawData !== null) {
-        data = rawData[0].match(allButWhitespace)
+        data = rawData[0]?.match(allButWhitespace)
 
         if (id && data) {
           const rel: Rel = {

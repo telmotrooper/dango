@@ -7,7 +7,7 @@ const parseAssociativeEntities = (
 
   if (rawAssociativeEntities) {
     for (const aent of rawAssociativeEntities) {
-      const id: string = aent.match(secondWordFound)?.[0] || ""
+      const id: string = aent.match(secondWordFound)?.[0] ?? ""
 
       const rawData = aent.match(allBetweenCurlyBrackets)
       let data: string[] | null
@@ -21,7 +21,7 @@ const parseAssociativeEntities = (
           relationships: []
         }
 
-        data = rawData[0].match(allButWhitespace)
+        data = rawData[0]?.match(allButWhitespace)
         // const lines = rawData[0].split("\n").filter(line => line != "")
 
         if (data) {

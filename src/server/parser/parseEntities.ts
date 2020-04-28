@@ -2,19 +2,19 @@ import { Ent } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
 
 const parseEntities = (rawEntities: string[]): Ent[] => {
+  const entities: Ent[] = []
+
   if (rawEntities) {
-    const entities: Ent[] = []
-
     for (const ent of rawEntities) {
-      const id: string = ent.match(secondWordFound)?.[0] || ""
+      const id: string = ent.match(secondWordFound)?.[0] ?? ""
 
-      const rawData = ent.match(allBetweenCurlyBrackets)
+      const rawData: string[] = ent.match(allBetweenCurlyBrackets) ?? []
       let dataArray: string[] = []
       let attributes: string[] = []
       const pk: string[] = []
 
       if (rawData !== null) {
-        dataArray = rawData[0].match(allButWhitespace) || []
+        dataArray = rawData[0]?.match(allButWhitespace) || []
 
         if (dataArray) {
           attributes = []
@@ -34,21 +34,12 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
       }
 
       if (id) {
-        entities.push(
-          {
-            id,
-            attributes,
-            pk,
-          },
-        )
+        entities.push({ id, attributes, pk })
       }
     }
+  }
 
-    return entities
-  }
-  else {
-    return []
-  }
+  return entities
 }
 
 export default parseEntities
