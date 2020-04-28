@@ -1,5 +1,5 @@
 import { Ent } from "../misc/interfaces"
-import { everythingBetweenCurlyBraces, everythingButWhitespace, wordsPreceededByAWord } from "../misc/regex"
+import { allBetweenCurlyBrackets, allButWhitespace, wordsPreceededByAWord } from "../misc/regex"
 
 const parseEntities = (rawEntities: string[] | null): Ent[] => {
   if (rawEntities) {
@@ -9,13 +9,13 @@ const parseEntities = (rawEntities: string[] | null): Ent[] => {
       const match: string[] | null = ent.match(wordsPreceededByAWord) // should not be "gi", only first match is used
       const id: string = match?.[0] ?? ""
 
-      const rawData = ent.match(everythingBetweenCurlyBraces)
+      const rawData = ent.match(allBetweenCurlyBrackets)
       let dataArray
       let attributes = []
       const pk = []
 
       if (rawData !== null) {
-        dataArray = rawData[0].match(everythingButWhitespace)
+        dataArray = rawData[0].match(allButWhitespace)
 
         if (dataArray) {
           attributes = []

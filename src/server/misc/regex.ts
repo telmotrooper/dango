@@ -5,6 +5,8 @@
 
 export const wordsPreceededByAWord = /(?<=\w )\w[^ ]+/gi
 
-export const everythingBetweenCurlyBraces = /[^{]+(?=})/gi
+export const allBetweenCurlyBrackets = /[^{]+(?=})/gi
 
-export const everythingButWhitespace = /(\S)+/gi
+export const allButWhitespace = /(\S)+/gi
+
+export const allFromSpeUpToClosingCurlyBrackets = /(?=(spe ))[^}]+}/gi

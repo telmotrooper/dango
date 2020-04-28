@@ -1,5 +1,5 @@
 import { Rel } from "../misc/interfaces"
-import { everythingBetweenCurlyBraces, everythingButWhitespace, wordsPreceededByAWord } from "../misc/regex"
+import { allBetweenCurlyBrackets, allButWhitespace, wordsPreceededByAWord } from "../misc/regex"
 
 const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
   const relationships: Rel[] = []
@@ -11,11 +11,11 @@ const parseRelationships = (rawRelationships: string[] | null): Rel[] => {
       const id: string = match?.[0] ?? ""
 
 
-      const rawData = rel.match(everythingBetweenCurlyBraces)
+      const rawData = rel.match(allBetweenCurlyBrackets)
       let data: string[] | null
 
       if (rawData !== null) {
-        data = rawData[0].match(everythingButWhitespace)
+        data = rawData[0].match(allButWhitespace)
 
         if (id && data) {
           const rel: Rel = {
