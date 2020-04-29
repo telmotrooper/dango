@@ -10,20 +10,31 @@ router.post("/", async (req: Request, res: Response) => {
   // const { codebox } = req.body
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const result = await session.run("MATCH (n) RETURN n LIMIT 5")
 
     session.close()
-    driver.close()
-    res.sendStatus(200)
+    res.send(result.records)
 
   } catch (error) {
     // console.error(error)
 
     session.close()
-    driver.close()
     res.sendStatus(503) // Service Unavailable
   }
 })
 
-export const RunInNeo4j = router
+router.get("/test", async (_: Request, res: Response) => {
+  const session = driver.session()
+
+  try {
+    await session.run("MATCH (n) RETURN n LIMIT 1")
+    await session.close()
+    res.sendStatus(200)
+
+  } catch (error) {
+    await session.close()
+    res.sendStatus(503) // Service Unavailable
+  }
+})
+
+export const Neo4j = router

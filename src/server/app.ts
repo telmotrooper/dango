@@ -8,10 +8,9 @@ import morgan from "morgan"
 import { normalizePort } from "./misc/normalizePort"
 import { ERCode } from "./routes/erCode"
 import { GetCypherFromER } from "./routes/getCypherFromER"
-import { RunInNeo4j } from "./routes/runInNeo4j"
+import { Neo4j } from "./routes/neo4j"
 import { bold, blue } from "./misc/consoleUtils"
 import { typeCheck, lintCheck } from "./misc/codeChecks"
-import { TestConn } from "./routes/testConn"
 
 // Basic settings
 const app: express.Application = express()
@@ -37,16 +36,10 @@ app.use(morgan("tiny"))
 // Parses requests to JSON format
 app.use(express.json())
 
-// View engine setup
-// app.set("views", __dirname + "/views")
-// app.set("view engine", "ejs")
-// app.use(express.static(path.join(__dirname, "../../static")))
-
 // Routes
 app.use("/api/er-code", ERCode)
 app.use("/api/get-cypher-from-er", GetCypherFromER)
-app.use("/api/run-in-neo4j", RunInNeo4j)
-app.use("/api/test-conn", TestConn)
+app.use("/api/neo4j", Neo4j)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it
