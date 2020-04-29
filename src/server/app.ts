@@ -24,8 +24,6 @@ const bundler = new Bundler(entryFiles, { // more at https://parceljs.org/cli.ht
   outDir: 'build'
 } as Bundler.ParcelOptions);
 
-// app.use(bundler.middleware());
-
 bundler.on('bundled', () => {
   console.log('\n' + bold(`Running application on ` + blue(`http://localhost:${port}`)) + '\n');
   console.log(blue('A type and lint checking report is being generated...\n'));
@@ -45,10 +43,10 @@ app.use(express.json())
 // app.use(express.static(path.join(__dirname, "../../static")))
 
 // Routes
-app.use("/er-code", ERCode)
-app.use("/get-cypher-from-er", GetCypherFromER)
-app.use("/run-in-neo4j", RunInNeo4j)
-app.use("/test-conn", TestConn)
+app.use("/api/er-code", ERCode)
+app.use("/api/get-cypher-from-er", GetCypherFromER)
+app.use("/api/run-in-neo4j", RunInNeo4j)
+app.use("/api/test-conn", TestConn)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it

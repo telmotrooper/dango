@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios"
 
 const submitCode = (code: string): Promise<AxiosResponse> =>
-  axios.post("/er-code", {
+  axios.post("/api/er-code", {
     codebox: code,
   })
 
 const getCypherFromER = (code: string): Promise<AxiosResponse> =>
-  axios.post("/get-cypher-from-er", {
+  axios.post("/api/get-cypher-from-er", {
     er: code,
   })
 
