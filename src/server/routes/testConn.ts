@@ -12,7 +12,6 @@ router.get("/", async (_: Request, res: Response) => {
     res.sendStatus(200)
 
   } catch (error) {
-    // console.error(error)
     await session.close()
     res.sendStatus(503) // Service Unavailable
   }
