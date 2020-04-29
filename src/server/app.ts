@@ -11,6 +11,7 @@ import { GetCypherFromER } from "./routes/getCypherFromER"
 import { RunInNeo4j } from "./routes/runInNeo4j"
 import { bold, blue } from "./misc/consoleUtils"
 import { typeCheck, lintCheck } from "./misc/codeChecks"
+import { TestConn } from "./routes/testConn"
 
 // Basic settings
 const app: express.Application = express()
@@ -20,8 +21,7 @@ const entryFiles = join(__dirname, '../client/index.html');
 
 const bundler = new Bundler(entryFiles, { // more at https://parceljs.org/cli.html#options
   sourceMaps: true,
-  outDir: 'build',
-  publicUrl: "/app/"
+  outDir: 'build'
 } as Bundler.ParcelOptions);
 
 // app.use(bundler.middleware());
@@ -48,6 +48,7 @@ app.use(express.json())
 app.use("/er-code", ERCode)
 app.use("/get-cypher-from-er", GetCypherFromER)
 app.use("/run-in-neo4j", RunInNeo4j)
+app.use("/test-conn", TestConn)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it
