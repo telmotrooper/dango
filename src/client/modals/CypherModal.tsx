@@ -1,7 +1,5 @@
 import React, { createRef } from "react"
 import { saveToDevice } from "../utils/codebox"
-import { testDatabaseConnection } from "../utils/requests"
-import { QueryResult } from "neo4j-driver"
 
 interface Props {
   show: boolean;
@@ -12,12 +10,6 @@ interface Props {
 
 const CypherModal = React.memo((props: Props) => {
   const { content, show, setShow, onSubmit } = props
-
-  const handleTestDatabaseConnection = async (): Promise<QueryResult> => {
-    const res = await testDatabaseConnection()
-    console.log(res)
-    return res
-  }
 
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
