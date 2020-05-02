@@ -10,12 +10,14 @@ import { GenericObject, TextArea } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 import { Graphviz } from "graphviz-react"
 import { Codebox } from "./Codebox"
+import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
   const [ showHelpModal  , setShowHelpModal   ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
   const [ showCypherModal, setShowCypherModal ] = useState(false)
+  const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
   const [ parserContent,   _setParserContent ] = useState("")
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, setDiagram ] = useState("")
@@ -106,12 +108,18 @@ const App = (): JSX.Element => {
         content={cypherContent}
         show={showCypherModal}
         setShow={(): void => setShowCypherModal(!showCypherModal)}
+        onSubmit={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
       />
 
       <ClearModal
         checkbox={textAreaRef}
         show={showClearModal}
         setShow={(): void => setShowClearModal(!showClearModal)}
+      />
+
+      <DatabaseConnectionModal
+        show={showDatabaseConnectionModal}
+        setShow={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
       />
     </Fragment>
   )

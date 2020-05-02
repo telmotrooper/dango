@@ -7,10 +7,11 @@ interface Props {
   show: boolean;
   setShow: (arg0: boolean) => void;
   content: string;
+  onSubmit: () => void;
 }
 
 const CypherModal = React.memo((props: Props) => {
-  const { content, show, setShow } = props
+  const { content, show, setShow, onSubmit } = props
 
   const handleTestDatabaseConnection = async (): Promise<QueryResult> => {
     const res = await testDatabaseConnection()
@@ -36,17 +37,20 @@ const CypherModal = React.memo((props: Props) => {
           </p>
           <textarea ref={textAreaRef} readOnly={true} value={content}
             className="textarea has-fixed-size is-small mb-1" rows={18} id="get-cypher-from-er" />
+          <p className="ta-j">
+            If you have a local Neo4j instance running, you can run these queries straight from this page.
+          </p>
         </section>
         <footer className="modal-card-foot jc-space-between">
           <button className="button"
             onClick={(): void => saveToDevice(textAreaRef, "cypher.txt")}>Save to device</button>
           
           <div>
-            <button className="button is-info">
+            {/* <button className="button is-info">
               Generate visualization
-            </button>
-            <button className="button is-success" onClick={handleTestDatabaseConnection}>
-              Run in Neo4j instance
+            </button> */}
+            <button className="button is-success" onClick={onSubmit}>
+              Setup database connection
             </button>
           </div>
         </footer>
