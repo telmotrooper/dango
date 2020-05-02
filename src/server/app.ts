@@ -8,7 +8,6 @@ import morgan from "morgan"
 import { normalizePort } from "./misc/normalizePort"
 import { ERCode } from "./routes/erCode"
 import { GetCypherFromER } from "./routes/getCypherFromER"
-import { Neo4j } from "./routes/neo4j"
 import { bold, blue } from "./misc/consoleUtils"
 import { typeCheck, lintCheck } from "./misc/codeChecks"
 
@@ -39,7 +38,6 @@ app.use(express.json())
 // Routes
 app.use("/api/er-code", ERCode)
 app.use("/api/get-cypher-from-er", GetCypherFromER)
-app.use("/api/neo4j", Neo4j)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it
