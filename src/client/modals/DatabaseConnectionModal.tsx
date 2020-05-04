@@ -32,7 +32,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title"><b>Setup database connection</b></p>
+          <p className="modal-card-title"><b>Setup local database connection</b></p>
           <button className="delete" aria-label="close" onClick={(): void => setShow(!show)} />
         </header>
         <section className="modal-card-body">
@@ -94,7 +94,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
         <footer className="modal-card-foot jc-flex-end">
           <div className="field is-grouped">
             <div className="control">
-              <button className="button">Cancel</button>
+              <button className="button" onClick={(): void => setShow(!show)}>Cancel</button>
             </div>
             <div className="control">
               <button className="button is-success">Submit</button>
