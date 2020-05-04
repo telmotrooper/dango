@@ -81,13 +81,14 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
               <div className="control">
                 <input
                   className="input"
-                  type="text"
+                  type="password"
                   name="password"
                   value={state.password}
                   onChange={(event): void => setState({ ...state, password: event.target.value})}
                 />
               </div>
             </div>
+            <p><span className="has-text-weight-bold">Note:</span> The data you input here will be saved in your browser's local storage.</p>
           </form>
         </section>
         <footer className="modal-card-foot jc-flex-end">
