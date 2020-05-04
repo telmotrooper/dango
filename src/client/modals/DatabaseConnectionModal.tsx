@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { testDatabaseConnection } from "../utils/requests"
 import { QueryResult } from "neo4j-driver"
+import { refreshNeo4jDriver } from "../utils/neo4j"
 
 interface Props {
   show: boolean;
@@ -19,6 +20,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
 
   const handleSubmit = async (): Promise<QueryResult> => {
     localStorage.setItem("connection", JSON.stringify(state))
+    refreshNeo4jDriver()
 
     const res = await testDatabaseConnection()
     console.log(res)

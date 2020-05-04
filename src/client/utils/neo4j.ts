@@ -1,17 +1,34 @@
 import neo4j from "neo4j-driver"
 
-// const { DB_HOST, DB_USER, DB_PASS } = process.env
+// Default values for database connection.
+let conn = { host: "", port: 0, username: "", password: "" }
 
-const DB_HOST = "bolt://localhost:7687"
-const DB_USER = "neo4j"
-const DB_PASS = "telmo"
+// Replace connection data with data from local storage, if it exists.
+if (localStorage.getItem("connection")) {
+  conn = JSON.parse(localStorage.getItem("connection") as string)
+}
 
-const driver = neo4j.driver(
-  DB_HOST as string,
+let driver = neo4j.driver(
+  `bolt://${conn.host}:${conn.port}`,
   neo4j.auth.basic(
-    DB_USER as string,
-    DB_PASS as string
+    conn.username,
+    conn.password
   )
 )
+
+// If connection data from local storage has been updated, refresh Neo4j driver.
+export const refreshNeo4jDriver = (): void => {
+  if (localStorage.getItem("connection")) {
+    conn = JSON.parse(localStorage.getItem("connection") as string)
+  }
+
+  driver = neo4j.driver(
+    `bolt://${conn.host}:${conn.port}`,
+    neo4j.auth.basic(
+      conn.username,
+      conn.password
+    )
+  )
+}
 
 export { driver }
