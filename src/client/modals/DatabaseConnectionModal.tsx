@@ -17,11 +17,9 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
     password: ""
   })
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<QueryResult> => {
-    event.preventDefault();
+  const handleSubmit = async (): Promise<QueryResult> => {
+    localStorage.setItem("connection", JSON.stringify(state))
 
-    alert("Submitted.");
-    
     const res = await testDatabaseConnection()
     console.log(res)
     return res
@@ -97,7 +95,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
               <button className="button" onClick={(): void => setShow(!show)}>Cancel</button>
             </div>
             <div className="control">
-              <button className="button is-success">Submit</button>
+              <button className="button is-success" onClick={handleSubmit}>Submit</button>
             </div>
           </div>
         </footer>
