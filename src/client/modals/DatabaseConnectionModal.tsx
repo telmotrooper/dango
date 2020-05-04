@@ -37,48 +37,68 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
         </header>
         <section className="modal-card-body">
           <form onSubmit={handleSubmit}>
-            <label>Host:
-              <input
-                type="text"
-                name="host"
-                value={state.host}
-                onChange={(event): void => setState({ ...state, host: event.target.value})}
-              />
-            </label>
-            <label>Port:
-              <input
-                type="text"
-                name="port"
-                value={state.port}
-                onChange={(event): void => setState({ ...state, port: event.target.value})}
-              />
-            </label>
-            <label>Username:
-              <input
-                type="text"
-                name="username"
-                value={state.username}
-                onChange={(event): void => setState({ ...state, username: event.target.value})}
-              />
-            </label>
-            <label>Password:
-              <input
-                type="text"
-                name="password"
-                value={state.password}
-                onChange={(event): void => setState({ ...state, password: event.target.value})}
-              />
-            </label>
-            <input type="submit" value="Submit" />
+            <div className="field">
+              <label className="label">Host:</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="host"
+                  value={state.host}
+                  onChange={(event): void => setState({ ...state, host: event.target.value})}
+                  />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Port:</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="port"
+                  value={state.port}
+                  onChange={(event): void => setState({ ...state, port: event.target.value})}
+                />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Username:</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="username"
+                  value={state.username}
+                  onChange={(event): void => setState({ ...state, username: event.target.value})}
+                />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Password:</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="password"
+                  value={state.password}
+                  onChange={(event): void => setState({ ...state, password: event.target.value})}
+                />
+              </div>
+            </div>
           </form>
-          {/* <p className="mb-05 ta-j">
-            <b>TODO:</b> Explain notation here.
-          </p> */}
         </section>
         <footer className="modal-card-foot jc-flex-end">
-          <button className="button" onClick={(): void => setShow(!show)}>
-            OK
-          </button>
+          <div className="field is-grouped">
+            <div className="control">
+              <button className="button">Cancel</button>
+            </div>
+            <div className="control">
+              <button className="button is-success">Submit</button>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
