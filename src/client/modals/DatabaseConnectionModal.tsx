@@ -12,23 +12,32 @@ interface Props {
 export const DatabaseConnectionModal = React.memo((props: Props) => {
   const { show, setShow, setDatabaseReady } = props
 
-  const [ state, setState ] = useState({
+  const [ form, setForm ] = useState({
     host: "localhost",
     port: "7687",
     username: "neo4j",
     password: ""
   })
 
-  const handleSubmit = async (): Promise<QueryResult> => {
-    localStorage.setItem("connection", JSON.stringify(state))
-    refreshNeo4jDriver()
-    console.log(setDatabaseReady)
-    setDatabaseReady(driver != null)
-    setShow(false)
-    const res = await testDatabaseConnection()
-    console.log(res)
+  const [ error, setError ] = useState("")
 
-    return res
+  const handleSubmit = async (): Promise<void> => {
+    localStorage.setItem("connection", JSON.stringify(form))
+    refreshNeo4jDriver()
+
+    let res = null
+    try {
+      res = await testDatabaseConnection()
+      console.log(res)
+      setDatabaseReady(driver != null)
+      setShow(false)
+    } catch(err) {
+      if(err.message.substring(0, 9) == "WebSocket") {
+        setError("WebSocket connection failure. Are you sure the local database is running?")
+      } else {
+        setError(err.message)
+      }
+    }
   }
 
   return (
@@ -48,8 +57,8 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
                   className="input"
                   type="text"
                   name="host"
-                  value={state.host}
-                  onChange={(event): void => setState({ ...state, host: event.target.value})}
+                  value={form.host}
+                  onChange={(event): void => setForm({ ...form, host: event.target.value})}
                   />
               </div>
             </div>
@@ -61,8 +70,8 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
                   className="input"
                   type="text"
                   name="port"
-                  value={state.port}
-                  onChange={(event): void => setState({ ...state, port: event.target.value})}
+                  value={form.port}
+                  onChange={(event): void => setForm({ ...form, port: event.target.value})}
                 />
               </div>
             </div>
@@ -74,8 +83,8 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
                   className="input"
                   type="text"
                   name="username"
-                  value={state.username}
-                  onChange={(event): void => setState({ ...state, username: event.target.value})}
+                  value={form.username}
+                  onChange={(event): void => setForm({ ...form, username: event.target.value})}
                 />
               </div>
             </div>
@@ -87,18 +96,19 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
                   className="input"
                   type="password"
                   name="password"
-                  value={state.password}
-                  onChange={(event): void => setState({ ...state, password: event.target.value})}
+                  value={form.password}
+                  onChange={(event): void => setForm({ ...form, password: event.target.value})}
                 />
               </div>
             </div>
             <p><span className="has-text-weight-bold">Note:</span> The data you input here will be saved in your browser's local storage.</p>
+            {error && <p className="has-text-danger"><span className="has-text-weight-bold">Error:</span> {error}</p>}
           </form>
         </section>
         <footer className="modal-card-foot jc-flex-end">
           <div className="field is-grouped">
             <div className="control">
-              <button className="button" onClick={(): void => setShow(!show)}>Cancel</button>
+              <button className="button" onClick={(): void => setShow(false)}>Cancel</button>
             </div>
             <div className="control">
               <button className="button is-success" onClick={handleSubmit}>Submit</button>
