@@ -24,7 +24,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
     refreshNeo4jDriver()
     console.log(setDatabaseReady)
     setDatabaseReady(driver != null)
-
+    setShow(false)
     const res = await testDatabaseConnection()
     console.log(res)
 
@@ -37,7 +37,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title"><b>Setup local database connection</b></p>
-          <button className="delete" aria-label="close" onClick={(): void => setShow(!show)} />
+          <button className="delete" aria-label="close" onClick={(): void => setShow(false)} />
         </header>
         <section className="modal-card-body">
           <form onSubmit={handleSubmit}>
