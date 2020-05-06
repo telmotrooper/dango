@@ -11,6 +11,7 @@ import { CypherModal } from "./modals/CypherModal"
 import { Graphviz } from "graphviz-react"
 import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
+import { refreshNeo4jDriver } from "./utils/neo4j"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -25,6 +26,11 @@ const App = (): JSX.Element => {
   const setParserContent = (json: GenericObject): void => {
     const text = JSON.stringify(json, null, 2)
     _setParserContent(text)
+  }
+
+  // Check if we have connection data in local storage to prepare Neo4j driver.
+  if (localStorage.getItem("connection")) {
+    refreshNeo4jDriver()
   }
 
   const textAreaRef = createRef<HTMLTextAreaElement>()

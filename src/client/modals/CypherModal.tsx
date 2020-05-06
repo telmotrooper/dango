@@ -44,6 +44,9 @@ const CypherModal = React.memo((props: Props) => {
             <button className="button is-success" onClick={onSubmit}>
               Setup database connection
             </button>
+            <button className="button is-success" onClick={onSubmit}>
+              Execute
+            </button>
           </div>
         </footer>
       </div>

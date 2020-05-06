@@ -13,10 +13,13 @@ export const getCypherFromER = (code: string): Promise<AxiosResponse> =>
   })
 
 export const testDatabaseConnection = async (): Promise<QueryResult> => {
-  const session = driver.session()
+  if (driver) {
+    const session = driver.session()
 
-  const result = await session.run("MATCH (n) RETURN n LIMIT 1")
-  await session.close()
-
-  return result
+    const result = await session.run("MATCH (n) RETURN n LIMIT 1")
+    await session.close()
+  
+    return result
+  }
+  throw "Method called without a valid driver."
 }
