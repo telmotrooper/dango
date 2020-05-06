@@ -16,7 +16,7 @@ export const testDatabaseConnection = async (): Promise<QueryResult> => {
   if (driver) {
     const session = driver.session()
 
-    const result = await session.run("MATCH (n) RETURN n LIMIT 1")
+    const result = await session.run("CALL apoc.trigger.list();")
     await session.close()
   
     return result

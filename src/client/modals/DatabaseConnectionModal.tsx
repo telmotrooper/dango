@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { testDatabaseConnection } from "../utils/requests"
-import { QueryResult } from "neo4j-driver"
 import { refreshNeo4jDriver, driver } from "../utils/neo4j"
 
 interface Props {
@@ -32,8 +31,12 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
       setDatabaseReady(driver != null)
       setShow(false)
     } catch(err) {
-      if(err.message.substring(0, 9) == "WebSocket") {
+      if(err.message.substr(0, 9) == "WebSocket") {
         setError("WebSocket connection failure. Are you sure the local database is running?")
+
+      } else if (err.message.substr(87, 8) == "Triggers") {
+        setError(err.message.substr(87)) // Only display the relevant part of the error message.
+
       } else {
         setError(err.message)
       }
