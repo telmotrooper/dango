@@ -1,15 +1,16 @@
 import React, { useState } from "react"
 import { testDatabaseConnection } from "../utils/requests"
 import { QueryResult } from "neo4j-driver"
-import { refreshNeo4jDriver } from "../utils/neo4j"
+import { refreshNeo4jDriver, driver } from "../utils/neo4j"
 
 interface Props {
   show: boolean;
   setShow: (arg0: boolean) => void;
+  setDatabaseReady: (arg0: boolean) => void;
 }
 
 export const DatabaseConnectionModal = React.memo((props: Props) => {
-  const { show, setShow } = props
+  const { show, setShow, setDatabaseReady } = props
 
   const [ state, setState ] = useState({
     host: "localhost",
@@ -21,9 +22,12 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
   const handleSubmit = async (): Promise<QueryResult> => {
     localStorage.setItem("connection", JSON.stringify(state))
     refreshNeo4jDriver()
+    console.log(setDatabaseReady)
+    setDatabaseReady(driver != null)
 
     const res = await testDatabaseConnection()
     console.log(res)
+
     return res
   }
 

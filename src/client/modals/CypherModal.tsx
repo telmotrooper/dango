@@ -6,11 +6,11 @@ interface Props {
   setShow: (arg0: boolean) => void;
   content: string;
   onSubmit: () => void;
+  databaseReady: boolean;
 }
 
 const CypherModal = React.memo((props: Props) => {
-  const { content, show, setShow, onSubmit } = props
-
+  const { content, show, setShow, onSubmit, databaseReady } = props
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
   return (
@@ -41,12 +41,13 @@ const CypherModal = React.memo((props: Props) => {
             {/* <button className="button is-info">
               Generate visualization
             </button> */}
-            <button className="button is-success" onClick={onSubmit}>
+            <button className={"button" + (!databaseReady ? " is-success": "")} onClick={onSubmit}>
               Setup database connection
             </button>
+            {(databaseReady &&
             <button className="button is-success" onClick={onSubmit}>
               Execute
-            </button>
+            </button>)}
           </div>
         </footer>
       </div>

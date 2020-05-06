@@ -11,7 +11,7 @@ import { CypherModal } from "./modals/CypherModal"
 import { Graphviz } from "graphviz-react"
 import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
-import { refreshNeo4jDriver } from "./utils/neo4j"
+import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -22,15 +22,19 @@ const App = (): JSX.Element => {
   const [ parserContent,   _setParserContent ] = useState("")
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, setDiagram ] = useState("")
+  const [ databaseReady, setDatabaseReady ] = useState(false)
+
+  // Check if we have connection data in local storage to prepare Neo4j driver.
+  useEffect(() => {
+    if (localStorage.getItem("connection")) {
+      refreshNeo4jDriver()
+      setDatabaseReady(driver != null)
+    }
+  }, [])
 
   const setParserContent = (json: GenericObject): void => {
     const text = JSON.stringify(json, null, 2)
     _setParserContent(text)
-  }
-
-  // Check if we have connection data in local storage to prepare Neo4j driver.
-  if (localStorage.getItem("connection")) {
-    refreshNeo4jDriver()
   }
 
   const textAreaRef = createRef<HTMLTextAreaElement>()
@@ -115,6 +119,7 @@ const App = (): JSX.Element => {
         show={showCypherModal}
         setShow={(): void => setShowCypherModal(!showCypherModal)}
         onSubmit={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
+        databaseReady={databaseReady}
       />
 
       <ClearModal
@@ -126,6 +131,7 @@ const App = (): JSX.Element => {
       <DatabaseConnectionModal
         show={showDatabaseConnectionModal}
         setShow={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
+        setDatabaseReady={setDatabaseReady}
       />
     </Fragment>
   )
