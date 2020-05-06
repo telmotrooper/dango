@@ -24,12 +24,11 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
     localStorage.setItem("connection", JSON.stringify(form))
     refreshNeo4jDriver()
 
-    let res = null
     try {
-      res = await testDatabaseConnection()
-      console.log(res)
+      await testDatabaseConnection()
       setDatabaseReady(driver != null)
       setShow(false)
+      
     } catch(err) {
       if(err.message.substr(0, 9) == "WebSocket") {
         setError("WebSocket connection failure. Are you sure the local database is running?")
