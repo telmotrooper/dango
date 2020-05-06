@@ -48,8 +48,6 @@ const getAEnt = (entityName: string): string =>
 	}`
 
 const convertER = (code: ER): string => {
-  console.log(code)
-
   if (Object.entries(code).length === 0) {
     return "graph G {}"
   }
@@ -84,7 +82,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  console.debug(diagram)
+  //console.debug(diagram)
 
   return diagram
 }

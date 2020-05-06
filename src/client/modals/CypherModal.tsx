@@ -1,5 +1,6 @@
 import React, { createRef } from "react"
 import { saveToDevice } from "../utils/codebox"
+import { cleanUpDatabase } from "../utils/requests"
 
 interface Props {
   show: boolean;
@@ -12,6 +13,16 @@ interface Props {
 const CypherModal = React.memo((props: Props) => {
   const { content, show, setShow, onSubmit, databaseReady } = props
   const textAreaRef = createRef<HTMLTextAreaElement>()
+
+  const executeCypher = async (): Promise<void> => {
+    try {
+      await cleanUpDatabase()
+      console.log("The content of the text area is:\n" + textAreaRef.current?.value)
+    } catch(err) {
+      // ALL NEO4J ERRORS APPLY HERE, MAYBE I SHOULD STANDARDIZE ERROR HANDLING?
+      console.error(err)
+    }
+  }
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="cypher-modal">
@@ -45,7 +56,7 @@ const CypherModal = React.memo((props: Props) => {
               Setup database connection
             </button>
             {(databaseReady &&
-            <button className="button is-success" onClick={onSubmit}>
+            <button className="button is-success" onClick={executeCypher}>
               Execute
             </button>)}
           </div>

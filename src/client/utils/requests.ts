@@ -23,3 +23,18 @@ export const testDatabaseConnection = async (): Promise<QueryResult> => {
   }
   throw "Method called without a valid driver."
 }
+
+export const cleanUpDatabase = async (): Promise<QueryResult> => {
+  if (driver) {
+    const session = driver.session()
+
+    const statement = "CALL apoc.trigger.removeAll();"
+    console.log(statement)
+
+    const result = await session.run(statement)
+    await session.close()
+  
+    return result
+  }
+  throw "Method called without a valid driver."
+}
