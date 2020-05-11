@@ -37,8 +37,6 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
       constraints.records.map(record => session.run(`DROP ${record.get('description')}`))
     )
 
-    console.log(constraints)
-
     await session.close()
   
     return removeAllTriggers
