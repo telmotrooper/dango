@@ -43,3 +43,16 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
   }
   throw "Method called without a valid driver."
 }
+
+export const runStatements = async (statements: Array<string>): Promise<void> => {
+  if (driver) {
+    const session = driver.session()
+
+    await Promise.all(
+      statements.map(statement => session.run(statement))
+    )
+
+    await session.close()
+  }
+  throw "Method called without a valid driver."
+}

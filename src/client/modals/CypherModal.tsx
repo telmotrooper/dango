@@ -1,6 +1,6 @@
 import React, { createRef } from "react"
 import { saveToDevice } from "../utils/codebox"
-import { cleanUpDatabase } from "../utils/requests"
+import { cleanUpDatabase, runStatements } from "../utils/requests"
 
 interface Props {
   show: boolean;
@@ -17,7 +17,14 @@ const CypherModal = React.memo((props: Props) => {
   const executeCypher = async (): Promise<void> => {
     try {
       await cleanUpDatabase()
-      console.log("The content of the text area is:\n" + textAreaRef.current?.value)
+
+      const statements = (textAreaRef.current?.value)?.replace(/\n/g, "")
+        .split(";")
+        .filter(text => text != "") ?? []
+      console.log(statements)
+
+      await runStatements(statements)
+
     } catch(err) {
       // ALL NEO4J ERRORS APPLY HERE, MAYBE I SHOULD STANDARDIZE ERROR HANDLING?
       console.error(err)
