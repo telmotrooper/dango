@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 import { driver } from "./neo4j"
-import { QueryResult } from "neo4j-driver"
+import { QueryResult, session } from "neo4j-driver"
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/api/er-code", {
@@ -48,11 +48,13 @@ export const runStatements = async (statements: Array<string>): Promise<void> =>
   if (driver) {
     const session = driver.session()
 
-    await Promise.all(
-      statements.map(statement => session.run(statement))
-    )
+    for (const statement of statements) { // Run statements sequentially.
+      await session.run(statement)
+    }
 
     await session.close()
+
+    return
   }
   throw "Method called without a valid driver."
 }
