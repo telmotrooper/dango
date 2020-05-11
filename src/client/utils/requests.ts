@@ -28,13 +28,20 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
   if (driver) {
     const session = driver.session()
 
-    const statement = "CALL apoc.trigger.removeAll();"
-    console.log(statement)
+    const removeAllTriggers: QueryResult = await session.run("CALL apoc.trigger.removeAll();")
 
-    const result = await session.run(statement)
+    const constraints: QueryResult = await session.run("CALL db.constraints();")
+
+    // Drop all constraints.
+    await Promise.all(
+      constraints.records.map(record => session.run(`DROP ${record.get('description')}`))
+    )
+
+    console.log(constraints)
+
     await session.close()
   
-    return result
+    return removeAllTriggers
   }
   throw "Method called without a valid driver."
 }
