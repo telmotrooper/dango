@@ -19,7 +19,11 @@ const erToCypher = (er: string): string => {
     for (const item of pk) {
       schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${id}) ASSERT (${lower(id)[0]}.${item}) IS UNIQUE;\n`
     }
+  }
 
+  for (const relationship of rel) {
+    schema += `CALL apoc.trigger.add('${lower(relationship.id)}', ` +
+    `'CALL apoc.periodic.submit("${lower(relationship.id)}", MATCH (n)-[${lower(relationship.id)}]->(m:${lower(relationship.entities[1].id)}) WHERE NOT "${lower(relationship.entities[0].id)}" IN LABELS(n) DETACH DELETE n)', {phase: 'after'});\n`
   }
 
   for (const associativeEntity of aent) {

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 import { driver } from "./neo4j"
-import { QueryResult, session } from "neo4j-driver"
+import { QueryResult } from "neo4j-driver"
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/api/er-code", {
@@ -33,9 +33,9 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
     const constraints: QueryResult = await session.run("CALL db.constraints();")
 
     // Drop all constraints.
-    await Promise.all(
-      constraints.records.map(record => session.run(`DROP ${record.get('description')}`))
-    )
+    for (const record of constraints.records) { // Run statements sequentially.
+      await session.run(`DROP ${record.get('description')}`)
+    }
 
     await session.close()
   
