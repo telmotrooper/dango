@@ -1,5 +1,5 @@
 import { lower } from "../../shared/removeAccents"
-import { ER, Ent, AEnt, Rel } from "../../server/misc/interfaces"
+import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
 
 const entityColor       = "#f8ec88"
 const attributeColor    = "#79bddc"
@@ -22,6 +22,24 @@ const getLabel = (attributeName: string): string => {
 
 const getEntity = (entityName: string): string =>
   `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}", fontname="${fontName}"]`
+
+const getSpecialization = (specialization: Spe): string => {
+  const { id, disjoint, total } = specialization
+  // id: string, total: boolean, disjoint: boolean
+  let name = lower(id) + "_"
+
+  const completeness = total
+    ? "t" // total
+    : "p" // partial
+
+  const disjointness = disjoint
+    ? "d" // disjoint
+    : "o" // overlap
+
+  name += completeness + disjointness
+
+    return `${lower(name)} [label="${id} (${completeness},${disjointness}) ", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]`
+}
 
 const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
   const label = getLabel(attributeName)
@@ -86,6 +104,12 @@ const convertER = (code: ER): string => {
     for (const aent of code.aent) {
       diagram += getAEnt(aent.id)
       diagram += generateAttributes(aent)
+    }
+  }
+
+  if (code.spe) {
+    for (const spe of code.spe) {
+      diagram += getSpecialization(spe)
     }
   }
 

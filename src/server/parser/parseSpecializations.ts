@@ -13,11 +13,11 @@ const parseSpecializations = (rawSpecializations: string[]): Spe[] => {
 
     if (data) {
       const cardinality = data[1].substr(1, 3)
-      if (cardinality[0] === "t") {
+      if (cardinality[0] === "t") { // "t" for total, "p" for partial
         total = true
       }
 
-      if (cardinality[2] === "d") {
+      if (cardinality[2] === "d") { // "d" for disjoint, "o" for overlap
         disjoint = true
       }
 
