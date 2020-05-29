@@ -1,5 +1,5 @@
 import { lower } from "../../shared/removeAccents"
-import { ER, Ent, AEnt } from "../../server/misc/interfaces"
+import { ER, Ent, AEnt, Rel } from "../../server/misc/interfaces"
 
 const entityColor       = "#f8ec88"
 const attributeColor    = "#79bddc"
@@ -48,7 +48,7 @@ const getAEnt = (entityName: string): string =>
 	}`
 
 
-const generateAttributes = (ent: Ent | AEnt): string => {
+const generateAttributes = (ent: Ent | AEnt | Rel): string => {
   let text = ""
   for (const attribute of ent.attributes) {
     const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
@@ -78,6 +78,7 @@ const convertER = (code: ER): string => {
       diagram += getRelationship(rel.id) + "\n"
       diagram += getConnectionForRelationship(rel.entities[0].id, rel.id) + "\n"
       diagram += getConnectionForRelationship(rel.id, rel.entities[1].id) + "\n"
+      diagram += generateAttributes(rel)
     }
   }
 
