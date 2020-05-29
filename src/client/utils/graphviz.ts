@@ -1,5 +1,5 @@
 import { lower } from "../../shared/removeAccents"
-import { ER } from "../../server/misc/interfaces"
+import { ER, Ent, AEnt } from "../../server/misc/interfaces"
 
 const entityColor       = "#f8ec88"
 const attributeColor    = "#79bddc"
@@ -47,6 +47,18 @@ const getAEnt = (entityName: string): string =>
 		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fontname="${fontName}"]
 	}`
 
+
+const generateAttributes = (ent: Ent | AEnt): string => {
+  let text = ""
+  for (const attribute of ent.attributes) {
+    const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
+    text += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
+    text += getConnection(ent.id, attribute) + "\n"
+  }
+
+  return text
+}
+
 const convertER = (code: ER): string => {
   if (Object.entries(code).length === 0) {
     return "graph G {}"
@@ -57,12 +69,7 @@ const convertER = (code: ER): string => {
   if (code.ent) {
     for (const ent of code.ent) {
       diagram += getEntity(ent.id) + "\n"
-  
-      for (const attribute of ent.attributes) {
-        const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
-        diagram += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
-        diagram += getConnection(ent.id, attribute) + "\n"
-      }
+      diagram += generateAttributes(ent)
     }
   }
 
@@ -77,6 +84,7 @@ const convertER = (code: ER): string => {
   if (code.aent) {
     for (const aent of code.aent) {
       diagram += getAEnt(aent.id)
+      diagram += generateAttributes(aent)
     }
   }
 
