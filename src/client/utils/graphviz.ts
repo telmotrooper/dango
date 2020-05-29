@@ -45,7 +45,7 @@ const getAEnt = (entityName: string): string =>
     style=filled
     fillcolor="#f8ec88"
 		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fontname="${fontName}"]
-	}`
+	}\n`
 
 
 const generateAttributes = (ent: Ent | AEnt | Rel): string => {
@@ -64,7 +64,7 @@ const convertER = (code: ER): string => {
     return "graph G {}"
   }
 
-  let diagram = "graph G {\n"
+  let diagram = "graph G {\n\n"
 
   if (code.ent) {
     for (const ent of code.ent) {
@@ -91,7 +91,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  //console.debug(diagram)
+  console.debug(diagram)
 
   return diagram
 }
