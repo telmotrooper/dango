@@ -12,6 +12,7 @@ import { Graphviz } from "graphviz-react"
 import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
+import { Engine } from "d3-graphviz"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -23,6 +24,7 @@ const App = (): JSX.Element => {
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
+  const [ engine, setEngine ] = useState<Engine>("dot")
 
   // Check if we have connection data in local storage to prepare Neo4j driver.
   useEffect(() => {
@@ -87,10 +89,13 @@ const App = (): JSX.Element => {
               textAreaRef={textAreaRef}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
+              engine={engine}
+              setEngine={setEngine}
             />
             <section id="vis" className="column vis">
               <Graphviz
                 options={{
+                  engine,
                   zoom: true,
                   height: ("100%" as unknown as number),
                   width: ("100%" as unknown as number)
