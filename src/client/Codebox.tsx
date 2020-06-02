@@ -23,10 +23,17 @@ const Codebox = React.memo((props: Props) => {
     () => {
       async function handleSubmitCode(): Promise<void> {
         if (debouncedCode !== "") {
-          const res = await submitCode(debouncedCode)
+          const firstWord = code.match(/\w+/)?.[0]
 
-          // Convert ER to Graphviz and update diagram
-          handleUpdate(convertER(res.data))
+          if (firstWord == "graph" || firstWord == "digraph") { // Allows testing Graphviz input straight from the application.
+            handleUpdate(code)
+
+          } else {
+            const res = await submitCode(debouncedCode)
+
+            // Convert ER to Graphviz and update diagram
+            handleUpdate(convertER(res.data))
+          }
         }
       }
 
@@ -42,12 +49,6 @@ const Codebox = React.memo((props: Props) => {
         className="textarea has-fixed-size is-small mb-1"
         rows={25}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>): void => {
-          const firstWord = (event.target.value).match(/\w+/)?.[0]
-
-          if (firstWord == "graph" || firstWord == "digraph") {
-            console.log("This is Graphviz input")
-          }
-
           setCode(event.target.value)
         }}
       />
