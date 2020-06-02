@@ -1,9 +1,18 @@
+.flex-aic {
+  display: flex;
+  align-items: center;
+}
+
 .mb-1 {
   margin-bottom: 1em;
 }
 
 .mb-05 {
   margin-bottom: 0.5em;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
 }
 
 .mt-minus-05 {

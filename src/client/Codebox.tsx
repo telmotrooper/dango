@@ -45,11 +45,11 @@ const Codebox = React.memo((props: Props) => {
           setCode(event.target.value)
         }}
       />
-      <button className="button is-primary is-fullwidth" onClick={handleSubmit}>
+      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit}>
         Send
       </button>
-      <div className="field">
-        <label className="label">Rendering engine:</label>
+      <div className="field flex-aic">
+        <label className="label mb-0">Rendering engine:</label>
         <div className="select">
           <select
             onChange={(event: ChangeEvent<HTMLSelectElement>): void => {
