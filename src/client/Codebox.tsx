@@ -48,7 +48,7 @@ const Codebox = React.memo((props: Props) => {
       <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit}>
         Send
       </button>
-      <div className="field flex-aic">
+      <div className="field flex-aic-jcsb">
         <label className="label mb-0">Rendering engine:</label>
         <div className="select">
           <select
