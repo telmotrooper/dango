@@ -42,6 +42,12 @@ const Codebox = React.memo((props: Props) => {
         className="textarea has-fixed-size is-small mb-1"
         rows={25}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>): void => {
+          const firstWord = (event.target.value).match(/\w+/)?.[0]
+
+          if (firstWord == "graph" || firstWord == "digraph") {
+            console.log("This is Graphviz input")
+          }
+
           setCode(event.target.value)
         }}
       />
