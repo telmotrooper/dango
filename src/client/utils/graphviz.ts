@@ -53,8 +53,19 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey?: bo
 const getConnection = (entityName: string, attributeName: string): string =>
   identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
 
-const getConnectionForRelationship = (entityName1: string, entityName2: string): string =>
-  identation + `${lower(entityName1)} -- ${lower(entityName2)}`
+const getConnectionForRelationship = (entityName1: string, entityName2: string, headLabel?: string, tailLabel?: string): string => {
+  let properties = ""
+
+  if (headLabel && tailLabel) {
+    properties = ` [headlabel="${headLabel}", taillabel="${tailLabel}"]`
+  } else if (headLabel) {
+    properties = ` [headlabel="${headLabel}"]`
+  } else if (tailLabel) {
+    properties = ` [taillabel="${tailLabel}"]`
+  }
+
+  return identation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
+}
 
 const getRelationship = (relationshipName: string): string =>
   identation + `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5, fontname="${fontName}"]`
