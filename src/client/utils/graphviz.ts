@@ -53,10 +53,12 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey?: bo
 const getConnection = (entityName: string, attributeName: string): string =>
   identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
 
-const getConnectionForRelationship = (entityName1: string, entityName2: string, headLabel?: string, tailLabel?: string): string => {
+const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, headLabel?: string, tailLabel?: string): string => {
   let properties = ""
 
-  if (headLabel && tailLabel) {
+  if (label) {
+    properties = ` [label="${label}"]`
+  } else if (headLabel && tailLabel) {
     properties = ` [headlabel="${headLabel}", taillabel="${tailLabel}"]`
   } else if (headLabel) {
     properties = ` [headlabel="${headLabel}"]`
@@ -106,8 +108,8 @@ const convertER = (code: ER): string => {
   if (code.rel) {
     for (const rel of code.rel) {
       diagram += getRelationship(rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id) + "\n"
+      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality) + "\n"
+      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality) + "\n"
       diagram += generateAttributes(rel)
     }
   }
