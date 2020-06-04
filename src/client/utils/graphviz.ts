@@ -34,6 +34,8 @@ const getEntity = (entityName: string): string =>
   identation + `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}", fontname="${fontName}"]`
 
 const getSpecialization = (specialization: Spe): string => {
+  const parent = lower(specialization.id)
+
   const { id, disjoint, total } = specialization
   // id: string, total: boolean, disjoint: boolean
   let name = lower(id) + "_"
@@ -48,7 +50,17 @@ const getSpecialization = (specialization: Spe): string => {
 
   name += completeness + disjointness
 
-    return identation + `${lower(name)} [label="${id} (${completeness},${disjointness}) ", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]`
+  let text = (
+    identation +
+    `${lower(name)} [label="", xlabel="(${completeness},${disjointness})", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]` +
+    "\n" + `${parent} -- ${lower(name)}`
+  )
+
+  for (const entity of specialization.entities) {
+    text += "\n" + `${lower(name)} -- ${lower(entity)}`
+  }
+
+  return text
 }
 
 const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
@@ -138,7 +150,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  // console.debug(diagram)
+  console.debug(diagram)
 
   return diagram
 }
