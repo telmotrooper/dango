@@ -19,13 +19,13 @@ const parseRelationships = (rawRelationships: string[]): Rel[] => {
 
       rel.entities.push({
           id: data[0],
-          cardinality: data[1].substr(1, 3),
+          cardinality: data[1]?.substr(1, 3),
         }
       )
 
       rel.entities.push({
           id: data[2],
-          cardinality: data[3].substr(1, 3),
+          cardinality: data[3]?.substr(1, 3),
         }
       )
 

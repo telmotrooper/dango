@@ -12,10 +12,18 @@ const identation        = "  "
  * @param attributeName 
  */
 const getLabel = (attributeName: string): string => {
-  let label: string = attributeName
+  if (attributeName == attributeName.toUpperCase()) { // Attribute name is an acronym.
+    return attributeName
+  }
 
-  if(attributeName.length > 7) {
-    label = attributeName.substr(0, 6) + "\\n" + attributeName.substr(6, attributeName.length-1)
+  let label = ""
+
+  for (let i = 0; i < attributeName.length; i++) { // Add a new line everytime an uppercase character is found.
+    if (attributeName[i] == attributeName[i].toUpperCase() && i != 0) {
+      label += "\\n"
+    }
+
+    label += attributeName[i]
   }
 
   return label
@@ -45,8 +53,8 @@ const getSpecialization = (specialization: Spe): string => {
 const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
   const label = getLabel(attributeName)
 
-  return identation + `${lower(entityName + "_" + attributeName)} [label="${label}", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
-  `style=filled, fixedsize=true, height=0.5, width=0.5, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}"]`
+  return identation + `${lower(entityName + "_" + attributeName)} [label="", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
+  `style=filled, fixedsize=true, height=0.25, width=0.25, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}", xlabel="${label}"]`
 }
 
 
@@ -129,7 +137,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  console.debug(diagram)
+  // console.debug(diagram)
 
   return diagram
 }
