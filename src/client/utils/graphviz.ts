@@ -57,13 +57,13 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string, 
   let properties = ""
 
   if (label) {
-    properties = ` [label="${label}"]`
+    properties = ` [label="(${label})"]`
   } else if (headLabel && tailLabel) {
-    properties = ` [headlabel="${headLabel}", taillabel="${tailLabel}"]`
+    properties = ` [headlabel="(${headLabel})", taillabel="(${tailLabel})"]`
   } else if (headLabel) {
-    properties = ` [headlabel="${headLabel}"]`
+    properties = ` [headlabel="(${headLabel})"]`
   } else if (tailLabel) {
-    properties = ` [taillabel="${tailLabel}"]`
+    properties = ` [taillabel="(${tailLabel})"]`
   }
 
   return identation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
