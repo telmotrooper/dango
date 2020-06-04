@@ -1,11 +1,12 @@
 import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
 
-const entityColor       = "#f8ec88"
-const attributeColor    = "#79bddc"
-const relationshipColor = "#dc9079"
-const fontName          = "mono"
-const identation        = "  "
+const entityColor         = "#f8ec88"
+const attributeColor      = "#79bddc"
+const relationshipColor   = "#dc9079"
+const fontName            = "mono"
+const cardinalityFontSize = "12"
+const identation          = "  "
 
 /**
  * Split attribute name into multiple lines to fit shape.
@@ -65,13 +66,13 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string, 
   let properties = ""
 
   if (label) {
-    properties = ` [label="(${label})"]`
+    properties = ` [label="(${label})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
   } else if (headLabel && tailLabel) {
-    properties = ` [headlabel="(${headLabel})", taillabel="(${tailLabel})"]`
+    properties = ` [headlabel="(${headLabel})", taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
   } else if (headLabel) {
-    properties = ` [headlabel="(${headLabel})"]`
+    properties = ` [headlabel="(${headLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
   } else if (tailLabel) {
-    properties = ` [taillabel="(${tailLabel})"]`
+    properties = ` [taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
   }
 
   return identation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
