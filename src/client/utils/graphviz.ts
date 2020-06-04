@@ -5,6 +5,7 @@ const entityColor       = "#f8ec88"
 const attributeColor    = "#79bddc"
 const relationshipColor = "#dc9079"
 const fontName          = "mono"
+const identation        = "  "
 
 /**
  * Split attribute name into multiple lines to fit shape.
@@ -21,7 +22,7 @@ const getLabel = (attributeName: string): string => {
 }
 
 const getEntity = (entityName: string): string =>
-  `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}", fontname="${fontName}"]`
+  identation + `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}", fontname="${fontName}"]`
 
 const getSpecialization = (specialization: Spe): string => {
   const { id, disjoint, total } = specialization
@@ -38,28 +39,28 @@ const getSpecialization = (specialization: Spe): string => {
 
   name += completeness + disjointness
 
-    return `${lower(name)} [label="${id} (${completeness},${disjointness}) ", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]`
+    return identation + `${lower(name)} [label="${id} (${completeness},${disjointness}) ", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]`
 }
 
 const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
   const label = getLabel(attributeName)
 
-  return `${lower(entityName + "_" + attributeName)} [label="${label}", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
+  return identation + `${lower(entityName + "_" + attributeName)} [label="${label}", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
   `style=filled, fixedsize=true, height=0.5, width=0.5, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}"]`
 }
 
 
 const getConnection = (entityName: string, attributeName: string): string =>
-  `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
+  identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
 
 const getConnectionForRelationship = (entityName1: string, entityName2: string): string =>
-  `${lower(entityName1)} -- ${lower(entityName2)}`
+  identation + `${lower(entityName1)} -- ${lower(entityName2)}`
 
 const getRelationship = (relationshipName: string): string =>
-  `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5, fontname="${fontName}"]`
+  identation + `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5, fontname="${fontName}"]`
 
 const getAEnt = (entityName: string): string =>
-  `subgraph ${"cluster_" + lower(entityName)} {
+  identation + `subgraph ${"cluster_" + lower(entityName)} {
     style=filled
     fillcolor="#f8ec88"
 		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fontname="${fontName}"]
