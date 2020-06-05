@@ -31,24 +31,37 @@ const getLabel = (attributeName: string): string => {
   return label
 }
 
+const correctWidth = (width: number, label: string): number => {
+  /* Increase width by 0.125 for each letter past 8, this way we can
+   * prevent labels from getting bigger than their respective shape. */
+  if (label.length > 8) {
+    const multiplier = (label.length - 8) / 2
+    width += multiplier * 0.25
+  }
+
+  return width
+}
+
 const getProportions = (shape: Shape, label: string): string => {
-  let height = 1
+  const height = 0.5
   let width = 1
 
   switch(shape) {
     case "rectangle":
-      // Default for shape is height=0.5, width=1
-      height = 0.5
       width = 1
-
-      if (label.length > 8) {
-        const multiplier = (label.length - 8) / 2
-        width += multiplier * 0.25
-      }
+      
       break
+    
+    case "diamond":
+      width =  1.5
+
+      break
+
     default:
       break
   }
+
+  width = correctWidth(width, label)
 
   return `height=${height}, width=${width}`
 }
@@ -99,7 +112,6 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey?: bo
   `style=filled, fixedsize=true, height=0.25, width=0.25, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}", xlabel="${label}"]`
 }
 
-
 const getConnection = (entityName: string, attributeName: string): string =>
   identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
 
@@ -119,9 +131,14 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string, 
   return identation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
 }
 
-const getRelationship = (relationshipName: string): string =>
-  identation + `${lower(relationshipName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fixedsize=true, height=0.5, width=1.5, fontname="${fontName}"]`
+const getRelationship = (relationshipName: string): string => {
+  const shape: Shape = "diamond"
 
+  return (
+    identation +
+    `${lower(relationshipName)} [shape=${shape}, style=filled, fillcolor="${relationshipColor}", fixedsize=true, fontname="${fontName}", ${getProportions(shape, relationshipName)}]`
+  )
+}
 const getAEnt = (entityName: string): string =>
   identation + `subgraph ${"cluster_" + lower(entityName)} {
     style=filled
