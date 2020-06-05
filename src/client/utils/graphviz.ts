@@ -138,13 +138,18 @@ const getRelationship = (relationshipName: string): string => {
     `${lower(relationshipName)} [shape=${shape}, style=filled, fillcolor="${relationshipColor}", fixedsize=true, fontname="${fontName}", fontsize=${relationshipFontSize}, ${getProportions(shape, relationshipName)}]`
   )
 }
-const getAEnt = (entityName: string): string =>
-  identation + `subgraph ${"cluster_" + lower(entityName)} {
+const getAEnt = (entityName: string): string => {
+  const shape: Shape = "diamond"
+
+  return (
+    identation +
+    `subgraph ${"cluster_" + lower(entityName)} {
     style=filled
     fillcolor="#f8ec88"
-		${lower(entityName)} [shape=diamond, style=filled, fillcolor="${relationshipColor}", fontname="${fontName}"]
-	}\n`
-
+    ${getRelationship(entityName)}
+    }\n`
+  )
+}
 
 const generateAttributes = (ent: Ent | AEnt | Rel): string => {
   let text = ""
@@ -184,6 +189,10 @@ const convertER = (code: ER): string => {
     for (const aent of code.aent) {
       diagram += getAEnt(aent.id)
       diagram += generateAttributes(aent)
+      
+      for (const entity of aent.entities) {
+        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality) + "\n"
+      }
     }
   }
 
