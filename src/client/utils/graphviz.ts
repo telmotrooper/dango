@@ -2,12 +2,13 @@ import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
 import { Shape } from "./interfaces"
 
-const entityColor         = "#f8ec88"
-const attributeColor      = "#79bddc"
-const relationshipColor   = "#dc9079"
-const fontName            = "mono"
-const cardinalityFontSize = "12"
-const identation          = "  "
+const entityColor          = "#f8ec88"
+const attributeColor       = "#79bddc"
+const relationshipColor    = "#dc9079"
+const fontName             = "mono"
+const relationshipFontSize = "12"
+const cardinalityFontSize  = "12"
+const identation           = "  "
 
 /**
  * Split attribute name into multiple lines to fit shape.
@@ -49,12 +50,10 @@ const getProportions = (shape: Shape, label: string): string => {
   switch(shape) {
     case "rectangle":
       width = 1
-      
       break
     
     case "diamond":
       width =  1.5
-
       break
 
     default:
@@ -136,7 +135,7 @@ const getRelationship = (relationshipName: string): string => {
 
   return (
     identation +
-    `${lower(relationshipName)} [shape=${shape}, style=filled, fillcolor="${relationshipColor}", fixedsize=true, fontname="${fontName}", ${getProportions(shape, relationshipName)}]`
+    `${lower(relationshipName)} [shape=${shape}, style=filled, fillcolor="${relationshipColor}", fixedsize=true, fontname="${fontName}", fontsize=${relationshipFontSize}, ${getProportions(shape, relationshipName)}]`
   )
 }
 const getAEnt = (entityName: string): string =>
