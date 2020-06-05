@@ -1,5 +1,6 @@
 import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
+import { Shape } from "./interfaces"
 
 const entityColor         = "#f8ec88"
 const attributeColor      = "#79bddc"
@@ -30,8 +31,36 @@ const getLabel = (attributeName: string): string => {
   return label
 }
 
-const getEntity = (entityName: string): string =>
-  identation + `${lower(entityName)} [label="${entityName}", shape=rectangle, style=filled, fillcolor="${entityColor}", fontname="${fontName}"]`
+const getProportions = (shape: Shape, label: string): string => {
+  let height = 1
+  let width = 1
+
+  switch(shape) {
+    case "rectangle":
+      // Default for shape is height=0.5, width=1
+      height = 0.5
+      width = 1
+
+      if (label.length > 8) {
+        const multiplier = (label.length - 8) / 2
+        width += multiplier * 0.25
+      }
+      break
+    default:
+      break
+  }
+
+  return `height=${height}, width=${width}`
+}
+
+const getEntity = (entityName: string): string => {
+  const shape: Shape = "rectangle"
+
+  return (
+    identation +
+    `${lower(entityName)} [label="${entityName}", shape=${shape}, style=filled, fillcolor="${entityColor}", fontname="${fontName}", ${getProportions(shape, entityName)}]`
+  )
+}
 
 const getSpecialization = (specialization: Spe): string => {
   const parent = lower(specialization.id)

@@ -5,6 +5,8 @@ interface GenericObject {
   [property: string]: any;
 }
 
+type Shape = "rectangle" | "triangle" | "doublecircle" | "circle" |"diamond";
+
 interface RequestStore {
   data: GenericObject | Array<unknown>;
   loading: boolean;
@@ -13,4 +15,4 @@ interface RequestStore {
 
 type TextArea = RefObject<HTMLTextAreaElement>;
 
-export { TextArea, GenericObject, RequestStore }
+export { TextArea, GenericObject, RequestStore, Shape }
