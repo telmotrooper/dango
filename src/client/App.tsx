@@ -64,6 +64,12 @@ const App = (): JSX.Element => {
     <Fragment>
       <section className="section">
         <div className="container is-fluid">
+
+          {/* <div className="notification is-warning floating notification-pos">
+            <button className="delete"></button>
+            Unable to reach server...
+          </div> */}
+
           <Header />
       
           <section id="top-menu" className="columns">

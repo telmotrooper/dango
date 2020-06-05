@@ -1,3 +1,13 @@
+.notification-pos {
+  right: 0;
+  margin: auto;
+}
+
+.floating {
+  position: absolute;
+  z-index: 1;
+}
+
 .flex-aic-jcsb {
   display: flex;
   align-items: center;
