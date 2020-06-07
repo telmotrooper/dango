@@ -120,17 +120,21 @@ const getConnection = (entityName: string, attributeName: string, isAEnt = false
 }
   
 
-const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, headLabel?: string, tailLabel?: string): string => {
+const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, headLabel?: string, tailLabel?: string, isAEnt = false): string => {
   let properties = ""
 
+  const aent = isAEnt ? `, lhead=cluster_${lower(entityName2)}` : ""
+
   if (label) {
-    properties = ` [label="(${label})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
+    properties = ` [label="(${label})", fontname="${fontName}", fontsize="${cardinalityFontSize}"${aent}]`
   } else if (headLabel && tailLabel) {
-    properties = ` [headlabel="(${headLabel})", taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
+    properties = ` [headlabel="(${headLabel})", taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}${aent}"]`
   } else if (headLabel) {
-    properties = ` [headlabel="(${headLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
+    properties = ` [headlabel="(${headLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}${aent}"]`
   } else if (tailLabel) {
-    properties = ` [taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}"]`
+    properties = ` [taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}${aent}"]`
+  } else if(isAEnt) {
+    properties = ` lhead=cluster_${lower(entityName2)}`
   }
 
   return identation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
@@ -171,6 +175,14 @@ const convertER = (code: ER): string => {
     return "graph G {}"
   }
 
+  let associativeEntites: Array<string> = []
+
+  if(code.aent) { // Fill an array with the ids for all associative entities in the ER diagram
+    for (const aent of code.aent) {
+      associativeEntites.push(aent.id)
+    }
+  }
+
   let diagram = "graph G {\n" + identation + "compound = true\n\n"
 
   if (code.ent) {
@@ -182,9 +194,12 @@ const convertER = (code: ER): string => {
 
   if (code.rel) {
     for (const rel of code.rel) {
+      const isAEnt1 = associativeEntites.includes(rel.entities[0].id)
+      const isAEnt2 = associativeEntites.includes(rel.entities[1].id)
+
       diagram += getRelationship(rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality) + "\n"
-      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality) + "\n"
+      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality, undefined, undefined, isAEnt1) + "\n"
+      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality, undefined, undefined, isAEnt2) + "\n"
       diagram += generateAttributes(rel)
     }
   }
@@ -195,7 +210,7 @@ const convertER = (code: ER): string => {
       diagram += generateAttributes(aent, true)
       
       for (const entity of aent.entities) {
-        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality) + "\n"
+        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality, undefined, undefined, true) + "\n"
       }
     }
   }
