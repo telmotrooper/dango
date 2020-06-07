@@ -104,15 +104,21 @@ const getSpecialization = (specialization: Spe): string => {
   return text
 }
 
-const getAttribute = (entityName: string, attributeName: string, primaryKey?: boolean): string => {
+const getAttribute = (entityName: string, attributeName: string, primaryKey = false): string => {
   const label = getLabel(attributeName)
 
   return identation + `${lower(entityName + "_" + attributeName)} [label="", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
   `style=filled, fixedsize=true, height=0.25, width=0.25, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}", xlabel="${label}"]`
 }
 
-const getConnection = (entityName: string, attributeName: string): string =>
-  identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
+const getConnection = (entityName: string, attributeName: string, isAEnt = false): string => {
+  if (isAEnt) {
+    return identation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)} [lhead=cluster_${lower(entityName)}]`
+  } else {
+    return identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
+  }
+}
+  
 
 const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, headLabel?: string, tailLabel?: string): string => {
   let properties = ""
@@ -139,8 +145,6 @@ const getRelationship = (relationshipName: string): string => {
   )
 }
 const getAEnt = (entityName: string): string => {
-  const shape: Shape = "diamond"
-
   return (
     identation +
     `subgraph ${"cluster_" + lower(entityName)} {
@@ -151,12 +155,12 @@ const getAEnt = (entityName: string): string => {
   )
 }
 
-const generateAttributes = (ent: Ent | AEnt | Rel): string => {
+const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false): string => {
   let text = ""
   for (const attribute of ent.attributes) {
     const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
     text += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
-    text += getConnection(ent.id, attribute) + "\n"
+    text += getConnection(ent.id, attribute, isAEnt) + "\n"
   }
 
   return text
@@ -167,7 +171,7 @@ const convertER = (code: ER): string => {
     return "graph G {}"
   }
 
-  let diagram = "graph G {\n\n"
+  let diagram = "graph G {\n" + identation + "compound = true\n\n"
 
   if (code.ent) {
     for (const ent of code.ent) {
@@ -188,7 +192,7 @@ const convertER = (code: ER): string => {
   if (code.aent) {
     for (const aent of code.aent) {
       diagram += getAEnt(aent.id)
-      diagram += generateAttributes(aent)
+      diagram += generateAttributes(aent, true)
       
       for (const entity of aent.entities) {
         diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality) + "\n"
