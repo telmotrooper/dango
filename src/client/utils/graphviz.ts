@@ -175,7 +175,7 @@ const convertER = (code: ER): string => {
     return "graph G {}"
   }
 
-  let associativeEntites: Array<string> = []
+  const associativeEntites: Array<string> = []
 
   if(code.aent) { // Fill an array with the ids for all associative entities in the ER diagram
     for (const aent of code.aent) {
