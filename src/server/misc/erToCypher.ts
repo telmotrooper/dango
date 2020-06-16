@@ -23,7 +23,7 @@ const erToCypher = (er: string): string => {
 
   for (const relationship of rel) {
     schema += `CALL apoc.trigger.add('${lower(relationship.id)}', ` +
-    `'CALL apoc.periodic.submit("${lower(relationship.id)}", MATCH (n)-[${lower(relationship.id)}]->(m:${lower(relationship.entities[1].id)}) WHERE NOT "${lower(relationship.entities[0].id)}" IN LABELS(n) DETACH DELETE n)', {phase: 'after'});\n`
+    `'CALL apoc.periodic.submit("${lower(relationship.id)}", \\'MATCH (n)-[${relationship.id}]->(m:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DETACH DELETE n\\')', {phase: 'after'});\n`
   }
 
   for (const associativeEntity of aent) {
