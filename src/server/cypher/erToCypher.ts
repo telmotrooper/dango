@@ -1,5 +1,6 @@
 import { lower, upper } from "../../shared/removeAccents"
-import { ER } from "./interfaces"
+import { ER } from "../misc/interfaces"
+import { getTriggerTemplate } from "./helpers"
 
 const erToCypher = (er: string): string => {
   const erCode: ER = JSON.parse(er)
@@ -22,8 +23,13 @@ const erToCypher = (er: string): string => {
   }
 
   for (const relationship of rel) {
-    schema += `CALL apoc.trigger.add('${lower(relationship.id)}', ` +
-    `'CALL apoc.periodic.submit("${lower(relationship.id)}", \\'MATCH (n)-[${relationship.id}]->(m:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DETACH DELETE n\\')', {phase: 'after'});\n`
+    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[1].id),
+      `MATCH (n)-[${relationship.id}]-(m:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DETACH DELETE n`
+    )
+
+    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id),
+    `MATCH (n)-[${relationship.id}]-(m:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DETACH DELETE n`
+    )
   }
 
   for (const associativeEntity of aent) {
