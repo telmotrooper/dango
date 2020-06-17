@@ -1,6 +1,7 @@
 import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
 import { Shape } from "./interfaces"
+import { indentation } from "../../shared/constants"
 
 const entityColor          = "#f8ec88"
 const attributeColor       = "#79bddc"
@@ -8,7 +9,6 @@ const relationshipColor    = "#dc9079"
 const fontName             = "mono"
 const relationshipFontSize = "12"
 const cardinalityFontSize  = "12"
-const identation           = "  "
 
 /**
  * Split attribute name into multiple lines to fit shape.
@@ -69,7 +69,7 @@ const getEntity = (entityName: string): string => {
   const shape: Shape = "rectangle"
 
   return (
-    identation +
+    indentation +
     `${lower(entityName)} [label="${entityName}", shape=${shape}, style=filled, fillcolor="${entityColor}", fontname="${fontName}", ${getProportions(shape, entityName)}]`
   )
 }
@@ -92,7 +92,7 @@ const getSpecialization = (specialization: Spe): string => {
   name += completeness + disjointness
 
   let text = (
-    identation +
+    indentation +
     `${lower(name)} [label="", xlabel="(${completeness},${disjointness})", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]` +
     "\n" + `${parent} -- ${lower(name)}`
   )
@@ -107,15 +107,15 @@ const getSpecialization = (specialization: Spe): string => {
 const getAttribute = (entityName: string, attributeName: string, primaryKey = false): string => {
   const label = getLabel(attributeName)
 
-  return identation + `${lower(entityName + "_" + attributeName)} [label="", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
+  return indentation + `${lower(entityName + "_" + attributeName)} [label="", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
   `style=filled, fixedsize=true, height=0.25, width=0.25, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}", xlabel="${label}"]`
 }
 
 const getConnection = (entityName: string, attributeName: string, isAEnt = false): string => {
   if (isAEnt) {
-    return identation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)} [lhead=cluster_${lower(entityName)}]`
+    return indentation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)} [lhead=cluster_${lower(entityName)}]`
   } else {
-    return identation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
+    return indentation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
   }
 }
   
@@ -137,20 +137,20 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string, 
     properties = ` lhead=cluster_${lower(entityName2)}`
   }
 
-  return identation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
+  return indentation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
 }
 
 const getRelationship = (relationshipName: string): string => {
   const shape: Shape = "diamond"
 
   return (
-    identation +
+    indentation +
     `${lower(relationshipName)} [shape=${shape}, style=filled, fillcolor="${relationshipColor}", fixedsize=true, fontname="${fontName}", fontsize=${relationshipFontSize}, ${getProportions(shape, relationshipName)}]`
   )
 }
 const getAEnt = (entityName: string): string => {
   return (
-    identation +
+    indentation +
     `subgraph ${"cluster_" + lower(entityName)} {
     style=filled
     fillcolor="#f8ec88"
@@ -183,7 +183,7 @@ const convertER = (code: ER): string => {
     }
   }
 
-  let diagram = "graph G {\n" + identation + "compound = true\n\n"
+  let diagram = "graph G {\n" + indentation + "compound = true\n\n"
 
   if (code.ent) {
     for (const ent of code.ent) {

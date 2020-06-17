@@ -5,9 +5,9 @@ import erToCypher from "../cypher/erToCypher"
 const router: Router = Router()
 
 router.post("/", (req: Request, res: Response) => {
-  const { er } = req.body
+  const { er, strictMode } = req.body
 
-  const cypherCode = erToCypher(er)
+  const cypherCode = erToCypher(er, strictMode)
 
   res.json(cypherCode)
 })

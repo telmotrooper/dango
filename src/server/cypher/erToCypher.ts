@@ -1,12 +1,18 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER } from "../misc/interfaces"
-import { getTriggerTemplate } from "./helpers"
+import { getTriggerTemplate, getEntitiesList, getStrictModeStatement } from "./helpers"
 
-const erToCypher = (er: string): string => {
+const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { ent, rel, aent, spe } = erCode
   let schema = ""
+
+  if (strictMode) {
+    const entities = getEntitiesList(erCode)
+    const statement = getStrictModeStatement(entities) 
+    schema += getTriggerTemplate("strict mode", statement)
+  }
 
   for (const entity of ent) {
     const { attributes, id, pk } = entity
