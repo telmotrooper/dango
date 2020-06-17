@@ -8,7 +8,7 @@ export const submitCode = (code: string): Promise<AxiosResponse> =>
   })
 
 export const getCypherFromER = (code: string): Promise<AxiosResponse> =>
-  axios.post("/api/get-cypher-from-er", {
+  axios.post("/api/cypher-from-er", {
     er: code,
   })
 

@@ -37,7 +37,7 @@ app.use(express.json())
 
 // Routes
 app.use("/api/er-code", ERCode)
-app.use("/api/get-cypher-from-er", GetCypherFromER)
+app.use("/api/cypher-from-er", GetCypherFromER)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it

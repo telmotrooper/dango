@@ -46,7 +46,7 @@ const CypherModal = React.memo((props: Props) => {
             Cypher query language) based on your Entity-Relationship Diagram:
           </p>
           <textarea ref={textAreaRef} readOnly={true} value={content}
-            className="textarea has-fixed-size is-small mb-1" rows={18} id="get-cypher-from-er" />
+            className="textarea has-fixed-size is-small mb-1" rows={18} id="cypher-from-er" />
           <p className="ta-j">
             If you have a local Neo4j instance running, you can run these queries straight from this page.
           </p>
