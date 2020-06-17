@@ -24,15 +24,15 @@ const erToCypher = (er: string): string => {
 
   for (const relationship of rel) {
     schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id),
-    `MATCH (n1)-[r:${relationship.id}]-(n2:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n1) DELETE r`
+    `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
     schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[1].id),
-    `MATCH (n1)-[r:${relationship.id}]-(n2:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n1) DELETE r`
+    `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
   )
 
     schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
-    `MATCH (n1)-[r:${relationship.id}]-(n2) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n1) AND NOT "${relationship.entities[1].id}" IN LABELS(n1) DELETE r`
+    `MATCH (n)-[r:${relationship.id}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
   }
 
