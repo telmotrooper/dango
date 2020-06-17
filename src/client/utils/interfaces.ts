@@ -1,18 +1,17 @@
 import { RefObject } from "react"
 
-interface GenericObject {
+export interface GenericObject {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [property: string]: any;
 }
 
-type Shape = "rectangle" | "triangle" | "doublecircle" | "circle" |"diamond";
+export type Shape = "rectangle" | "triangle" | "doublecircle" | "circle" |"diamond";
 
-interface RequestStore {
-  data: GenericObject | Array<unknown>;
-  loading: boolean;
-  error: string | null;
+export interface RequestStore {
+  data: GenericObject | Array<unknown>
+  loading: boolean
+  error: string | null
 }
 
-type TextArea = RefObject<HTMLTextAreaElement>;
-
-export { TextArea, GenericObject, RequestStore, Shape }
+export type TextArea = RefObject<HTMLTextAreaElement>
+export type Input = RefObject<HTMLInputElement>

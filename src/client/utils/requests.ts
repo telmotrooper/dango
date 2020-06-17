@@ -7,9 +7,10 @@ export const submitCode = (code: string): Promise<AxiosResponse> =>
     codebox: code,
   })
 
-export const getCypherFromER = (code: string): Promise<AxiosResponse> =>
+export const getCypherFromER = (code: string, strictMode: boolean): Promise<AxiosResponse> =>
   axios.post("/api/cypher-from-er", {
     er: code,
+    strictMode
   })
 
 export const testDatabaseConnection = async (): Promise<QueryResult> => {

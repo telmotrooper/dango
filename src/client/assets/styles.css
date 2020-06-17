@@ -1,3 +1,7 @@
+[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
 .notification-pos {
   right: 0;
   margin: auto;

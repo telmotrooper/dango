@@ -6,7 +6,7 @@ import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
-import { GenericObject, TextArea } from "./utils/interfaces"
+import { GenericObject, TextArea, Input } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 import { Graphviz } from "graphviz-react"
 import { Codebox } from "./Codebox"
@@ -52,9 +52,9 @@ const App = (): JSX.Element => {
     }
   }
 
-  const handleGetCypherFromER = (ref: TextArea) => async (): Promise<void> => {
-    if (ref.current) {
-      const res = await getCypherFromER(ref.current.value)
+  const handleGetCypherFromER = (textArea: TextArea, checkbox: Input) => async (): Promise<void> => {
+    if (textArea.current && checkbox.current) {
+      const res = await getCypherFromER(textArea.current.value, checkbox.current.checked)
       setCypherContent(res.data)
       setShowCypherModal(true)
     }
