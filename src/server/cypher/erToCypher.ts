@@ -23,12 +23,16 @@ const erToCypher = (er: string): string => {
   }
 
   for (const relationship of rel) {
-    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[1].id),
-      `MATCH (n)-[${relationship.id}]-(m:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DETACH DELETE n`
-    )
-
     schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id),
     `MATCH (n)-[${relationship.id}]-(m:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DETACH DELETE n`
+    )
+
+    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[1].id),
+    `MATCH (n)-[${relationship.id}]-(m:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DETACH DELETE n`
+  )
+
+    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
+    `MATCH (n)-[${relationship.id}]-(m) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DETACH DELETE n`
     )
   }
 
