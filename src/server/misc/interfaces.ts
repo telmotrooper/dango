@@ -33,3 +33,8 @@ export interface Spe {
   disjoint: boolean;
   entities: string[];
 }
+
+export interface Cardinality {
+  min: string,
+  max: string
+}

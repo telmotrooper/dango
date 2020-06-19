@@ -1,4 +1,4 @@
-import { ER } from "../misc/interfaces"
+import { ER, Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 
 export const getTriggerTemplate = (triggerName: string, statement: string): string =>
@@ -25,4 +25,13 @@ export const getStrictModeStatement = (entities: Array<string>): string => {
   filter += "\n" + "DETACH DELETE n"
 
   return filter
+}
+
+export const prepareCardinality = (cardinalities: string): Cardinality => {
+  const values = cardinalities.split(",")
+
+  return {
+    min: values[0],
+    max: values[1]
+  }
 }

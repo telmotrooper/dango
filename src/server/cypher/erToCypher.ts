@@ -1,6 +1,6 @@
 import { lower, upper } from "../../shared/removeAccents"
-import { ER } from "../misc/interfaces"
-import { getTriggerTemplate, getEntitiesList, getStrictModeStatement } from "./helpers"
+import { ER, Cardinality } from "../misc/interfaces"
+import { getTriggerTemplate, getEntitiesList, getStrictModeStatement, prepareCardinality } from "./helpers"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -29,6 +29,9 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const relationship of rel) {
+    const { entities } = relationship
+
+    // Appropriate labels
     schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id),
     `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
@@ -40,6 +43,22 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
     `MATCH (n)-[r:${relationship.id}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
+
+    // Cardinality
+    let c0: Cardinality = prepareCardinality(relationship.entities[0].cardinality)
+    let c1: Cardinality = prepareCardinality(relationship.entities[1].cardinality)
+
+    if (c0.min != "0") { // Must have at least one relationship
+      schema += getTriggerTemplate(lower(entities[1].id + " without " + entities[0].id),
+      `MATCH (n:${entities[1].id}) WHERE NOT (:${entities[0].id})-[:${relationship.id}]-(n) DETACH DELETE n`
+      )
+    }
+
+    if (c1.min != "0") { // Must have at least one relationship
+      schema += getTriggerTemplate(lower(entities[0].id + " without " + entities[1].id),
+      `MATCH (n:${entities[0].id}) WHERE NOT (:${entities[1].id})-[:${relationship.id}]-(n) DETACH DELETE n`
+      )
+    }
   }
 
   for (const associativeEntity of aent) {
