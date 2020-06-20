@@ -59,6 +59,22 @@ const erToCypher = (er: string, strictMode = true): string => {
       `MATCH (n:${entities[0].id}) WHERE NOT (:${entities[1].id})-[:${relationship.id}]-(n) DETACH DELETE n`
       )
     }
+
+
+    /* The following triggers have an acceptable behavior, but it will work a lot better
+     * if we find a way to remove the newer relationships instead of the nodes themselves. */
+
+    if(c0.max == "1") { // Must not have more than one relationship
+      schema += getTriggerTemplate(lower(entities[1].id + " with more than 1 " + entities[0].id),
+      `MATCH (n:${entities[1].id}) WHERE (:${entities[0].id})-[:${relationship.id}]-(n)-[:${relationship.id}]-(:${entities[0].id}) DETACH DELETE n`
+      )
+    }
+
+    if(c1.max == "1") { // Must not have more than one relationship
+      schema += getTriggerTemplate(lower(entities[0].id + " with more than 1 " + entities[1].id),
+      `MATCH (n:${entities[0].id}) WHERE (:${entities[1].id})-[:${relationship.id}]-(n)-[:${relationship.id}]-(:${entities[1].id}) DETACH DELETE n`
+      )
+    }
   }
 
   for (const associativeEntity of aent) {
