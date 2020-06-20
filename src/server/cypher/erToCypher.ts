@@ -66,13 +66,21 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     if(c0.max == "1") { // Must not have more than one relationship
       schema += getTriggerTemplate(lower(entities[1].id + " with more than 1 " + entities[0].id),
-      `MATCH (n:${entities[1].id}) WHERE (:${entities[0].id})-[:${relationship.id}]-(n)-[:${relationship.id}]-(:${entities[0].id}) DETACH DELETE n`
+      `MATCH (:${entities[1].id})-[r:${relationship.id}]->(h:${entities[0].id})
+      WITH r, h ORDER BY id(r)
+      WITH h, COLLECT(r) AS rs
+      WHERE SIZE(rs) > 1
+      FOREACH (r IN rs[1..] | DELETE r)`
       )
     }
 
     if(c1.max == "1") { // Must not have more than one relationship
       schema += getTriggerTemplate(lower(entities[0].id + " with more than 1 " + entities[1].id),
-      `MATCH (n:${entities[0].id}) WHERE (:${entities[1].id})-[:${relationship.id}]-(n)-[:${relationship.id}]-(:${entities[1].id}) DETACH DELETE n`
+      `MATCH (:${entities[0].id})-[r:${relationship.id}]->(h:${entities[1].id})
+      WITH r, h ORDER BY id(r)
+      WITH h, COLLECT(r) AS rs
+      WHERE SIZE(rs) > 1
+      FOREACH (r IN rs[1..] | DELETE r)`      
       )
     }
   }
