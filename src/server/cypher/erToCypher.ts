@@ -1,6 +1,6 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
-import { getTriggerTemplate, getEntitiesAsList, prepareCardinality } from "./helpers"
+import { getTriggerTemplate, getEntitiesAsList, extractCardinality } from "./helpers"
 import { getStrictModeStatement } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
@@ -46,8 +46,8 @@ const erToCypher = (er: string, strictMode = true): string => {
     )
 
     // Cardinality
-    const c0: Cardinality = prepareCardinality(relationship.entities[0].cardinality)
-    const c1: Cardinality = prepareCardinality(relationship.entities[1].cardinality)
+    const c0: Cardinality = extractCardinality(relationship.entities[0].cardinality)
+    const c1: Cardinality = extractCardinality(relationship.entities[1].cardinality)
 
     if (c0.min != "0") { // Must have at least one relationship
       schema += getTriggerTemplate(lower(entities[1].id + " without " + entities[0].id),

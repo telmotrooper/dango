@@ -1,20 +1,30 @@
 import { ER, Cardinality } from "../misc/interfaces"
+import { indentation } from "../../shared/constants"
 
-export const getTriggerTemplate = (triggerName: string, statement: string): string =>
- `CALL apoc.trigger.add('${triggerName}', ` +
+export const getTriggerTemplate = (triggerName: string, statement: string): string => {
+  const statementLines = statement.split("\n")
+
+  for (let i = 0; i < statementLines.length; i++) {
+    statementLines[i] = indentation + statementLines[i]
+  }
+
+  statement = statementLines.join("\n")
+
+  return `CALL apoc.trigger.add('${triggerName}', ` +
   `'CALL apoc.periodic.submit("${triggerName}", \\'` + "\n" +
-  `    ` + statement + "\n" +
+  statement + "\n" +
   `\\')', {phase: 'after'});\n`
+}
 
-// This method will probably also return associative entities in the future.
+// Note: This method might also return associative entities in the future.
 export const getEntitiesAsList = (er: ER): Array<string> => {
   const { ent: entities } = er
 
   return entities.map(entity => entity.id)
 }
 
-export const prepareCardinality = (cardinalities: string): Cardinality => {
-  const values = cardinalities.split(",")
+export const extractCardinality = (text: string): Cardinality => {
+  const values = text.split(",")
 
   return {
     min: values[0],
