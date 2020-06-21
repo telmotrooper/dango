@@ -13,6 +13,7 @@ import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { Engine } from "d3-graphviz"
+import { ErrorBoundary } from "./ErrorBoundary"
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ] = useState(false)
@@ -99,15 +100,17 @@ const App = (): JSX.Element => {
               setEngine={setEngine}
             />
             <section id="vis" className="column vis">
-              <Graphviz
-                options={{
-                  engine,
-                  zoom: true,
-                  height: ("100%" as unknown as number),
-                  width: ("100%" as unknown as number)
-                }}
-                dot={diagram || `graph G {}`}
-              />
+              <ErrorBoundary>
+                <Graphviz
+                  options={{
+                    engine,
+                    zoom: true,
+                    height: ("100%" as unknown as number),
+                    width: ("100%" as unknown as number)
+                  }}
+                  dot={diagram || `graph G {}`}
+                />
+              </ErrorBoundary>
             </section>
           </div>
         </div>
