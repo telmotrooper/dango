@@ -71,14 +71,10 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const associativeEntity of aent) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { attributes, id } = associativeEntity
 
     // Relationship property existence constraint
     for (const attribute of attributes) {
-      // schema += `CREATE CONSTRAINT ON (${lower(ent1.id)[0]}:${ent1.id})` +
-      // `-[${lower(id)[0]}:${upper(id)}]-(${lower(ent2.id)[0]}:${ent2.id})` +
-      // ` ASSERT exists(${lower(id)[0]}.${item})\n`
       schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${upper(id)}]-() ASSERT exists(${lower(id)[0]}.${attribute});\n`
     }
   }
