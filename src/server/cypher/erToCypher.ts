@@ -1,7 +1,7 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
 import { generateTrigger, getEntitiesAsList, extractCardinality } from "./helpers"
-import { generateStrictModeTrigger } from "./statements"
+import { generateStrictModeTrigger, generateMaxCardinality1Trigger } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -61,28 +61,12 @@ const erToCypher = (er: string, strictMode = true): string => {
       )
     }
 
-
-    /* The following triggers have an acceptable behavior, but it will work a lot better
-     * if we find a way to remove the newer relationships instead of the nodes themselves. */
-
     if(c0.max == "1") { // Must not have more than one relationship
-      schema += generateTrigger(lower(entities[1].id + " with more than 1 " + entities[0].id),
-      `MATCH (:${entities[1].id})-[r:${relationship.id}]->(h:${entities[0].id})
-      WITH r, h ORDER BY id(r)
-      WITH h, COLLECT(r) AS rs
-      WHERE SIZE(rs) > 1
-      FOREACH (r IN rs[1..] | DELETE r)`
-      )
+      schema += generateMaxCardinality1Trigger(entities[1].id, entities[0].id, relationship.id)
     }
 
     if(c1.max == "1") { // Must not have more than one relationship
-      schema += generateTrigger(lower(entities[0].id + " with more than 1 " + entities[1].id),
-      `MATCH (:${entities[0].id})-[r:${relationship.id}]->(h:${entities[1].id})
-      WITH r, h ORDER BY id(r)
-      WITH h, COLLECT(r) AS rs
-      WHERE SIZE(rs) > 1
-      FOREACH (r IN rs[1..] | DELETE r)`      
-      )
+      schema += generateMaxCardinality1Trigger(entities[0].id, entities[1].id, relationship.id)
     }
   }
 
