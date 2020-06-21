@@ -1,7 +1,7 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
 import { generateTrigger, getEntitiesAsList, extractCardinality } from "./helpers"
-import { generateStrictModeTrigger, generateMaxCardinality1Trigger } from "./statements"
+import { generateStrictModeTrigger, generateMaxCardinality1Trigger, generateMinCardinality1Trigger } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -49,25 +49,11 @@ const erToCypher = (er: string, strictMode = true): string => {
     const c0: Cardinality = extractCardinality(relationship.entities[0].cardinality)
     const c1: Cardinality = extractCardinality(relationship.entities[1].cardinality)
 
-    if (c0.min != "0") { // Must have at least one relationship
-      schema += generateTrigger(lower(entities[1].id + " without " + entities[0].id),
-      `MATCH (n:${entities[1].id}) WHERE NOT (:${entities[0].id})-[:${relationship.id}]-(n) DETACH DELETE n`
-      )
-    }
+    if (c0.min != "0") { schema += generateMinCardinality1Trigger(entities[1].id, entities[0].id, relationship.id) }
+    if (c1.min != "0") { schema += generateMinCardinality1Trigger(entities[0].id, entities[1].id, relationship.id) }
 
-    if (c1.min != "0") { // Must have at least one relationship
-      schema += generateTrigger(lower(entities[0].id + " without " + entities[1].id),
-      `MATCH (n:${entities[0].id}) WHERE NOT (:${entities[1].id})-[:${relationship.id}]-(n) DETACH DELETE n`
-      )
-    }
-
-    if(c0.max == "1") { // Must not have more than one relationship
-      schema += generateMaxCardinality1Trigger(entities[1].id, entities[0].id, relationship.id)
-    }
-
-    if(c1.max == "1") { // Must not have more than one relationship
-      schema += generateMaxCardinality1Trigger(entities[0].id, entities[1].id, relationship.id)
-    }
+    if(c0.max == "1") { schema += generateMaxCardinality1Trigger(entities[1].id, entities[0].id, relationship.id) }
+    if(c1.max == "1") { schema += generateMaxCardinality1Trigger(entities[0].id, entities[1].id, relationship.id) }
   }
 
   for (const associativeEntity of aent) {

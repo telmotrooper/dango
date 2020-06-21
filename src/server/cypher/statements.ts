@@ -16,10 +16,18 @@ export const generateStrictModeTrigger = (entities: Array<string>): string => {
 }
 
 export const generateMaxCardinality1Trigger = (entity1: string, entity2: string, relationship: string): string => {
+  // Must not have more than one relationship
   const statement = `MATCH (:${entity1})-[r:${relationship}]->(h:${entity2})
   WITH h, COLLECT(r) AS rs
   WHERE SIZE(rs) > 1
   FOREACH (r IN rs[1..] | DELETE r)`
 
   return generateTrigger(lower(entity1 + " with more than 1 " + entity2), statement)
+}
+
+export const generateMinCardinality1Trigger = (entity1: string, entity2: string, relationship: string): string => {
+  // Must have at least one relationship
+  const statement = `MATCH (n:${entity1}) WHERE NOT (:${entity2})-[:${relationship}]-(n) DETACH DELETE n`
+
+  return generateTrigger(lower(entity1 + " without " + entity2), statement)
 }
