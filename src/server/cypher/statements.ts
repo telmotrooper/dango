@@ -1,14 +1,15 @@
 import { indentation } from "../../shared/constants"
+import { generateTrigger } from "./helpers"
 
-export const getStrictModeStatement = (entities: Array<string>): string => {
-  let filter = "MATCH (n) WHERE" + "\n"
+export const generateStrictModeTrigger = (entities: Array<string>): string => {
+  let statement = "MATCH (n) WHERE" + "\n"
   
   for (const entity of entities) {
-    filter += indentation + `NOT "${entity}" IN LABELS(n) AND` + "\n"
+    statement += indentation + `NOT "${entity}" IN LABELS(n) AND` + "\n"
   }
 
-  filter = filter.substr(0, filter.length-4)
-  filter += "\n" + "DETACH DELETE n"
+  statement = statement.substr(0, statement.length-4)
+  statement += "\n" + "DETACH DELETE n"
 
-  return filter
+  return generateTrigger("strict mode", statement)
 }

@@ -1,7 +1,7 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
-import { getTriggerTemplate, getEntitiesAsList, extractCardinality } from "./helpers"
-import { getStrictModeStatement } from "./statements"
+import { generateTrigger, getEntitiesAsList, extractCardinality } from "./helpers"
+import { generateStrictModeTrigger } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -9,10 +9,10 @@ const erToCypher = (er: string, strictMode = true): string => {
   const { ent, rel, aent, spe } = erCode
   let schema = ""
 
+  const entities = getEntitiesAsList(erCode)
+
   if (strictMode) {
-    const entities = getEntitiesAsList(erCode)
-    const statement = getStrictModeStatement(entities) 
-    schema += getTriggerTemplate("strict mode", statement)
+    schema += generateStrictModeTrigger(entities) 
   }
 
   for (const entity of ent) {
@@ -33,15 +33,15 @@ const erToCypher = (er: string, strictMode = true): string => {
     const { entities } = relationship
 
     // Appropriate labels
-    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id),
+    schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id),
     `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
-    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[1].id),
+    schema += generateTrigger(lower(relationship.id + " " + relationship.entities[1].id),
     `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
   )
 
-    schema += getTriggerTemplate(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
+    schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
     `MATCH (n)-[r:${relationship.id}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
 
@@ -50,13 +50,13 @@ const erToCypher = (er: string, strictMode = true): string => {
     const c1: Cardinality = extractCardinality(relationship.entities[1].cardinality)
 
     if (c0.min != "0") { // Must have at least one relationship
-      schema += getTriggerTemplate(lower(entities[1].id + " without " + entities[0].id),
+      schema += generateTrigger(lower(entities[1].id + " without " + entities[0].id),
       `MATCH (n:${entities[1].id}) WHERE NOT (:${entities[0].id})-[:${relationship.id}]-(n) DETACH DELETE n`
       )
     }
 
     if (c1.min != "0") { // Must have at least one relationship
-      schema += getTriggerTemplate(lower(entities[0].id + " without " + entities[1].id),
+      schema += generateTrigger(lower(entities[0].id + " without " + entities[1].id),
       `MATCH (n:${entities[0].id}) WHERE NOT (:${entities[1].id})-[:${relationship.id}]-(n) DETACH DELETE n`
       )
     }
@@ -66,7 +66,7 @@ const erToCypher = (er: string, strictMode = true): string => {
      * if we find a way to remove the newer relationships instead of the nodes themselves. */
 
     if(c0.max == "1") { // Must not have more than one relationship
-      schema += getTriggerTemplate(lower(entities[1].id + " with more than 1 " + entities[0].id),
+      schema += generateTrigger(lower(entities[1].id + " with more than 1 " + entities[0].id),
       `MATCH (:${entities[1].id})-[r:${relationship.id}]->(h:${entities[0].id})
       WITH r, h ORDER BY id(r)
       WITH h, COLLECT(r) AS rs
@@ -76,7 +76,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     }
 
     if(c1.max == "1") { // Must not have more than one relationship
-      schema += getTriggerTemplate(lower(entities[0].id + " with more than 1 " + entities[1].id),
+      schema += generateTrigger(lower(entities[0].id + " with more than 1 " + entities[1].id),
       `MATCH (:${entities[0].id})-[r:${relationship.id}]->(h:${entities[1].id})
       WITH r, h ORDER BY id(r)
       WITH h, COLLECT(r) AS rs

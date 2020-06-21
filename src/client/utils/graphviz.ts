@@ -223,7 +223,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  console.debug(diagram)
+  // console.log(diagram)
 
   return diagram
 }

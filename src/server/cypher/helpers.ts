@@ -1,7 +1,7 @@
 import { ER, Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 
-export const getTriggerTemplate = (triggerName: string, statement: string): string => {
+export const generateTrigger = (triggerName: string, statement: string): string => {
   const statementLines = statement.split("\n")
 
   for (let i = 0; i < statementLines.length; i++) {
