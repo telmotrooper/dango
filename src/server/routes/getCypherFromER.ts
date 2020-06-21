@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express"
 
-import erToCypher from "../cypher/erToCypher"
+import { erToCypher } from "../cypher/erToCypher"
 
 const router: Router = Router()
 

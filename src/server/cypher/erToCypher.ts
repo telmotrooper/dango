@@ -68,4 +68,4 @@ const erToCypher = (er: string, strictMode = true): string => {
   return schema
 }
 
-export default erToCypher
+export { erToCypher }
