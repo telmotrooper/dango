@@ -1,6 +1,7 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
-import { getTriggerTemplate, getEntitiesList, getStrictModeStatement, prepareCardinality } from "./helpers"
+import { getTriggerTemplate, getEntitiesAsList, prepareCardinality } from "./helpers"
+import { getStrictModeStatement } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -9,7 +10,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   let schema = ""
 
   if (strictMode) {
-    const entities = getEntitiesList(erCode)
+    const entities = getEntitiesAsList(erCode)
     const statement = getStrictModeStatement(entities) 
     schema += getTriggerTemplate("strict mode", statement)
   }
