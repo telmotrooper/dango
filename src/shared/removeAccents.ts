@@ -3,7 +3,10 @@ const removeAccents = (text: string): string => {
 }
 
 const lower = (text: string): string => {
-  const temp = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  let temp = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+  temp = temp.replace("-", "_") // Character "-" can't be used in Graphviz labels.
+
   return temp.toLowerCase()
 }
 
