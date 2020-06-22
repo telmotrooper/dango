@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // Source: https://reactjs.org/docs/error-boundaries.html#introducing-error-boundaries
 
 import React, { Component, ErrorInfo } from "react"
 
-interface Props {
-  diagram: string
-}
+interface Props { }
 
 interface State {
   hasError: boolean
