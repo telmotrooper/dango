@@ -20,10 +20,11 @@ const App = (): JSX.Element => {
   const [ showHelpModal  , setShowHelpModal   ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
   const [ showCypherModal, setShowCypherModal ] = useState(false)
+  const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
   const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
   const [ parserContent,   _setParserContent ] = useState("")
   const [ cypherContent,   setCypherContent ] = useState("")
-  const [ diagram, setDiagram ] = useState("")
+  const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
   const [ engine, setEngine ] = useState<Engine>("dot")
 
@@ -34,6 +35,12 @@ const App = (): JSX.Element => {
       setDatabaseReady(driver != null)
     }
   }, [])
+
+
+  const setDiagram = (text: string) => {
+    _setDiagram(text)
+    setErrorBoundaryKey(errorBoundaryKey + 1) // This allows us to reattempt to render after a Graphviz error.
+  }
 
   const setParserContent = (json: GenericObject): void => {
     const text = JSON.stringify(json, null, 2)
@@ -100,7 +107,7 @@ const App = (): JSX.Element => {
               setEngine={setEngine}
             />
             <section id="vis" className="column vis">
-              <ErrorBoundary>
+              <ErrorBoundary key={errorBoundaryKey}>
                 <Graphviz
                   options={{
                     engine,
