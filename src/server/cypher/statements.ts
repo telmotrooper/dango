@@ -2,8 +2,11 @@ import { indentation } from "../../shared/constants"
 import { generateTrigger } from "./helpers"
 import { lower, normalizeLabel } from "../../shared/removeAccents"
 
-export const generateStrictModeTrigger = (entities: Array<string>): string => {
-  let statement = "MATCH (n) WHERE" + "\n"
+export const generateStrictModeTrigger = (entities: Array<string>, label = ""): string => {
+  if (label != "") {
+    label = ":" + label // If there is a label, prepend it with ":"
+  }
+  let statement = `MATCH (n${label}) WHERE` + "\n"
   
   for (const entity of entities) {
     statement += indentation + `NOT "${entity}" IN LABELS(n) AND` + "\n"
@@ -12,7 +15,9 @@ export const generateStrictModeTrigger = (entities: Array<string>): string => {
   statement = statement.substr(0, statement.length-4)
   statement += "\n" + "DETACH DELETE n"
 
-  return generateTrigger("strict mode", statement)
+  const triggerLabel = label == "" ? "strict mode" : lower(label.substr(1, label.length)) + " completeness"
+
+  return generateTrigger(triggerLabel, statement)
 }
 
 export const generateMaxCardinality1Trigger = (entity1: string, entity2: string, relationship: string): string => {
@@ -44,4 +49,8 @@ export const generateDisjointednessTrigger = (parent: string, entities: Array<st
   const statement = `MATCH (n:${labels}) DETACH DELETE n`
 
   return generateTrigger(lower(parent + " disjointedness"), statement)
+}
+
+export const generateCompletenessTrigger = (parent: string, entities: Array<string>): string => {
+  return generateStrictModeTrigger(entities, parent)
 }
