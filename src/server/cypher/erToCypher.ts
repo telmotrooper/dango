@@ -1,11 +1,10 @@
 import { lower, upper } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
 import { generateTrigger, getEntitiesAsList, extractCardinality } from "./helpers"
-import { generateStrictModeTrigger, generateMaxCardinality1Trigger, generateMinCardinality1Trigger } from "./statements"
+import { generateStrictModeTrigger, generateMaxCardinality1Trigger, generateMinCardinality1Trigger, generateDisjointednessTrigger } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { ent, rel, aent, spe } = erCode
   let schema = ""
 
@@ -62,6 +61,12 @@ const erToCypher = (er: string, strictMode = true): string => {
     // Relationship property existence constraint
     for (const attribute of attributes) {
       schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${upper(id)}]-() ASSERT exists(${lower(id)[0]}.${attribute});\n`
+    }
+  }
+
+  for (const specialization of spe) {
+    if (specialization.disjoint) {
+      schema += generateDisjointednessTrigger(specialization.id, specialization.entities)
     }
   }
 
