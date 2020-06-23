@@ -31,3 +31,17 @@ export const generateMinCardinality1Trigger = (entity1: string, entity2: string,
 
   return generateTrigger(lower(entity1 + " without " + entity2), statement)
 }
+
+export const generateDisjointednessTrigger = (parent: string, entities: Array<string>): string => {
+  let labels = ""
+
+  for(const entity of entities) {
+    labels += entity + ":"
+  }
+
+  labels = labels.substr(0, labels.length-1) // Remove the last ":"
+
+  const statement = `MATCH (n:${labels}) DETACH DELETE n`
+
+  return generateTrigger(lower(parent + " disjointedness"), statement)
+}
