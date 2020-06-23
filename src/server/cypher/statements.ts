@@ -1,6 +1,6 @@
 import { indentation } from "../../shared/constants"
 import { generateTrigger } from "./helpers"
-import { lower } from "../../shared/removeAccents"
+import { lower, normalizeLabel } from "../../shared/removeAccents"
 
 export const generateStrictModeTrigger = (entities: Array<string>): string => {
   let statement = "MATCH (n) WHERE" + "\n"
@@ -17,7 +17,7 @@ export const generateStrictModeTrigger = (entities: Array<string>): string => {
 
 export const generateMaxCardinality1Trigger = (entity1: string, entity2: string, relationship: string): string => {
   // Must not have more than one relationship
-  const statement = `MATCH (:${entity1})-[r:${relationship}]->(h:${entity2})
+  const statement = `MATCH (:${normalizeLabel(entity1)})-[r:${normalizeLabel(relationship)}]->(h:${normalizeLabel(entity2)})
   WITH h, COLLECT(r) AS rs
   WHERE SIZE(rs) > 1
   FOREACH (r IN rs[1..] | DELETE r)`
@@ -27,7 +27,7 @@ export const generateMaxCardinality1Trigger = (entity1: string, entity2: string,
 
 export const generateMinCardinality1Trigger = (entity1: string, entity2: string, relationship: string): string => {
   // Must have at least one relationship
-  const statement = `MATCH (n:${entity1}) WHERE NOT (:${entity2})-[:${relationship}]-(n) DETACH DELETE n`
+  const statement = `MATCH (n:${entity1}) WHERE NOT (:${normalizeLabel(entity2)})-[:${normalizeLabel(relationship)}]-(n) DETACH DELETE n`
 
   return generateTrigger(lower(entity1 + " without " + entity2), statement)
 }
@@ -36,7 +36,7 @@ export const generateDisjointednessTrigger = (parent: string, entities: Array<st
   let labels = ""
 
   for(const entity of entities) {
-    labels += entity + ":"
+    labels += normalizeLabel(entity) + ":"
   }
 
   labels = labels.substr(0, labels.length-1) // Remove the last ":"

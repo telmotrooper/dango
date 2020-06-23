@@ -1,4 +1,4 @@
-import { lower, upper } from "../../shared/removeAccents"
+import { lower, normalizeLabel } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
 import { generateTrigger, getEntitiesAsList, extractCardinality } from "./helpers"
 import { generateStrictModeTrigger, generateMaxCardinality1Trigger, generateMinCardinality1Trigger, generateDisjointednessTrigger } from "./statements"
@@ -19,12 +19,12 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     // Node property existence constraints
     for (const item of attributes) {
-      schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${id}) ASSERT exists(${lower(id)[0]}.${item});\n`
+      schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalizeLabel(id)}) ASSERT exists(${lower(id)[0]}.${item});\n`
     }
 
     // Unique node constraints
     for (const item of pk) {
-      schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${id}) ASSERT (${lower(id)[0]}.${item}) IS UNIQUE;\n`
+      schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalizeLabel(id)}) ASSERT (${lower(id)[0]}.${item}) IS UNIQUE;\n`
     }
   }
 
@@ -33,15 +33,15 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     // Appropriate labels
     schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id),
-    `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[1].id}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
+    `MATCH (n)-[r:${normalizeLabel(relationship.id)}]-(:${normalizeLabel(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
     schema += generateTrigger(lower(relationship.id + " " + relationship.entities[1].id),
-    `MATCH (n)-[r:${relationship.id}]-(:${relationship.entities[0].id}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+    `MATCH (n)-[r:${normalizeLabel(relationship.id)}]-(:${normalizeLabel(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
   )
 
     schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
-    `MATCH (n)-[r:${relationship.id}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+    `MATCH (n)-[r:${normalizeLabel(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
 
     // Cardinality
@@ -60,7 +60,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     // Relationship property existence constraint
     for (const attribute of attributes) {
-      schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${upper(id)}]-() ASSERT exists(${lower(id)[0]}.${attribute});\n`
+      schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${normalizeLabel(id)}]-() ASSERT exists(${lower(id)[0]}.${attribute});\n`
     }
   }
 
