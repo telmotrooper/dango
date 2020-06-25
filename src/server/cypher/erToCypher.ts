@@ -48,8 +48,8 @@ const erToCypher = (er: string, strictMode = true): string => {
     const c0: Cardinality = extractCardinality(relationship.entities[0].cardinality)
     const c1: Cardinality = extractCardinality(relationship.entities[1].cardinality)
 
-    if (c0.min != "0") { schema += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id) }
-    if (c1.min != "0") { schema += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationship.id) }
+    if (c0.min != "0") { schema += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.min) }
+    if (c1.min != "0") { schema += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.min) }
 
     if(c0.max != "n") { schema += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.max) }
     if(c1.max != "n") { schema += generateMaxCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.max) }
