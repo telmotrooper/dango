@@ -22,8 +22,8 @@ export const generateStrictModeTrigger = (entities: Array<string>, label = ""): 
 
 export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, relationship: string, cardinality = "1"): string => {
   // Must not have more than one relationship
-  const statement = `MATCH (:${normalizeLabel(entity1)})-[r:${normalizeLabel(relationship)}]->(h:${normalizeLabel(entity2)})
-  WITH h, COLLECT(r) AS rs
+  const statement = `MATCH (n:${normalizeLabel(entity1)})-[r:${normalizeLabel(relationship)}]-(${normalizeLabel(entity2)})
+  WITH n, COLLECT(r) AS rs
   WHERE SIZE(rs) > ${cardinality}
   FOREACH (r IN rs[${cardinality}..] | DELETE r)`
 
