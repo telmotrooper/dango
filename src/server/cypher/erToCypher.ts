@@ -1,7 +1,8 @@
 import { lower, normalizeLabel } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
 import { generateTrigger, getEntitiesAsList, extractCardinality } from "./helpers"
-import { generateStrictModeTrigger, generateMaxCardinalityTrigger, generateMinCardinalityTrigger, generateDisjointednessTrigger, generateCompletenessTrigger } from "./statements"
+import { generateStrictModeTrigger, generateMaxCardinalityTrigger, generateMinCardinalityTrigger,
+  generateDisjointednessTrigger, generateCompletenessTrigger, generateChildrenTrigger } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -65,6 +66,8 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const specialization of spe) {
+    schema += generateChildrenTrigger(specialization.id, specialization.entities)
+
     if (specialization.disjoint) {
       schema += generateDisjointednessTrigger(specialization.id, specialization.entities)
     }
