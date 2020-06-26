@@ -1,5 +1,5 @@
 import { indentation } from "../../shared/constants"
-import { generateTrigger } from "./helpers"
+import { generateTrigger, getTwoByTwoCombinations } from "./helpers"
 import { lower, normalizeLabel } from "../../shared/removeAccents"
 
 export const generateStrictModeTrigger = (entities: Array<string>, label = ""): string => {
@@ -46,15 +46,16 @@ export const generateMinCardinalityTrigger = (entity1: string, entity2: string, 
 }
 
 export const generateDisjointednessTrigger = (parent: string, entities: Array<string>): string => {
-  let labels = ""
+  let statement = "MATCH (n) WHERE" + "\n"
 
-  for(const entity of entities) {
-    labels += normalizeLabel(entity) + ":"
+  const combinations = getTwoByTwoCombinations(entities)
+
+  for (const combination of combinations) {
+    statement += indentation + `("${combination[0]}" IN LABELS(n) AND "${combination[1]}" IN LABELS(n)) OR` + "\n"
   }
 
-  labels = labels.substr(0, labels.length-1) // Remove the last ":"
-
-  const statement = `MATCH (n:${labels}) DETACH DELETE n`
+  statement = statement.substr(0, statement.length-4)
+  statement += "\n" + "DETACH DELETE n"
 
   return generateTrigger(lower(parent + " disjointedness"), statement)
 }
