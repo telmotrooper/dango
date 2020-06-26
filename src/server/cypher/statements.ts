@@ -67,14 +67,18 @@ export const generateCompletenessTrigger = (parent: string, entities: Array<stri
 export const generateChildrenTrigger = (parent: string, entities: Array<string>): string => {
   let statement = `MATCH (n) WHERE` + "\n" + indentation + "("
   
-  for (const entity of entities) {
-    statement += indentation + `"${entity}" IN LABELS(n) OR` + "\n"
+  for(let i = 0; i < entities.length; i++) {
+    if (i != 0) {
+      statement += indentation
+    }
+    statement += `"${entities[i]}" IN LABELS(n) OR` + "\n"
+
   }
 
   statement = statement.substr(0, statement.length-4)
 
   statement += ") AND" + "\n"
-  statement += `NOT "${parent}" IN LABELS(n)`
+  statement += indentation + `NOT "${parent}" IN LABELS(n)`
   statement += "\n" + "DETACH DELETE n"
 
   return generateTrigger(`${lower(parent)} children`, statement)
