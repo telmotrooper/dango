@@ -31,3 +31,24 @@ export const extractCardinality = (text: string): Cardinality => {
     max: values[1]
   }
 }
+
+export const getTwoByTwoCombinations = (labels: Array<string>): Array<Array<string>> => {
+  const combinations: Array<Array<string>> = []
+  
+  let j = 0
+
+  for (let i = 0; i < labels.length; i++) {
+    while (j < labels.length) {
+      if (i != j) {
+        combinations.push([labels[i], labels[j]])
+      }
+
+      j++
+    }
+    j = 0
+  }
+
+  console.log(combinations)
+  
+  return combinations
+}
