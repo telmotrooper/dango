@@ -42,7 +42,7 @@ export const generateMinCardinalityTrigger = (entity1: string, entity2: string, 
     DETACH DELETE n`
   }
 
-  return generateTrigger(lower(entity1 + " without " + entity2), statement)
+  return generateTrigger(lower(entity1 + ` with less than ${minCardinality} ` + entity2), statement)
 }
 
 export const generateDisjointednessTrigger = (parent: string, entities: Array<string>): string => {
