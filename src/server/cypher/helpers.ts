@@ -35,9 +35,9 @@ export const extractCardinality = (text: string): Cardinality => {
 export const getTwoByTwoCombinations = (labels: Array<string>): Array<Array<string>> => {
   const combinations: Array<Array<string>> = []
   
-  let j = 0
-
   for (let i = 0; i < labels.length; i++) {
+    let j = i
+
     while (j < labels.length) {
       if (i != j) {
         combinations.push([labels[i], labels[j]])
@@ -45,10 +45,7 @@ export const getTwoByTwoCombinations = (labels: Array<string>): Array<Array<stri
 
       j++
     }
-    j = 0
   }
-
-  console.log(combinations)
   
   return combinations
 }
