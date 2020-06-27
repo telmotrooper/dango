@@ -6,8 +6,8 @@ import express from "express"
 import morgan from "morgan"
 
 import { normalizePort } from "./misc/normalizePort"
-import { ERCode } from "./routes/erCode"
-import { GetCypherFromER } from "./routes/getCypherFromER"
+import { erToJSON } from "./routes/erToJSON"
+import { jsonToCypher } from "./routes/jsonToCypher"
 import { bold, blue } from "./misc/consoleUtils"
 import { typeCheck, lintCheck } from "./misc/codeChecks"
 
@@ -36,8 +36,8 @@ app.use(morgan("tiny"))
 app.use(express.json())
 
 // Routes
-app.use("/api/er-code", ERCode)
-app.use("/api/cypher-from-er", GetCypherFromER)
+app.use("/api/er-to-json", erToJSON)
+app.use("/api/json-to-cypher", jsonToCypher)
 app.use("/", bundler.middleware())
 
 // Set port and start listening to it

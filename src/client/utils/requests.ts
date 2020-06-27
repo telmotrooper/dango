@@ -3,12 +3,12 @@ import { driver } from "./neo4j"
 import { QueryResult } from "neo4j-driver"
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
-  axios.post("/api/er-code", {
+  axios.post("/api/er-to-json", {
     codebox: code,
   })
 
 export const getCypherFromER = (code: string, strictMode: boolean): Promise<AxiosResponse> =>
-  axios.post("/api/cypher-from-er", {
+  axios.post("/api/json-to-cypher", {
     er: code,
     strictMode
   })

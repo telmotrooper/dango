@@ -11,4 +11,4 @@ router.post("/", (req: Request, res: Response) => {
   res.json(er)
 })
 
-export const ERCode = router
+export const erToJSON = router
