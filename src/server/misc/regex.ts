@@ -12,8 +12,7 @@ export const allBetweenCurlyBrackets = /[^{]+(?=})/
 
 export const allButWhitespace = /(\S)+/gi
 
-// Matches "ent", but not "aent"
-export const allFromEntUpToClosingCurlyBrackets = /(?:^|[^a])(?=(ent ))[^}]+}/gi
-
+/* Word boundary (\b) prevents "aent" from being matched by "ent" and it also prevents
+ * issues when a protected word are used as part of an entity title, e.g. "ent appointment". */
 export const allFromTextUpToClosingCurlyBrackets = (text: string): RegExp =>
-  new RegExp(`(?=(${text} ))[^}]+}`, "gi")
+  new RegExp(`(?=(\\b${text} ))[^}]+}`, "gi")
