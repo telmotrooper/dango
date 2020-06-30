@@ -5,6 +5,7 @@ import { submitCode } from "./utils/requests"
 import { convertER } from "./utils/graphviz"
 import { Engine } from "d3-graphviz"
 import { example } from "./utils/example"
+import { toast } from "react-toastify"
 
 interface Props {
   textAreaRef: TextArea;
@@ -31,6 +32,10 @@ const Codebox = React.memo((props: Props) => {
 
           } else {
             const res = await submitCode(debouncedCode)
+
+            if(res.data?.warning) {
+              toast(res.data.warning)
+            }
 
             // Convert ER to Graphviz and update diagram
             handleUpdate(convertER(res.data))

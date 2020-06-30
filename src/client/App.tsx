@@ -1,5 +1,10 @@
 import React, { createRef, Fragment, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
+import { Graphviz } from "graphviz-react"
+import { Engine } from "d3-graphviz"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { HelpModal } from "./modals/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
@@ -8,11 +13,9 @@ import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
 import { GenericObject, TextArea, Input } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
-import { Graphviz } from "graphviz-react"
 import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
-import { Engine } from "d3-graphviz"
 import { ErrorBoundary } from "./ErrorBoundary"
 
 const App = (): JSX.Element => {
@@ -72,11 +75,17 @@ const App = (): JSX.Element => {
     <Fragment>
       <section className="section">
         <div className="container is-fluid">
-
-          {/* <div className="notification is-warning floating notification-pos">
-            <button className="delete"></button>
-            Unable to reach server...
-          </div> */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover={false}
+          />
 
           <Header />
       
