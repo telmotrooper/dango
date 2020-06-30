@@ -36,6 +36,8 @@ const Codebox = React.memo((props: Props) => {
 
             if(res.data?.warning) {
               toast(res.data.warning)
+            } else {
+              toast.dismiss()
             }
 
             // Convert ER to Graphviz and update diagram

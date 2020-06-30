@@ -82,9 +82,10 @@ const App = (): JSX.Element => {
             newestOnTop={false}
             closeOnClick={false}
             rtl={false}
-            pauseOnFocusLoss
+            pauseOnFocusLoss={true}
             draggable={false}
             pauseOnHover={false}
+            closeButton={false}
           />
 
           <Header />
