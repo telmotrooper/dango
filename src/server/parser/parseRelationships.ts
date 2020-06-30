@@ -1,7 +1,7 @@
-import { Rel } from "../misc/interfaces"
+import { Rel, ER } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
 
-const parseRelationships = (rawRelationships: string[]): Rel[] => {
+const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
   const relationships: Rel[] = []
 
   for (const rel of rawRelationships) {
@@ -9,6 +9,8 @@ const parseRelationships = (rawRelationships: string[]): Rel[] => {
 
     const data: string[] = rel.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
     
+    const entitiesSet = new Set()
+
     if (id && data) {
       const rel: Rel = {
         id,
@@ -23,11 +25,19 @@ const parseRelationships = (rawRelationships: string[]): Rel[] => {
         }
       )
 
+      entitiesSet.add(data[0])
+
       rel.entities.push({
           id: data[2],
           cardinality: data[3]?.substr(1, 3),
         }
       )
+
+      if (!entitiesSet.has(data[2])) { // Detect self-relationship
+        entitiesSet.add(data[2])
+      } else {
+        er.warning = "Self-relationship detected."
+      }
 
       for (let i = 4; i < data.length; i += 1) {
         if (data[i] !== "*") {

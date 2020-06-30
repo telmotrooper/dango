@@ -3,6 +3,7 @@ export interface ER {  // entity-relationship diagram
   rel: Rel[];
   aent: AEnt[];
   spe: Spe[];
+  warning?: string;
 }
 
 export interface Ent { // entity
