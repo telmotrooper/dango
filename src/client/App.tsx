@@ -77,7 +77,7 @@ const App = (): JSX.Element => {
         <div className="container is-fluid">
           <ToastContainer
             position="top-right"
-            autoClose={5000}
+            autoClose={false}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick={false}

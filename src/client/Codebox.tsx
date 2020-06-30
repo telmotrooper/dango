@@ -1,11 +1,12 @@
 import React, { ChangeEvent, useState, useEffect } from "react"
+import { Engine } from "d3-graphviz"
+import { toast } from "react-toastify"
+
 import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
 import { convertER } from "./utils/graphviz"
-import { Engine } from "d3-graphviz"
 import { example } from "./utils/example"
-import { toast } from "react-toastify"
 
 interface Props {
   textAreaRef: TextArea;
