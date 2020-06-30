@@ -162,6 +162,7 @@ const App = (): JSX.Element => {
         show={showClearModal}
         setShow={(): void => setShowClearModal(!showClearModal)}
         setDiagram={(text: string) => setDiagram(text)}
+        setSendButtonDisabled={setSendButtonDisabled}
       />
 
       <DatabaseConnectionModal

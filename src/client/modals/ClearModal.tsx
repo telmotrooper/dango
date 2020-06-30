@@ -7,14 +7,16 @@ interface Props {
   show: boolean;
   setShow: (arg0: boolean) => void;
   setDiagram: (arg0: string) => void;
+  setSendButtonDisabled: (arg0: boolean) => void;
 }
 
 const ClearModal = React.memo((props: Props) => {
-  const { checkbox, show, setShow, setDiagram } = props
+  const { checkbox, show, setShow, setDiagram, setSendButtonDisabled } = props
 
   const handleClearCode = (): void => {
     setDiagram("") // Clear visualization
     clearCode(checkbox, setShow) // Clear codebox and close modal
+    setSendButtonDisabled(true) // Disable "Send" button
   }
   const handleSetShow = (): void => setShow(!show)
 
