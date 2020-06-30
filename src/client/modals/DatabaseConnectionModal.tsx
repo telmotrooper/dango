@@ -1,6 +1,9 @@
 import React, { useState } from "react"
+import { toast } from "react-toastify"
+
 import { testDatabaseConnection } from "../utils/requests"
 import { refreshNeo4jDriver, driver } from "../utils/neo4j"
+import { defaultToast } from "../utils/toasts"
 
 interface Props {
   show: boolean;
@@ -27,6 +30,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
     try {
       await testDatabaseConnection()
       setDatabaseReady(driver != null)
+      toast.success("Successfully connected to local Neo4j instance.", defaultToast)
       setShow(false)
       
     } catch(err) {

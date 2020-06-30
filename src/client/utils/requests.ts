@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios"
 import { driver } from "./neo4j"
 import { QueryResult } from "neo4j-driver"
+import { toast } from "react-toastify"
+import { defaultToast } from "./toasts"
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/api/er-to-json", {
@@ -40,6 +42,8 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
 
     await session.close()
   
+    toast.info("Previous constraints and triggers removed from the database.", defaultToast)
+
     return removeAllTriggers
   }
   throw "Method called without a valid driver."

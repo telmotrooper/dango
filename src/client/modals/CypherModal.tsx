@@ -1,6 +1,9 @@
 import React, { createRef } from "react"
+import { toast } from "react-toastify"
+
 import { saveToDevice } from "../utils/codebox"
 import { cleanUpDatabase, runStatements } from "../utils/requests"
+import { defaultToast } from "../utils/toasts"
 
 interface Props {
   show: boolean;
@@ -24,6 +27,8 @@ const CypherModal = React.memo((props: Props) => {
       console.log(statements)
 
       await runStatements(statements)
+
+      toast.success("Cypher statements executed.", defaultToast)
 
     } catch(err) {
       // ALL NEO4J ERRORS APPLY HERE, MAYBE I SHOULD STANDARDIZE ERROR HANDLING?

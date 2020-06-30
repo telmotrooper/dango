@@ -6,7 +6,7 @@ import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
 import { convertER } from "./utils/graphviz"
-import { example } from "./utils/example"
+import { example } from "./utils/erExample"
 
 interface Props {
   textAreaRef: TextArea;
