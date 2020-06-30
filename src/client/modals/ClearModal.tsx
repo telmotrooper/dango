@@ -6,12 +6,16 @@ interface Props {
   checkbox: TextArea;
   show: boolean;
   setShow: (arg0: boolean) => void;
+  setDiagram: (arg0: string) => void;
 }
 
 const ClearModal = React.memo((props: Props) => {
-  const { checkbox, show, setShow } = props
+  const { checkbox, show, setShow, setDiagram } = props
 
-  const handleClearCode = (): void => clearCode(checkbox, setShow)
+  const handleClearCode = (): void => {
+    setDiagram("") // Clear visualization
+    clearCode(checkbox, setShow) // Clear codebox and close modal
+  }
   const handleSetShow = (): void => setShow(!show)
 
   return (

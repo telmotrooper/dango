@@ -161,6 +161,7 @@ const App = (): JSX.Element => {
         checkbox={textAreaRef}
         show={showClearModal}
         setShow={(): void => setShowClearModal(!showClearModal)}
+        setDiagram={(text: string) => setDiagram(text)}
       />
 
       <DatabaseConnectionModal
