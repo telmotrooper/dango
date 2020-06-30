@@ -36,7 +36,7 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
       if (!entitiesSet.has(data[2])) { // Detect self-relationship
         entitiesSet.add(data[2])
       } else {
-        er.warning = `Self-relationship detected on "${id}".`
+        er.warning = `Self-relationship detected on "${id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${data[2]}".`
       }
 
       for (let i = 4; i < data.length; i += 1) {

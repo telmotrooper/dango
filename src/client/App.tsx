@@ -86,6 +86,7 @@ const App = (): JSX.Element => {
             draggable={false}
             pauseOnHover={false}
             closeButton={false}
+            style={{width: "500px"}}
           />
 
           <Header />
