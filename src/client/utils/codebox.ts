@@ -1,9 +1,13 @@
+import { toast } from "react-toastify"
+
 import { TextArea } from "./interfaces"
 
 const clearCode = (codebox: TextArea, setShow: (arg0: boolean) => void): void => {
   if(codebox.current) {
     codebox.current.value = ""
   }
+
+  toast.dismiss()
   
   setShow(false)
 }
