@@ -13,11 +13,13 @@ interface Props {
   handleSubmit: () => Promise<void>;
   handleUpdate: (diagram: string) => void;
   setEngine: (engine: Engine) => void;
+  sendButtonDisabled: boolean;
+  setSendButtonDisabled: (disabled: boolean) => void;
   engine: Engine;
 }
 
 const Codebox = React.memo((props: Props) => {
-  const { textAreaRef, handleSubmit, handleUpdate, setEngine, engine } = props
+  const { textAreaRef, handleSubmit, handleUpdate, setEngine, engine, sendButtonDisabled, setSendButtonDisabled } = props
 
   const [ code, setCode ] = useState("")
   const debouncedCode = useDebounce(code, 500)
@@ -35,8 +37,10 @@ const Codebox = React.memo((props: Props) => {
             const res = await submitCode(debouncedCode)
 
             if(res.data?.warning) {
+              setSendButtonDisabled(true)
               toast(res.data.warning)
             } else {
+              setSendButtonDisabled(false)
               toast.dismiss()
             }
 
@@ -61,7 +65,7 @@ const Codebox = React.memo((props: Props) => {
           setCode(event.target.value)
         }}
       />
-      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit}>
+      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit} disabled={sendButtonDisabled}>
         Send
       </button>
       <div className="columns">

@@ -19,10 +19,11 @@ import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
 
 const App = (): JSX.Element => {
-  const [ showClearModal , setShowClearModal  ] = useState(false)
-  const [ showHelpModal  , setShowHelpModal   ] = useState(false)
-  const [ showParserModal, setShowParserModal ] = useState(false)
-  const [ showCypherModal, setShowCypherModal ] = useState(false)
+  const [ showClearModal , setShowClearModal  ]       = useState(false)
+  const [ showHelpModal  , setShowHelpModal   ]       = useState(false)
+  const [ showParserModal, setShowParserModal ]       = useState(false)
+  const [ showCypherModal, setShowCypherModal ]       = useState(false)
+  const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
   const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
   const [ parserContent,   _setParserContent ] = useState("")
@@ -116,6 +117,8 @@ const App = (): JSX.Element => {
               handleUpdate={setDiagram}
               engine={engine}
               setEngine={setEngine}
+              sendButtonDisabled={sendButtonDisabled}
+              setSendButtonDisabled={setSendButtonDisabled}
             />
             <section id="vis" className="column vis">
               <ErrorBoundary key={errorBoundaryKey}>
