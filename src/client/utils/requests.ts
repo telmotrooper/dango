@@ -29,22 +29,28 @@ export const testDatabaseConnection = async (): Promise<QueryResult> => {
 
 export const cleanUpDatabase = async (): Promise<QueryResult> => {
   if (driver) {
-    const session = driver.session()
+    try {
+      const session = driver.session()
 
-    const removeAllTriggers: QueryResult = await session.run("CALL apoc.trigger.removeAll();")
-
-    const constraints: QueryResult = await session.run("CALL db.constraints();")
-
-    // Drop all constraints.
-    for (const record of constraints.records) { // Run statements sequentially.
-      await session.run(`DROP ${record.get('description')}`)
-    }
-
-    await session.close()
+      const removeAllTriggers: QueryResult = await session.run("CALL apoc.trigger.removeAll();")
   
-    toast.info("Previous constraints and triggers removed from the database.", defaultToast)
-
-    return removeAllTriggers
+      const constraints: QueryResult = await session.run("CALL db.constraints();")
+  
+      // Drop all constraints.
+      for (const record of constraints.records) { // Run statements sequentially.
+        await session.run(`DROP ${record.get('description')}`)
+      }
+  
+      await session.close()
+    
+      toast.info("Previous constraints and triggers removed from the database.", defaultToast)
+  
+      return removeAllTriggers
+    } catch (err) {
+        if (err.message.includes("WebSocket connection failure")) {
+          toast.error("Unable to connect to Neo4j instance.", defaultToast)
+        }
+    }
   }
   throw "Method called without a valid driver."
 }
