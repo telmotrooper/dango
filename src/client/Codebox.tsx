@@ -60,7 +60,6 @@ const Codebox = React.memo((props: Props) => {
         name="codebox"
         ref={textAreaRef}
         className="textarea has-fixed-size is-small mb-1"
-        rows={25}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>): void => {
           setCode(event.target.value)
         }}
