@@ -3,6 +3,7 @@ import { driver } from "./neo4j"
 import { QueryResult } from "neo4j-driver"
 import { toast } from "react-toastify"
 import { defaultToast } from "./toasts"
+import { connectionError, missingValidDriver } from "./errors"
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/api/er-to-json", {
@@ -46,26 +47,37 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
       toast.info("Previous constraints and triggers removed from the database.", defaultToast)
   
       return removeAllTriggers
+    
     } catch (err) {
         if (err.message.includes("WebSocket connection failure")) {
-          toast.error("Unable to connect to Neo4j instance.", defaultToast)
+          toast.error(connectionError, defaultToast)
         }
+        throw(err)
     }
+
+  } else {
+    throw missingValidDriver
   }
-  throw "Method called without a valid driver."
 }
 
 export const runStatements = async (statements: Array<string>): Promise<void> => {
   if (driver) {
-    const session = driver.session()
+    try {
+      const session = driver.session()
 
-    for (const statement of statements) { // Run statements sequentially.
-      await session.run(statement)
+      for (const statement of statements) { // Run statements sequentially.
+        await session.run(statement)
+      }
+  
+      await session.close()
+      
+    } catch(err) {
+      if (err.message.includes("WebSocket connection failure")) {
+        toast.error(connectionError, defaultToast)
+      }
     }
 
-    await session.close()
-
-    return
+  } else {
+    throw missingValidDriver
   }
-  throw "Method called without a valid driver."
 }
