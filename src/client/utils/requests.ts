@@ -3,7 +3,14 @@ import { driver } from "./neo4j"
 import { QueryResult } from "neo4j-driver"
 import { toast } from "react-toastify"
 import { defaultToast } from "./toasts"
-import { connectionError, missingValidDriver, databaseSchemaCleaned } from "./errors"
+import { databaseConnectionError, missingValidDriver, databaseSchemaCleaned, apiConnectionError } from "./messages"
+
+axios.interceptors.response.use(undefined, (error) => {
+  if (!error.response) { // Catches network errors.
+    toast.error(apiConnectionError, defaultToast)
+  }
+  return Promise.reject(error)
+});
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/api/er-to-json", {
@@ -50,7 +57,7 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
     
     } catch (err) {
         if (err.message.includes("WebSocket connection failure")) {
-          toast.error(connectionError, defaultToast)
+          toast.error(databaseConnectionError, defaultToast)
         }
         throw(err)
     }
@@ -73,7 +80,7 @@ export const runStatements = async (statements: Array<string>): Promise<void> =>
       
     } catch(err) {
       if (err.message.includes("WebSocket connection failure")) {
-        toast.error(connectionError, defaultToast)
+        toast.error(databaseConnectionError, defaultToast)
       }
     }
 
