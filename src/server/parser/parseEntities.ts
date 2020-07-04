@@ -1,21 +1,26 @@
 import { Ent } from "../misc/interfaces"
-import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
+import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace } from "../misc/regex"
+import { removeIndentation } from "../cypher/helpers"
 
 const parseEntities = (rawEntities: string[]): Ent[] => {
   const entities: Ent[] = []
 
   for (const ent of rawEntities) {
-    const id: string = ent.match(secondWordFound)?.[0] ?? ""
+    const id: string = ent.match(secondWordFound)?.[0] ?? ""    
+    const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(linesIncludingWhitespace) ?? []
 
-    const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
+    removeIndentation(data)
+
     const attributes: string[] = []
     const pk: string[] = []
 
     for (let i = 0; i < data.length; i += 1) {
-      if (data[i] !== "*") {
-        attributes.push(data[i])
+      if (data[i].includes(" *")) {
+        const attributeName = data[i].substr(0, data[i].length-2)
+        attributes.push(attributeName)
+        pk.push(attributeName)
       } else {
-        pk.push(data[i - 1])
+        attributes.push(data[i])
       }
     }
 

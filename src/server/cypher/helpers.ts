@@ -1,5 +1,6 @@
 import { ER, Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
+import { anythingFromFirstCharacter } from "../misc/regex"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
   const statementLines = statement.split("\n")
@@ -48,4 +49,14 @@ export const getTwoByTwoCombinations = (labels: Array<string>): Array<Array<stri
   }
   
   return combinations
+}
+
+export const removeIndentation = (lines: Array<string>): void => {
+  for (let i = 0; i < lines.length; i++) {
+    const lineWithoutIndentation = lines[i].match(anythingFromFirstCharacter)?.[0]
+    
+    if (lineWithoutIndentation) {
+      lines[i] = lineWithoutIndentation
+    }
+  }
 }

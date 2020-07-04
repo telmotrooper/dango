@@ -16,7 +16,7 @@ export const allButWhitespace = /(\S)+/g
 export const linesIncludingWhitespace = /(?:[^\r\n])+/g
 
 // Useful for removing indentantion, e.g. "  acquisition date" matches "acquisition date".
-export const matchAnythingFromFirstCharacter = /\b[^]+/g
+export const anythingFromFirstCharacter = /\b[^]+/
 
 /* Word boundary (\b) prevents "aent" from being matched by "ent" and it also prevents
  * issues when a protected word is used as part of an entity title, e.g. "ent appointment". */
