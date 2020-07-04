@@ -6,7 +6,7 @@
  * 
  * Useful page: https://regex101.com/ */
 
-export const secondWordFound = /(?<=\w )[^\s]+/gi
+export const secondWordFound = /(?<=\w )[^\s]+/
 
 export const allBetweenCurlyBrackets = /[^{]+(?=})/
 
