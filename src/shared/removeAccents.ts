@@ -6,6 +6,7 @@ export const lower = (text: string): string => {
   let temp = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
   temp = temp.replace("-", "_") // Character "-" can't be used in Graphviz labels.
+  temp = temp.replace(" ", "_") // Required to properly display attributes with whitespace in their names.
 
   return temp.toLowerCase()
 }
