@@ -10,7 +10,13 @@ export const secondWordFound = /(?<=\w )[^\s]+/
 
 export const allBetweenCurlyBrackets = /[^{]+(?=})/
 
-export const allButWhitespace = /(\S)+/gi
+export const allButWhitespace = /(\S)+/g
+
+// Useful to split lines without returning the empty ones.
+export const linesIncludingWhitespace = /(?:[^\r\n])+/g
+
+// Useful for removing indentantion, e.g. "  acquisition date" matches "acquisition date".
+export const matchAnythingFromFirstCharacter = /\b[^]+/g
 
 /* Word boundary (\b) prevents "aent" from being matched by "ent" and it also prevents
  * issues when a protected word is used as part of an entity title, e.g. "ent appointment". */
