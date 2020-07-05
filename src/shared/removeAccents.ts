@@ -16,8 +16,8 @@ export const upper = (text: string): string => {
   return temp.toUpperCase()
 }
 
-export const normalizeLabel = (label: string): string => {
-  if (label.lastIndexOf("-") !== -1) {
+export const normalize = (label: string): string => {
+  if (label.lastIndexOf("-") !== -1 || label.lastIndexOf(" ") !== -1) {
     return "`" + label + "`"
   }
   return label
