@@ -52,11 +52,21 @@ export const getTwoByTwoCombinations = (labels: Array<string>): Array<Array<stri
 }
 
 export const removeIndentation = (lines: Array<string>): void => {
+  const removalList = []
+
   for (let i = 0; i < lines.length; i++) {
     const lineWithoutIndentation = lines[i].match(anythingFromFirstCharacter)?.[0]
     
     if (lineWithoutIndentation) {
       lines[i] = lineWithoutIndentation
+    } else { // If line is composed solely of whitespace.
+      removalList.push(i)
     }
+  }
+
+  removalList.reverse()
+
+  for(const index of removalList) {
+     lines.splice(index)
   }
 }

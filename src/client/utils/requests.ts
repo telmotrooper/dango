@@ -46,7 +46,9 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
   
       // Drop all constraints.
       for (const record of constraints.records) { // Run statements sequentially.
-        await session.run(`DROP ${record.get('description')}`)
+        /* Dropping constraints by name is safer than by description, since the
+         * description won't work when attributes require "`", like "hourly wage". */
+        await session.run(`DROP CONSTRAINT ${record.get('name')};`)
       }
   
       await session.close()
