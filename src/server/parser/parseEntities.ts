@@ -6,9 +6,9 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
   const entities: Ent[] = []
 
   for (const ent of rawEntities) {
-    const id: string = ent.match(secondWordFound)?.[0] ?? ""    
+    const id: string = ent.match(secondWordFound)?.[0] ?? ""   
+     
     const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(linesIncludingWhitespace) ?? []
-
     removeIndentation(data)
 
     const attributes: string[] = []
