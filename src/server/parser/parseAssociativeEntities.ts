@@ -23,7 +23,8 @@ const parseAssociativeEntities = (
         if (data[i+1] && data[i+1][0] == "(") { // entity followed by its cardinality
           const ent: Conn = {
             id: data[i],
-            cardinality: data[i+1].substr(1, 3)
+            cardinality: data[i+1].substr(1, 3),
+            weak: false // TODO: Change this to reflect actual weakness.
           }
           associativeEntity.entities.push(ent)
         } else if (data[i][0] == "*") { // primary key

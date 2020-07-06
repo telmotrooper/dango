@@ -22,6 +22,7 @@ export interface Rel { // relationship
 export interface Conn {  // connection
   id: string;
   cardinality: string;
+  weak: boolean;
 }
 
 export interface AEnt extends Rel {
