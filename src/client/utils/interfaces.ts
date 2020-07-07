@@ -1,9 +1,6 @@
 import { RefObject } from "react"
 
-export interface GenericObject {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [property: string]: any;
-}
+import { GenericObject } from "../../shared/interfaces";
 
 export type Shape = "rectangle" | "triangle" | "doublecircle" | "circle" |"diamond";
 

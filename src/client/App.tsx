@@ -11,12 +11,13 @@ import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
 import { submitCode, getCypherFromER } from "./utils/requests"
 import { ParserModal } from "./modals/ParserModal"
-import { GenericObject, TextArea, Input } from "./utils/interfaces"
+import { TextArea, Input } from "./utils/interfaces"
 import { CypherModal } from "./modals/CypherModal"
 import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
+import { GenericObject } from "../shared/interfaces";
 
 const App = (): JSX.Element => {
   const [ showClearModal , setShowClearModal  ]       = useState(false)
