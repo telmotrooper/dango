@@ -1,6 +1,6 @@
-import { Rel, ER } from "../misc/interfaces"
+import { Rel, ER, Conn } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace,
-  nonWhitespaceBetweenParentheses, digitOrN, firstWordFound } from "../misc/regex"
+  nonWhitespaceBetweenParentheses, digitOrN, allWords } from "../misc/regex"
 import { removeIndentation } from "../cypher/helpers"
 
 const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
@@ -25,24 +25,39 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
       const cardinalityA: Array<string> = data[0]?.match(nonWhitespaceBetweenParentheses)?.[0].match(digitOrN) ?? []
       const cardinalityB: Array<string>  = data[1]?.match(nonWhitespaceBetweenParentheses)?.[0].match(digitOrN) ?? []
 
-      rel.entities.push({
-          id: data[0].match(firstWordFound)?.[0] ?? "", // We still don't allow entities with composite names.
-          cardinality: `${cardinalityA[0]},${cardinalityA[1]}`,
-          weak: false // TODO: Change this to reflect actual weakness.
-        }
-      )
+      const entityA = data[0].match(allWords) // E.g. ["Interns", "(0,n)"] or ["w", "Interns", "(0,n)"]
+      const entityB = data[1].match(allWords)
 
-      entitiesSet.add(data[0])
+      const entityAObject: Conn = {
+        id: entityA?.[0] ?? "",
+        cardinality: `${cardinalityA[0]},${cardinalityA[1]}`,
+        weak: false
+      }
 
-      rel.entities.push({
-          id: data[1].match(firstWordFound)?.[0] ?? "", // We still don't allow entities with composite names.
-          cardinality: `${cardinalityB[0]},${cardinalityB[1]}`,
-          weak: false // TODO: Change this to reflect actual weakness.
-        }
-      )
+      if (entityA?.[0] == "w") { // Weak
+        entityAObject.id = entityA?.[1]
+        entityAObject.weak = true
+      }
 
-      if (!entitiesSet.has(data[1])) { // Detect self-relationship
-        entitiesSet.add(data[1])
+      rel.entities.push(entityAObject)
+
+      entitiesSet.add(entityAObject.id)
+
+      const entityBObject: Conn = {
+        id: entityB?.[0] ?? "", // We still don't allow entities with composite names.
+        cardinality: `${cardinalityB[0]},${cardinalityB[1]}`,
+        weak: false // TODO: Change this to reflect actual weakness.
+      }
+
+      if (entityB?.[0] == "w") { // Weak
+        entityBObject.id = entityB?.[1]
+        entityBObject.weak = true
+      }
+
+      rel.entities.push(entityBObject)
+
+      if (!entitiesSet.has(entityBObject.id)) { // Detect self-relationship
+        entitiesSet.add(entityBObject.id)
       } else {
         er.warning = `Self-relationship detected on "${id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${data[2]}".`
       }
