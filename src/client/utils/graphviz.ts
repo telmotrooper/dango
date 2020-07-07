@@ -2,6 +2,7 @@ import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
 import { Shape } from "./interfaces"
 import { indentation } from "../../shared/constants"
+import { clusterize } from "../../server/cypher/helpers"
 
 const entityColor          = "#f8ec88"
 const attributeColor       = "#79bddc"
@@ -144,14 +145,7 @@ const getRelationship = (relationshipName: string): string => {
   )
 }
 const getAEnt = (entityName: string): string => {
-  return (
-    indentation +
-    `subgraph ${"cluster_" + lower(entityName)} {
-    style=filled
-    fillcolor="#f8ec88"
-    ${getRelationship(entityName)}
-    }\n`
-  )
+  return clusterize(entityName, getRelationship(entityName))
 }
 
 const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false): string => {

@@ -1,6 +1,7 @@
 import { ER, Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { anythingFromFirstCharacter } from "../misc/regex"
+import { lower } from "../../shared/removeAccents"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
   const statementLines = statement.split("\n")
@@ -69,4 +70,15 @@ export const removeIndentation = (lines: Array<string>): void => {
   for(const index of removalList) {
      lines.splice(index)
   }
+}
+
+export const clusterize = (name: string, innerElement: string, fillColor = "#f8ec88"): string => {
+  return (
+    indentation +
+    `subgraph ${"cluster_" + lower(name)} {
+    style=filled
+    fillcolor="${fillColor}"
+    ${innerElement}
+    }\n`
+  )
 }
