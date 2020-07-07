@@ -120,19 +120,14 @@ const getConnection = (entityName: string, attributeName: string, isAEnt = false
 }
   
 
-const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, headLabel?: string, tailLabel?: string, isAEnt = false): string => {
+const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, isAEnt = false, isWeak = false): string => {
   let properties = ""
 
   const aent = isAEnt ? `, lhead=cluster_${lower(entityName2)}` : ""
+  const weak = isWeak ? ", penwidth=3" : ""
 
   if (label) {
-    properties = ` [label="(${label})", fontname="${fontName}", fontsize="${cardinalityFontSize}"${aent}]`
-  } else if (headLabel && tailLabel) {
-    properties = ` [headlabel="(${headLabel})", taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}${aent}"]`
-  } else if (headLabel) {
-    properties = ` [headlabel="(${headLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}${aent}"]`
-  } else if (tailLabel) {
-    properties = ` [taillabel="(${tailLabel})", fontname="${fontName}", fontsize="${cardinalityFontSize}${aent}"]`
+    properties = ` [label="(${label})", fontname="${fontName}", fontsize="${cardinalityFontSize}"${aent}${weak}]`
   } else if(isAEnt) {
     properties = ` lhead=cluster_${lower(entityName2)}`
   }
@@ -198,8 +193,8 @@ const convertER = (code: ER): string => {
       const isAEnt2 = associativeEntites.includes(rel.entities[1].id)
 
       diagram += getRelationship(rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality, undefined, undefined, isAEnt1) + "\n"
-      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality, undefined, undefined, isAEnt2) + "\n"
+      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality, isAEnt1, rel.entities[0].weak) + "\n"
+      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality, isAEnt2, rel.entities[1].weak) + "\n"
       diagram += generateAttributes(rel)
     }
   }
@@ -210,7 +205,7 @@ const convertER = (code: ER): string => {
       diagram += generateAttributes(aent, true)
       
       for (const entity of aent.entities) {
-        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality, undefined, undefined, true) + "\n"
+        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality, true) + "\n"
       }
     }
   }
