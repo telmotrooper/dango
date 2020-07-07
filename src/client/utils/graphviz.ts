@@ -1,5 +1,5 @@
 import { lower } from "../../shared/removeAccents"
-import { ER, Ent, AEnt, Rel, Spe } from "../../server/misc/interfaces"
+import { ER, Ent, AEnt, Rel, Spe, Conn } from "../../server/misc/interfaces"
 import { Shape } from "./interfaces"
 import { indentation } from "../../shared/constants"
 import { clusterize } from "../../server/cypher/helpers"
@@ -66,13 +66,17 @@ const getProportions = (shape: Shape, label: string): string => {
   return `height=${height}, width=${width}`
 }
 
-const getEntity = (entityName: string): string => {
+const getEntity = (entityName: string, isWeak = false): string => {
   const shape: Shape = "rectangle"
 
-  return (
-    indentation +
-    `${lower(entityName)} [label="${entityName}", shape=${shape}, style=filled, fillcolor="${entityColor}", fontname="${fontName}", ${getProportions(shape, entityName)}]`
-  )
+  let element = indentation +
+  `${lower(entityName)} [label="${entityName}", shape=${shape}, style=filled, fillcolor="${entityColor}", fontname="${fontName}", ${getProportions(shape, entityName)}]`
+
+  if (isWeak) {
+    element = clusterize(entityName, element)
+  }
+
+  return element
 }
 
 const getSpecialization = (specialization: Spe): string => {
@@ -176,7 +180,24 @@ const convertER = (code: ER): string => {
 
   if (code.ent) {
     for (const ent of code.ent) {
-      diagram += getEntity(ent.id) + "\n"
+      let isWeak = false
+
+      const connections: Array<Conn> = []
+
+      code.rel.forEach(rel => rel.entities.find(conn => {
+        if (conn.id == ent.id) {
+          connections.push(conn)
+        }
+      }))
+
+      
+      connections.forEach(conn => {
+        if(conn.weak) {
+          isWeak = true
+        }
+      })
+
+      diagram += getEntity(ent.id, isWeak) + "\n"
       diagram += generateAttributes(ent)
     }
   }
