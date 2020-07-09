@@ -12,3 +12,8 @@ export interface RequestStore {
 
 export type TextArea = RefObject<HTMLTextAreaElement>
 export type Input = RefObject<HTMLInputElement>
+
+export interface Proportions {
+  width: number
+  height: number
+}

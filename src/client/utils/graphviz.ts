@@ -1,8 +1,8 @@
 import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe, Conn } from "../../server/misc/interfaces"
-import { Shape } from "./interfaces"
+import { Shape, Proportions } from "./interfaces"
 import { indentation } from "../../shared/constants"
-import { clusterize } from "./helpers"
+import { clusterize, serialize } from "./helpers"
 
 
 const entityColor          = "#f8ec88"
@@ -45,7 +45,7 @@ const correctWidth = (width: number, label: string): number => {
   return width
 }
 
-const getProportions = (shape: Shape, label: string): string => {
+const getProportions = (shape: Shape, label: string): Proportions => {
   const height = 0.5
   let width = 1
 
@@ -64,14 +64,25 @@ const getProportions = (shape: Shape, label: string): string => {
 
   width = correctWidth(width, label)
 
-  return `height=${height}, width=${width}`
+  return { width, height }
 }
 
 const getEntity = (entityName: string, isWeak = false): string => {
   const shape: Shape = "rectangle"
 
-  let element = indentation +
-  `${lower(entityName)} [label="${entityName}", shape=${shape}, style=filled, fillcolor="${entityColor}", fontname="${fontName}", ${getProportions(shape, entityName)}]`
+  const { width, height } = getProportions(shape, entityName)
+
+  const properties = serialize({
+    label: entityName,
+    shape,
+    style: "filled",
+    fillcolor: entityColor,
+    fontname: fontName,
+    width,
+    height
+  })
+
+  let element = indentation + lower(entityName) + " " + properties
 
   if (isWeak) {
     element = clusterize(entityName, element)
@@ -144,10 +155,20 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string, 
 const getRelationship = (relationshipName: string): string => {
   const shape: Shape = "diamond"
 
-  return (
-    indentation +
-    `${lower(relationshipName)} [shape=${shape}, style=filled, fillcolor="${relationshipColor}", fixedsize=true, fontname="${fontName}", fontsize=${relationshipFontSize}, ${getProportions(shape, relationshipName)}]`
-  )
+  const { width, height } = getProportions(shape, relationshipName)
+
+  const properties = serialize({
+    shape,
+    style: "filled",
+    fillcolor: relationshipColor,
+    fixedsize: true,
+    fontname: fontName,
+    fontsize: relationshipFontSize,
+    width,
+    height
+  })
+
+  return indentation + lower(relationshipName) + " " + properties
 }
 const getAEnt = (entityName: string): string => {
   return clusterize(entityName, getRelationship(entityName))

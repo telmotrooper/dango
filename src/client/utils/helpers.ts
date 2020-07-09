@@ -13,8 +13,6 @@ export const clusterize = (name: string, innerElement: string, fillColor = "#f8e
   )
 }
 
-
-// WORK IN PROGRESS
 export const serialize = (obj: GenericObject): string => {
   if (Object.entries(obj).length == 0) {
     return ""
@@ -25,7 +23,7 @@ export const serialize = (obj: GenericObject): string => {
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value == "string") {
       output += `${key}="${value}", `
-      
+
     } else {
       output += `${key}=${value}, `
     }
