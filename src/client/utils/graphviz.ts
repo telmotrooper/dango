@@ -108,11 +108,16 @@ const getSpecialization = (specialization: Spe): string => {
 
   name += completeness + disjointness
 
-  let text = (
-    indentation +
-    `${lower(name)} [label="", xlabel="(${completeness},${disjointness})", shape=triangle, style=filled, fillcolor="#f8ec88", fontname="mono"]` +
-    "\n" + `${parent} -- ${lower(name)}`
-  )
+  const properties = serialize({
+    label: "",
+    xlabel: `(${completeness},${disjointness})`,
+    shape: "triangle",
+    style: "filled",
+    fillcolor: "#f8ec88",
+    fontname: fontName
+  })
+
+  let text = indentation + lower(name) + properties + "\n" + `${parent} -- ${lower(name)}`
 
   for (const entity of specialization.entities) {
     text += "\n" + `${lower(name)} -- ${lower(entity)}`
@@ -124,13 +129,25 @@ const getSpecialization = (specialization: Spe): string => {
 const getAttribute = (entityName: string, attributeName: string, primaryKey = false): string => {
   const label = getLabel(attributeName)
 
-  return indentation + `${lower(entityName + "_" + attributeName)} [label="", shape=${primaryKey ? "doublecircle" : "circle"}, ` +
-  `style=filled, fixedsize=true, height=0.25, width=0.25, fontsize=10, fillcolor="${attributeColor}", fontname="${fontName}", xlabel="${label}"]`
+  const properties = serialize({
+    label: "",
+    shape: primaryKey ? "doublecircle" : "circle",
+    style: "filled",
+    fixedsize: true,
+    width: 0.25,
+    height: 0.25,
+    fontsize: 10,
+    fillcolor: attributeColor,
+    fontname: fontName,
+    xlabel: label
+  })
+
+  return indentation + lower(entityName + "_" + attributeName) + properties
 }
 
 const getConnection = (entityName: string, attributeName: string, isAEnt = false): string => {
   if (isAEnt) {
-    return indentation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)} [lhead=cluster_${lower(entityName)}]`
+    return indentation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)}` + serialize({lhead: "cluster_" + lower(entityName)})
   } else {
     return indentation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
   }
