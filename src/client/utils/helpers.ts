@@ -24,6 +24,9 @@ export const serialize = (obj: GenericObject): string => {
     if (typeof value == "string") {
       output += `${key}="${value}", `
 
+    } else if (typeof value == "undefined") {
+      continue // Ignore property. TODO: Check if all properties were undefined to return "".
+    
     } else {
       output += `${key}=${value}, `
     }

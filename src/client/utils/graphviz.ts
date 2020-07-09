@@ -155,16 +155,13 @@ const getConnection = (entityName: string, attributeName: string, isAEnt = false
   
 
 const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, isAEnt = false, isWeak = false): string => {
-  let properties = ""
-
-  const aent = isAEnt ? `, lhead=cluster_${lower(entityName2)}` : ""
-  const weak = isWeak ? ", penwidth=3" : ""
-
-  if (label) {
-    properties = ` [label="(${label})", fontname="${fontName}", fontsize="${cardinalityFontSize}"${aent}${weak}]`
-  } else if(isAEnt) {
-    properties = ` lhead=cluster_${lower(entityName2)}`
-  }
+  const properties = serialize({
+    label: label && "(" + label + ")",
+    fontname: fontName,
+    fontsize: cardinalityFontSize,
+    lhead: isAEnt && "cluster_" + lower(entityName2),
+    penwidth: isWeak && 3
+  })
 
   return indentation + `${lower(entityName1)} -- ${lower(entityName2)}` + properties
 }
