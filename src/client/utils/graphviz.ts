@@ -2,7 +2,8 @@ import { lower } from "../../shared/removeAccents"
 import { ER, Ent, AEnt, Rel, Spe, Conn } from "../../server/misc/interfaces"
 import { Shape } from "./interfaces"
 import { indentation } from "../../shared/constants"
-import { clusterize } from "../../server/cypher/helpers"
+import { clusterize } from "./helpers"
+
 
 const entityColor          = "#f8ec88"
 const attributeColor       = "#79bddc"
