@@ -16,15 +16,19 @@ export const clusterize = (name: string, innerElement: string, fillColor = "#f8e
 
 // WORK IN PROGRESS
 export const serialize = (obj: GenericObject): string => {
-  if (obj.entries.length == 0) {
+  if (Object.entries(obj).length == 0) {
     return ""
   }
 
   let output = "["
 
   for (const [key, value] of Object.entries(obj)) {
-    // TODO: GOTTA TEST THE TYPE OF THE VALUE TO EITHER ENCAPSULATE IN DOUBLE QUOTES OR NOT
-    output += `${key}=${value}, `
+    if (typeof value == "string") {
+      output += `${key}="${value}", `
+      
+    } else {
+      output += `${key}=${value}, `
+    }
   }
 
   output = output.substr(0, output.length - 2) + "]"
