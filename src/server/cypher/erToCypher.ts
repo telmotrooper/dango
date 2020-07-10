@@ -30,7 +30,12 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const relationship of rel) {
-    const { entities } = relationship
+    const { entities, attributes, id } = relationship
+
+    // Node property existence constraints
+    for (const item of attributes) {
+      schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${id}]-() ASSERT exists(${lower(id)[0]}.${normalize(item)});\n`
+    }
 
     // Appropriate labels
     schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id),
