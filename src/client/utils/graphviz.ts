@@ -145,8 +145,8 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey = fa
   return indentation + lower(entityName + "_" + attributeName) + properties
 }
 
-const getConnection = (entityName: string, attributeName: string, isAEnt = false): string => {
-  if (isAEnt) {
+const getConnection = (entityName: string, attributeName: string, isAEnt = false, isWeak = false): string => {
+  if (isAEnt || isWeak) {
     return indentation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)}` + serialize({lhead: "cluster_" + lower(entityName)})
   } else {
     return indentation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
@@ -188,12 +188,12 @@ const getAEnt = (entityName: string): string => {
   return clusterize(entityName, getRelationship(entityName))
 }
 
-const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false): string => {
+const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = false): string => {
   let text = ""
   for (const attribute of ent.attributes) {
     const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
     text += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
-    text += getConnection(ent.id, attribute, isAEnt) + "\n"
+    text += getConnection(ent.id, attribute, isAEnt, isWeak) + "\n"
   }
 
   return text
@@ -234,7 +234,7 @@ const convertER = (code: ER): string => {
       })
 
       diagram += getEntity(ent.id, isWeak) + "\n"
-      diagram += generateAttributes(ent)
+      diagram += generateAttributes(ent, false, true)
     }
   }
 
@@ -269,7 +269,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  console.log(diagram)
+  // console.log(diagram)
 
   return diagram
 }
