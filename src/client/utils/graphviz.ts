@@ -159,7 +159,7 @@ const getConnectionForRelationship = (entityName1: string, entityName2: string, 
     label: label && "(" + label + ")",
     fontname: fontName,
     fontsize: cardinalityFontSize,
-    lhead: isAEnt && "cluster_" + lower(entityName2),
+    lhead: (isAEnt || isWeak) && "cluster_" + lower(entityName2),
     penwidth: isWeak && 3
   })
 
@@ -269,7 +269,7 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  // console.log(diagram)
+  console.log(diagram)
 
   return diagram
 }
