@@ -50,16 +50,16 @@ const erToCypher = (er: string, strictMode = true): string => {
     /* If both entities are the same then it's a self-relationship and we
      * don't need to generate verifications for both sides of the relationship. */
     if(relationship.entities[0].id !== relationship.entities[1].id) {
-      schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id),
+      schema += generateTrigger(relationship.id + " " + relationship.entities[0].id,
       `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
       )
     }
 
-    schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id),
+    schema += generateTrigger(relationship.id + " " + relationship.entities[0].id,
     `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
-    schema += generateTrigger(lower(relationship.id + " " + relationship.entities[0].id + " " + relationship.entities[1].id),
+    schema += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
     `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
 

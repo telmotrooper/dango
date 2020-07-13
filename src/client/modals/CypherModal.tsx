@@ -38,7 +38,7 @@ const CypherModal = React.memo((props: Props) => {
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="cypher-modal">
-      <div className="modal-card">
+      <div className="modal-card modal-card-big">
         <header className="modal-card-head">
           <p className="modal-card-title">
             <b>Converter output</b> <i>(Cypher)</i>
