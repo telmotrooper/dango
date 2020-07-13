@@ -19,7 +19,7 @@ const HelpModal = React.memo((props: Props) => {
         </header>
         <section className="modal-card-body">
           <div className="mb-05 ta-j">
-            <img src={logo} />
+            <img src={logo} className="center logo mb-1" />
             <p>
               <b>Dango</b> is a graph database modeling tool which allows you to write a schema for a Neo4j database by writing an Entity-Relationship diagram.
             </p>
