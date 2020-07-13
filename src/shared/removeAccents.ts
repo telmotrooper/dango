@@ -22,3 +22,11 @@ export const normalize = (label: string): string => {
   }
   return label
 }
+
+export const titlefy = (text: string): string => {
+  if (text.length > 0) {
+    return text.substr(0,1).toUpperCase() +  text.substr(1, text.length).toLowerCase()
+  }
+
+  return ""
+}

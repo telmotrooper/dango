@@ -1,8 +1,11 @@
 import { ER, Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { anythingFromFirstCharacter } from "../misc/regex"
+import { titlefy } from "../../shared/removeAccents"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
+  triggerName = titlefy(triggerName)
+  
   const statementLines = statement.split("\n")
 
   for (let i = 0; i < statementLines.length; i++) {

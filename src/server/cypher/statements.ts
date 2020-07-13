@@ -27,7 +27,7 @@ export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, 
   WHERE SIZE(rs) > ${maxCardinality}
   FOREACH (r IN rs[${maxCardinality}..] | DELETE r)`
 
-  return generateTrigger(lower(entity1 + ` with more than ${maxCardinality} ` + entity2), statement)
+  return generateTrigger(`${entity1} ${relationship} more than ${maxCardinality} ${entity2}`, statement)
 }
 
 export const generateMinCardinalityTrigger = (entity1: string, entity2: string, relationship: string, minCardinality = "1"): string => {
@@ -42,7 +42,7 @@ export const generateMinCardinalityTrigger = (entity1: string, entity2: string, 
     DETACH DELETE n`
   }
 
-  return generateTrigger(lower(entity1 + ` with less than ${minCardinality} ` + entity2), statement)
+  return generateTrigger(`${entity1} ${relationship} less than ${minCardinality} ${entity2}`, statement)
 }
 
 export const generateDisjointednessTrigger = (parent: string, entities: Array<string>): string => {
@@ -57,7 +57,7 @@ export const generateDisjointednessTrigger = (parent: string, entities: Array<st
   statement = statement.substr(0, statement.length-4)
   statement += "\n" + "DETACH DELETE n"
 
-  return generateTrigger(lower(parent + " disjointedness"), statement)
+  return generateTrigger(`${parent} disjointedness`, statement)
 }
 
 export const generateCompletenessTrigger = (parent: string, entities: Array<string>): string => {
@@ -81,5 +81,5 @@ export const generateChildrenTrigger = (parent: string, entities: Array<string>)
   statement += indentation + `NOT "${parent}" IN LABELS(n)`
   statement += "\n" + "DETACH DELETE n"
 
-  return generateTrigger(`${lower(parent)} children`, statement)
+  return generateTrigger(`${parent} children`, statement)
 }
