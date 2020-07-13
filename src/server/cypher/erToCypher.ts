@@ -10,6 +10,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   let schema = ""
 
   const entities = getEntitiesAsList(erCode)
+  let constraintCounter = 0
 
   if (strictMode) {
     schema += generateStrictModeTrigger(entities) 
@@ -21,11 +22,13 @@ const erToCypher = (er: string, strictMode = true): string => {
     // Node property existence constraints
     for (const item of attributes) {
       schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT exists(${lower(id)[0]}.${normalize(item)});\n`
+      constraintCounter++
     }
 
     // Unique node constraints
     for (const item of pk) {
       schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
+      constraintCounter++
     }
   }
 
@@ -35,6 +38,11 @@ const erToCypher = (er: string, strictMode = true): string => {
     // Node property existence constraints
     for (const item of attributes) {
       schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${id}]-() ASSERT exists(${lower(id)[0]}.${normalize(item)});\n`
+      constraintCounter++
+    }
+
+    if (constraintCounter > 0) {
+      schema += "\n"
     }
 
     // Appropriate labels
