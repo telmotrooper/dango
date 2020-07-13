@@ -25,7 +25,7 @@ const HelpModal = React.memo((props: Props) => {
             </p>
             <br/>
             <p>
-              The schema generated is composed of Neo4j constraints and APOC triggers, which force the nodes and relationships in the database to behave as modeled.
+              The schema generated is composed of <a target="_blank" rel="noreferrer" href="https://neo4j.com/docs/cypher-manual/current/administration/constraints/">Neo4j constraints</a> and <a target="_blank" rel="noreferrer" href="https://neo4j.com/docs/labs/apoc/current/background-operations/triggers/">APOC triggers</a>, which force the nodes and relationships in the database to behave as modeled.
             </p>
           </div>
         </section>
