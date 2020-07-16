@@ -6,7 +6,7 @@ import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
 import { convertER } from "./utils/graphviz"
-import { example } from "./utils/erExample"
+import { mainExample } from "./utils/erExamples"
 
 interface Props {
   textAreaRef: TextArea;
@@ -72,8 +72,8 @@ const Codebox = React.memo((props: Props) => {
         <div className="column">
           <button className="button is-fullwidth mb-05" onClick={(): void => {
             if (textAreaRef?.current) {
-              textAreaRef.current.value = example
-              setCode(example)
+              textAreaRef.current.value = mainExample
+              setCode(mainExample)
             }
           }}>
             Load example

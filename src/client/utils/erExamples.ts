@@ -1,4 +1,4 @@
-export const example = (
+export const mainExample = (
 `ent Bibliotecários {
   CPF *
   Nome
@@ -55,5 +55,23 @@ aent empréstimo {
   DataRetirada *
   DataPrevistaDevolução
   ValorMulta
+}`
+)
+
+export const selfRelationshipSameCardinality = (
+`ent Worker {}
+
+rel management {
+  Worker (0,1)
+  Worker (0,1)
+}`
+)
+
+export const selfRelationshipDifferentCardinalities = (
+`ent Worker {}
+
+rel management {
+  Worker (0,1)
+  Worker (0,1)
 }`
 )
