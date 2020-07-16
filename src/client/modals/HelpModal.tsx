@@ -1,5 +1,9 @@
 import React from "react"
-import logo from "../assets/dango.png"
+import { MemoryRouter, Switch, Route } from "react-router-dom";
+
+import { Home } from "./help/Home";
+import { SelfRelationship } from "./help/SelfRelationship";
+import { HelpWrapper } from "./help/HelpWrapper";
 
 interface Props {
   show: boolean;
@@ -18,16 +22,12 @@ const HelpModal = React.memo((props: Props) => {
           <button className="delete" aria-label="close" onClick={(): void => setShow(!show)} />
         </header>
         <section className="modal-card-body">
-          <div className="mb-05 ta-j">
-            <img src={logo} className="center logo mb-1" />
-            <p>
-              <b>Dango</b> is a graph database modeling tool which allows you to write a schema for a Neo4j database by writing an Entity-Relationship diagram.
-            </p>
-            <br/>
-            <p>
-              The schema generated is composed of <a target="_blank" rel="noreferrer" href="https://neo4j.com/docs/cypher-manual/current/administration/constraints/">Neo4j constraints</a> and <a target="_blank" rel="noreferrer" href="https://neo4j.com/docs/labs/apoc/current/background-operations/triggers/">APOC triggers</a>, which force the nodes and relationships in the database to behave as modeled.
-            </p>
-          </div>
+          <MemoryRouter>
+            <Switch>
+              <Route exact path="/" component={() => Home()} />
+              <Route path="/self-relationship" component={() => HelpWrapper(SelfRelationship())} />
+            </Switch>
+          </MemoryRouter>
         </section>
         <footer className="modal-card-foot jc-flex-end">
           <button className="button" onClick={(): void => setShow(!show)}>
