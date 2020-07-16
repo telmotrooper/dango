@@ -25,6 +25,14 @@
   align-items: center;
   justify-content: space-between;
 }
+.back-button {
+  margin-top: -0.5em;
+  margin-bottom: 0.75em;
+}
+
+.paragraph {
+  margin-bottom: 0.75em;
+}
 
 .mb-1 {
   margin-bottom: 1em;

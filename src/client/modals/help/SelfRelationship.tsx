@@ -5,12 +5,12 @@ import { ExampleCodebox } from "./ExampleCodebox"
 
 export const SelfRelationship = (): JSX.Element => (
   <div>
-    <p>
+    <p className="paragraph">
       <b>Self-relationships</b> are relationships on which an entity connects to itself.
     </p>
     <p>Example 1 - Same cardinality:</p>
-    <ExampleCodebox code={selfRelationshipSameCardinality} />
+    <ExampleCodebox code={selfRelationshipSameCardinality} rows={6} />
     <p>Example 2 - Different cardinalities:</p>
-    <ExampleCodebox code={selfRelationshipDifferentCardinalities} />
+    <ExampleCodebox code={selfRelationshipDifferentCardinalities} rows={6} />
   </div>
 )
