@@ -30,6 +30,16 @@
   margin-bottom: 0.75em;
 }
 
+.example-codebox {
+  position: relative;
+}
+
+.example-codebox > .button {
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+}
+
 .paragraph {
   margin-bottom: 0.75em;
 }

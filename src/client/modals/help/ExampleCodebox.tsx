@@ -11,7 +11,12 @@ export const ExampleCodebox = (props: Props): JSX.Element => {
 
   if (!rows) { rows = 10 }
 
-  return (<textarea readOnly={true} className="textarea has-fixed-size is-small mb-1" rows={rows}>
-    {code}
-  </textarea>)
+  return (
+    <div className="example-codebox">
+      <textarea readOnly={true} className="textarea has-fixed-size is-small mb-1" rows={rows}>
+        {code}
+      </textarea>
+      <button className="button is-small">Copy to editor</button>
+    </div>
+  )
 }
