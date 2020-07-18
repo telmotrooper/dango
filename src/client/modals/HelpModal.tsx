@@ -5,18 +5,15 @@ import { Home } from "./help/Home";
 import { SelfRelationships } from "./help/SelfRelationships";
 import { HelpWrapper } from "./help/HelpWrapper";
 import { Specializations } from "./help/Specializations"
-import { TextArea } from "../utils/interfaces";
 
 interface Props {
-  code: string;
   setCode: (code: string) => void;
-  textAreaRef: TextArea;
   show: boolean;
   setShow: (arg0: boolean) => void;
 }
 
 const HelpModal = React.memo((props: Props) => {
-  const { show, setShow } = props
+  const { show, setShow, setCode } = props
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="help-modal">
@@ -30,8 +27,8 @@ const HelpModal = React.memo((props: Props) => {
           <MemoryRouter>
             <Switch>
               <Route exact path="/" component={() => Home()} />
-              <Route path="/self-relationships" component={() => HelpWrapper(SelfRelationships())} />
-              <Route path="/specializations" component={() => HelpWrapper(Specializations())} />
+              <Route path="/self-relationships" component={() => HelpWrapper(SelfRelationships({setCode}))} />
+              <Route path="/specializations" component={() => HelpWrapper(Specializations({setCode}))} />
             </Switch>
           </MemoryRouter>
         </section>

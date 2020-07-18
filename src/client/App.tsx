@@ -150,9 +150,7 @@ const App = (): JSX.Element => {
       </section>
 
       <HelpModal
-        code={code}
         setCode={setCode}
-        textAreaRef={textAreaRef}      
         show={showHelpModal}
         setShow={(): void => setShowHelpModal(!showHelpModal)}
       />
