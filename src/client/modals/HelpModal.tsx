@@ -4,6 +4,7 @@ import { MemoryRouter, Switch, Route } from "react-router-dom";
 import { Home } from "./help/Home";
 import { SelfRelationship } from "./help/SelfRelationship";
 import { HelpWrapper } from "./help/HelpWrapper";
+import { Specializations } from "./help/Specializations"
 
 interface Props {
   show: boolean;
@@ -26,6 +27,7 @@ const HelpModal = React.memo((props: Props) => {
             <Switch>
               <Route exact path="/" component={() => Home()} />
               <Route path="/self-relationship" component={() => HelpWrapper(SelfRelationship())} />
+              <Route path="/specializations" component={() => HelpWrapper(Specializations())} />
             </Switch>
           </MemoryRouter>
         </section>

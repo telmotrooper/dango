@@ -14,6 +14,7 @@ export const Home = (): JSX.Element => (
     <p><b>Conversion rules:</b></p>
     <ul>
       <li><Link to="/self-relationship">Self-relationship</Link></li>
+      <li><Link to="/specializations">Specializations</Link></li>
     </ul>
     <p>
     </p>

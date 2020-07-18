@@ -71,7 +71,11 @@ export const selfRelationshipDifferentCardinalities = (
 `ent Worker {}
 
 rel management {
-  Worker (0,1)
-  Worker (0,1)
+  Worker (1,1)
+  Worker (0,n)
 }`
+)
+
+export const specializations = (
+`TODO`
 )
