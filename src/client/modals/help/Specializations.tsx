@@ -6,10 +6,10 @@ import { ExampleCodebox } from "./ExampleCodebox"
 export const Specializations = (): JSX.Element => (
   <div>
     <p className="paragraph">
-      <b>Self-relationships</b> are relationships on which an entity connects to itself.
+      <b>Specializations</b> allow us to declare entities which share attributes with other entities.
     </p>
-    <p>Example 1 - Same cardinalities:</p>
-    <ExampleCodebox code={specializations} rows={6} />
-    <p className="paragraph text-after-codebox">TODO: WRITE ABOUT SPECIALIZATIONS HERE</p>
+    <p>Example 1 - Total and disjoint:</p>
+    <ExampleCodebox code={specializations} rows={11} />
+    <p className="paragraph text-after-codebox">TODO: WRITE ABOUT SPECIALIZATIONS HERE.</p>
   </div>
 )

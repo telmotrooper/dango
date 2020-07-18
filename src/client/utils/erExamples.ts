@@ -77,5 +77,15 @@ rel management {
 )
 
 export const specializations = (
-`TODO`
+`ent Person {}
+
+ent Developer {}
+
+ent Non-Developer {}
+
+spe {
+  Person (t,d)
+  Developer
+  Non-Developer
+}`
 )
