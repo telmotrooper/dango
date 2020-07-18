@@ -1,3 +1,9 @@
+.help-wrapper > p,
+.help-wrapper > ul,
+.help-wrapper > div > p {
+  font-size: 0.9rem;
+}
+
 .logo {
   width: 18vh;
 }
