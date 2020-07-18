@@ -58,7 +58,7 @@ aent empréstimo {
 }`
 )
 
-export const selfRelationshipSameCardinality = (
+export const selfRelationshipsSameCardinalities = (
 `ent Worker {}
 
 rel management {
@@ -67,7 +67,7 @@ rel management {
 }`
 )
 
-export const selfRelationshipDifferentCardinalities = (
+export const selfRelationshipsDifferentCardinalities = (
 `ent Worker {}
 
 rel management {

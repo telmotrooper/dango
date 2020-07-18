@@ -2,7 +2,7 @@ import React from "react"
 import { MemoryRouter, Switch, Route } from "react-router-dom";
 
 import { Home } from "./help/Home";
-import { SelfRelationship } from "./help/SelfRelationship";
+import { SelfRelationships } from "./help/SelfRelationships";
 import { HelpWrapper } from "./help/HelpWrapper";
 import { Specializations } from "./help/Specializations"
 
@@ -26,7 +26,7 @@ const HelpModal = React.memo((props: Props) => {
           <MemoryRouter>
             <Switch>
               <Route exact path="/" component={() => Home()} />
-              <Route path="/self-relationship" component={() => HelpWrapper(SelfRelationship())} />
+              <Route path="/self-relationships" component={() => HelpWrapper(SelfRelationships())} />
               <Route path="/specializations" component={() => HelpWrapper(Specializations())} />
             </Switch>
           </MemoryRouter>

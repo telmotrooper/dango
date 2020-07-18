@@ -13,7 +13,7 @@ export const Home = (): JSX.Element => (
     </p>
     <p><b>Conversion rules:</b></p>
     <ul>
-      <li><Link to="/self-relationship">Self-relationship</Link></li>
+      <li><Link to="/self-relationships">Self-relationship</Link></li>
       <li><Link to="/specializations">Specializations</Link></li>
     </ul>
     <p>
