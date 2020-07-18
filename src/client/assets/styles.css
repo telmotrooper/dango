@@ -1,5 +1,6 @@
 .help-wrapper > p,
 .help-wrapper > ul,
+.help-wrapper > div > a,
 .help-wrapper > div > p {
   font-size: 0.9rem;
 }
