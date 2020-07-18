@@ -2,6 +2,7 @@ import React, { Fragment } from "react"
 import { Link } from "react-router-dom"
 
 import logo from "../../assets/dango.png"
+import { helpRoutes } from "./helpRoutes"
 
 export const Home = (): JSX.Element => (
   <Fragment>
@@ -14,8 +15,8 @@ export const Home = (): JSX.Element => (
     </p>
     <p><b>Concepts:</b></p>
     <ul>
-      <li><Link to="/self-relationships">Self-relationship</Link></li>
-      <li><Link to="/specializations">Specializations</Link></li>
+      <li><Link to={helpRoutes.selfRelationships}>Self-relationship</Link></li>
+      <li><Link to={helpRoutes.specializations}>Specializations</Link></li>
     </ul>
     <p>
     </p>
