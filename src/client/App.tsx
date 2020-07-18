@@ -20,10 +20,13 @@ import { ErrorBoundary } from "./ErrorBoundary"
 import { GenericObject } from "../shared/interfaces";
 
 const App = (): JSX.Element => {
-  const [ showClearModal , setShowClearModal  ]       = useState(false)
-  const [ showHelpModal  , setShowHelpModal   ]       = useState(false)
-  const [ showParserModal, setShowParserModal ]       = useState(false)
-  const [ showCypherModal, setShowCypherModal ]       = useState(false)
+  const textAreaRef = createRef<HTMLTextAreaElement>()
+
+  // Main application state
+  const [ showClearModal, setShowClearModal ] = useState(false)
+  const [ showHelpModal, setShowHelpModal ] = useState(false)
+  const [ showParserModal, setShowParserModal ] = useState(false)
+  const [ showCypherModal, setShowCypherModal ] = useState(false)
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
   const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
@@ -32,6 +35,7 @@ const App = (): JSX.Element => {
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
   const [ engine, setEngine ] = useState<Engine>("dot")
+  const [ code, _setCode ] = useState("")
 
   // Check if we have connection data in local storage to prepare Neo4j driver.
   useEffect(() => {
@@ -41,8 +45,15 @@ const App = (): JSX.Element => {
     }
   }, [])
 
+  const setCode = (text: string): void => {
+    _setCode(text) // Update state
 
-  const setDiagram = (text: string) => {
+    if (textAreaRef?.current) { // Update text area
+      textAreaRef.current.value = text
+    }
+  }
+
+  const setDiagram = (text: string): void => {
     _setDiagram(text)
     setErrorBoundaryKey(errorBoundaryKey + 1) // This allows us to reattempt to render after a Graphviz error.
   }
@@ -51,8 +62,6 @@ const App = (): JSX.Element => {
     const text = JSON.stringify(json, null, 2)
     _setParserContent(text)
   }
-
-  const textAreaRef = createRef<HTMLTextAreaElement>()
 
   // Enable auto complete only when codebox already exists in the DOM 
   useEffect(() => setupAutoComplete(textAreaRef))
@@ -113,6 +122,8 @@ const App = (): JSX.Element => {
 
           <div className="columns">
             <Codebox
+              code={code}
+              setCode={setCode}
               textAreaRef={textAreaRef}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
@@ -139,6 +150,9 @@ const App = (): JSX.Element => {
       </section>
 
       <HelpModal
+        code={code}
+        setCode={setCode}
+        textAreaRef={textAreaRef}      
         show={showHelpModal}
         setShow={(): void => setShowHelpModal(!showHelpModal)}
       />

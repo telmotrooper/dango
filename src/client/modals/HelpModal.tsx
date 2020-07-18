@@ -5,8 +5,12 @@ import { Home } from "./help/Home";
 import { SelfRelationships } from "./help/SelfRelationships";
 import { HelpWrapper } from "./help/HelpWrapper";
 import { Specializations } from "./help/Specializations"
+import { TextArea } from "../utils/interfaces";
 
 interface Props {
+  code: string;
+  setCode: (code: string) => void;
+  textAreaRef: TextArea;
   show: boolean;
   setShow: (arg0: boolean) => void;
 }

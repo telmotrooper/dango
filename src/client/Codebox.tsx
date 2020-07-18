@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from "react"
+import React, { ChangeEvent, useEffect } from "react"
 import { Engine } from "d3-graphviz"
 import { toast } from "react-toastify"
 
@@ -9,6 +9,8 @@ import { convertER } from "./utils/graphviz"
 import { mainExample } from "./utils/erExamples"
 
 interface Props {
+  code: string,
+  setCode: (code: string) => void,
   textAreaRef: TextArea;
   handleSubmit: () => Promise<void>;
   handleUpdate: (diagram: string) => void;
@@ -19,9 +21,8 @@ interface Props {
 }
 
 const Codebox = React.memo((props: Props) => {
-  const { textAreaRef, handleSubmit, handleUpdate, setEngine, engine, sendButtonDisabled, setSendButtonDisabled } = props
-
-  const [ code, setCode ] = useState("")
+  const { code, setCode, textAreaRef, handleSubmit, handleUpdate,
+    setEngine, engine, sendButtonDisabled, setSendButtonDisabled } = props
   const debouncedCode = useDebounce(code, 500)
 
   useEffect(
@@ -70,12 +71,7 @@ const Codebox = React.memo((props: Props) => {
       </button>
       <div className="columns">
         <div className="column">
-          <button className="button is-fullwidth mb-05" onClick={(): void => {
-            if (textAreaRef?.current) {
-              textAreaRef.current.value = mainExample
-              setCode(mainExample)
-            }
-          }}>
+          <button className="button is-fullwidth mb-05" onClick={(): void => setCode(mainExample)}>
             Load example
           </button>
         </div>
