@@ -15,12 +15,19 @@ export const Relationships = (props: Props): JSX.Element => (
     </p>
 
     <p>Example:</p>
-    <ExampleCodebox code={relationshipExample} setCode={props.setCode} rows={9} />
-    <p>
-      In this example we define that entities Driver and Car are connected through a "has" relationship.
-      Since the cardinalities in both directions are minimum 0 and maximum n we don't have any restriction
-      on how many of each should be in a given relationship.
-    </p>
+    <div className="columns">
+      <div className="column">
+        <ExampleCodebox code={relationshipExample} setCode={props.setCode} rows={9} />
+      </div>
+      <div className="column">
+        <p>
+          In this example we define that entities Driver and Car are connected through a "has" relationship.
+          Since the cardinalities in both directions are minimum 0 and maximum n we don't have any restriction
+          on how many of each should be in a given relationship.
+        </p>
+      </div>
+    </div>
+
 
     {/* <p>Example 2 - Partial and overlap:</p>
     <ExampleCodebox code={specializationsPartialOverlap} setCode={props.setCode} rows={11} />

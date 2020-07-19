@@ -16,16 +16,28 @@ export const SelfRelationships = (props: Props): JSX.Element => (
     </p>
     
     <p>Example 1 - Same cardinalities:</p>
-    <ExampleCodebox code={selfRelationshipsSameCardinalities} setCode={props.setCode} rows={6} />
-    <p>
-      Self-relationships with the same cardinalities allow us to write valid rules, since we only have one lower limit and one upper limit for each entity.
-    </p>
+    <div className="columns">
+      <div className="column">
+        <ExampleCodebox code={selfRelationshipsSameCardinalities} setCode={props.setCode} rows={6} />
+      </div>
+      <div className="column">
+        <p>
+          Self-relationships with the same cardinalities allow us to write valid rules, since we only have one lower limit and one upper limit for each entity.
+        </p>
+      </div>
+    </div>
 
     <p>Example 2 - Different cardinalities:</p>
-    <ExampleCodebox code={selfRelationshipsDifferentCardinalities} setCode={props.setCode} rows={6} />
-    <p>
-      Self-relationships with different cardinalities do not provide enough information to infer which entity should have which cardinalities,
-      in such a situation we recommend writing a <Link to={helpRoutes.specializations}>Specialization</Link> for each node.
-    </p>
+    <div className="columns">
+      <div className="column">
+        <ExampleCodebox code={selfRelationshipsDifferentCardinalities} setCode={props.setCode} rows={6} />
+      </div>
+      <div className="column">
+        <p>
+          Self-relationships with different cardinalities do not provide enough information to infer which entity should have which cardinalities,
+          in such a situation we recommend writing a <Link to={helpRoutes.specializations}>Specialization</Link> for each node.
+        </p>
+      </div>
+    </div>
   </div>
 )

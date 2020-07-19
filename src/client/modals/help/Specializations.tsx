@@ -26,16 +26,28 @@ export const Specializations = (props: Props): JSX.Element => (
     </p>
 
     <p>Example 1 - Total and disjoint:</p>
-    <ExampleCodebox code={specializationsTotalDisjoint} setCode={props.setCode} rows={11} />
-    <p>
-      In this example we define that for a Person to exist, they must be either a Developer or a Non-Developer (total).
-      We also say that a Person can't be both a Developer and a Non-Developer at the same time (disjoint).
-    </p>
+    <div className="columns">
+      <div className="column">
+        <ExampleCodebox code={specializationsTotalDisjoint} setCode={props.setCode} rows={11} />
+      </div>
+      <div className="column">
+        <p>
+          In this example we define that for a Person to exist, they must be either a Developer or a Non-Developer (total).
+          We also say that a Person can't be both a Developer and a Non-Developer at the same time (disjoint).
+        </p>
+      </div>
+    </div>
 
     <p>Example 2 - Partial and overlap:</p>
-    <ExampleCodebox code={specializationsPartialOverlap} setCode={props.setCode} rows={11} />
-    <p>
-      In this example we define that a Person can be a Cyclist and/or a Driver (overlap), but there might be People who are neither (partial).
-    </p>
+    <div className="columns">
+      <div className="column">
+        <ExampleCodebox code={specializationsPartialOverlap} setCode={props.setCode} rows={11} />
+      </div>
+      <div className="column">
+        <p>
+          In this example we define that a Person can be a Cyclist and/or a Driver (overlap), but there might be People who are neither (partial).
+        </p>
+      </div>
+    </div>
   </Fragment>
 )
