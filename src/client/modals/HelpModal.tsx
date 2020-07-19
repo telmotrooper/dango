@@ -24,7 +24,7 @@ const HelpModal = React.memo((props: Props) => {
           <button className="delete" aria-label="close" onClick={(): void => setShow(!show)} />
         </header>
         <section className="modal-card-body help-wrapper ta-j">
-          <div className="content is-small">
+          <div className="content is-small-medium">
             <MemoryRouter>
               <Switch>
                 <Route exact path="/" component={() => Home()} />

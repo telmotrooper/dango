@@ -6,8 +6,8 @@
   margin-bottom: 1em;
 }
 
-.is-small { /* Overwriting a Bulma class*/
-  font-size: .9rem !important;
+.is-small-medium { /* Overwriting a Bulma class*/
+  font-size: .9rem;
 }
 
 .modal-card-big {
