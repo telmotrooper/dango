@@ -1,10 +1,12 @@
 import React from "react"
 import { MemoryRouter, Switch, Route } from "react-router-dom";
 
-import { Home } from "./help/Home";
-import { SelfRelationships } from "./help/SelfRelationships";
-import { HelpWrapper } from "./help/HelpWrapper";
-import { Specializations } from "./help/Specializations"
+import { Home } from "./Home";
+import { SelfRelationships } from "./SelfRelationships";
+import { HelpWrapper } from "./HelpWrapper";
+import { Specializations } from "./Specializations"
+import { helpRoutes } from "./helpRoutes";
+import { Relationships } from "./Relationships";
 
 interface Props {
   setCode: (code: string) => void;
@@ -28,8 +30,9 @@ const HelpModal = React.memo((props: Props) => {
             <MemoryRouter>
               <Switch>
                 <Route exact path="/" component={() => Home()} />
-                <Route path="/self-relationships" component={() => HelpWrapper(SelfRelationships({setCode}))} />
-                <Route path="/specializations" component={() => HelpWrapper(Specializations({setCode}))} />
+                <Route path={helpRoutes.relationships} component={() => HelpWrapper(Relationships({setCode}))} />
+                <Route path={helpRoutes.selfRelationships} component={() => HelpWrapper(SelfRelationships({setCode}))} />
+                <Route path={helpRoutes.specializations} component={() => HelpWrapper(Specializations({setCode}))} />
               </Switch>
             </MemoryRouter>
           </div>

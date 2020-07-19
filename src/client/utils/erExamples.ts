@@ -58,6 +58,18 @@ aent empréstimo {
 }`
 )
 
+export const relationshipExample = (
+`ent Driver {}
+
+ent Car {}
+
+rel has {
+  Driver (0,n)
+  Car (0,n)
+  since
+}`
+)
+
 export const selfRelationshipsSameCardinalities = (
 `ent Worker {}
 

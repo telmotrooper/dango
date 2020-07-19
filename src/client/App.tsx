@@ -5,7 +5,7 @@ import { Engine } from "d3-graphviz"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { HelpModal } from "./modals/HelpModal"
+import { HelpModal } from "./modals/help/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
 import { Header } from "./Header"
 import { saveToDevice, setupAutoComplete } from "./utils/codebox"
