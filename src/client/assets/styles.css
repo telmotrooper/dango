@@ -1,4 +1,12 @@
-.is-small {
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 18vh;
+  margin-bottom: 1em;
+}
+
+.is-small { /* Overwriting a Bulma class*/
   font-size: .9rem !important;
 }
 

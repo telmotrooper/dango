@@ -6,9 +6,7 @@ import { helpRoutes } from "./helpRoutes"
 
 export const Home = (): JSX.Element => (
   <Fragment>
-    <figure className="image is-128x128">
-      <img src={logo} />
-    </figure>
+    <img className="logo" src={logo} />
 
     <p>
       <b>Dango</b> is a graph database modeling tool which allows you to write a schema for a Neo4j database by writing an Entity-Relationship diagram.
