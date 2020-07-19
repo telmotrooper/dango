@@ -24,13 +24,15 @@ const HelpModal = React.memo((props: Props) => {
           <button className="delete" aria-label="close" onClick={(): void => setShow(!show)} />
         </header>
         <section className="modal-card-body help-wrapper ta-j">
-          <MemoryRouter>
-            <Switch>
-              <Route exact path="/" component={() => Home()} />
-              <Route path="/self-relationships" component={() => HelpWrapper(SelfRelationships({setCode}))} />
-              <Route path="/specializations" component={() => HelpWrapper(Specializations({setCode}))} />
-            </Switch>
-          </MemoryRouter>
+          <div className="content is-small">
+            <MemoryRouter>
+              <Switch>
+                <Route exact path="/" component={() => Home()} />
+                <Route path="/self-relationships" component={() => HelpWrapper(SelfRelationships({setCode}))} />
+                <Route path="/specializations" component={() => HelpWrapper(Specializations({setCode}))} />
+              </Switch>
+            </MemoryRouter>
+          </div>
         </section>
         <footer className="modal-card-foot jc-flex-end">
           <button className="button" onClick={(): void => setShow(!show)}>
