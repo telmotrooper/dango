@@ -14,6 +14,7 @@ export const SelfRelationships = (props: Props): JSX.Element => (
     <p className="paragraph">
       <b>Self-relationships</b> are relationships on which an entity connects to itself.
     </p>
+    
     <p>Example 1 - Same cardinalities:</p>
     <ExampleCodebox code={selfRelationshipsSameCardinalities} setCode={props.setCode} rows={6} />
     <p className="paragraph text-after-codebox">

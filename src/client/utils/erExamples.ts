@@ -76,7 +76,7 @@ rel management {
 }`
 )
 
-export const specializations = (
+export const specializationsTotalDisjoint = (
 `ent Person {}
 
 ent Developer {}
@@ -87,5 +87,19 @@ spe {
   Person (t,d)
   Developer
   Non-Developer
+}`
+)
+
+export const specializationsPartialOverlap = (
+`ent Person {}
+
+ent Cyclist {}
+
+ent Engineer {}
+
+spe {
+  Person (p,o)
+  Cyclist
+  Engineer
 }`
 )

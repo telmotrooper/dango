@@ -1,6 +1,6 @@
 import React from "react"
 
-import { specializations } from "../../utils/erExamples"
+import { specializationsTotalDisjoint, specializationsPartialOverlap } from "../../utils/erExamples"
 import { ExampleCodebox } from "./ExampleCodebox"
 
 interface Props {
@@ -26,7 +26,16 @@ export const Specializations = (props: Props): JSX.Element => (
     </p>
 
     <p>Example 1 - Total and disjoint:</p>
-    <ExampleCodebox code={specializations} setCode={props.setCode} rows={11} />
-    <p className="paragraph text-after-codebox">TODO: WRITE AN EXAMPLE OF A (P,O) SPECIALIZATION.</p>
+    <ExampleCodebox code={specializationsTotalDisjoint} setCode={props.setCode} rows={11} />
+    <p className="paragraph text-after-codebox">
+      In this example we define that for a Person to exist, they must be either a Developer or a Non-Developer (total).
+      We also say that a Person can't be both a Developer and a Non-Developer at the same time (disjoint).
+    </p>
+
+    <p>Example 2 - Partial and overlap:</p>
+    <ExampleCodebox code={specializationsPartialOverlap} setCode={props.setCode} rows={11} />
+    <p className="paragraph text-after-codebox">
+      In this example we define that a Person can be a Cyclist and/or a Driver (overlap), but there might be People who are neither (partial).
+    </p>
   </div>
 )
