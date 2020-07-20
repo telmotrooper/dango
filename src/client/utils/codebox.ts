@@ -60,7 +60,7 @@ const setupAutoComplete= (codebox: TextArea): void => {
           e.preventDefault();
 
           if(value[selectionStart-1] === "{" && value[selectionStart] === "}") {
-            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + value.slice(selectionEnd);
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + indentation + value.slice(selectionEnd);
             codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
       
           } else if(value[selectionStart-1] === "{") {  // new line + indentation
