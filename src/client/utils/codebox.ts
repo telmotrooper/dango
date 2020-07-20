@@ -1,6 +1,7 @@
 import { toast } from "react-toastify"
 
 import { TextArea } from "./interfaces"
+import { initialWhitespace } from "../../server/misc/regex"
 
 const clearCode = (codebox: TextArea, setShow: (arg0: boolean) => void): void => {
   if(codebox.current) {
@@ -35,6 +36,12 @@ const setupAutoComplete= (codebox: TextArea): void => {
         const { value, selectionStart, selectionEnd } = codebox.current;
       
         // console.log(`Key code: ${keyCode}`)
+
+        const fromBeginningUpToCursor: string = value.substr(0, selectionStart)
+        const newLine: number = fromBeginningUpToCursor.lastIndexOf("\n") ?? 0
+        const currentLine: string = value.substr(newLine+1, selectionEnd) // Calculated before last key press
+        const indentation: string = currentLine.match(initialWhitespace)?.[0] ?? ""
+        // console.log(currentLine)
       
         if (keyCode === 9) {  // TAB
           e.preventDefault();
@@ -50,22 +57,19 @@ const setupAutoComplete= (codebox: TextArea): void => {
         }
       
         if (keyCode === 13 && selectionStart !== value.length) {  // ENTER
-          /* Using "value" instead of "codebox.value", because value
-              is a copy of the codebox value at the beginning of the
-              event, which allows us compare it to "selectionStart"
-              to know when the cursor is at the end of the codebox. */
-      
+          e.preventDefault();
+
           if(value[selectionStart-1] === "{" && value[selectionStart] === "}") {
-            e.preventDefault();
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + value.slice(selectionEnd);
+            codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
       
-            codebox.current.value = value.slice(0, selectionStart) + "\n  \n" + value.slice(selectionEnd);
-            codebox.current.setSelectionRange(selectionStart+3, selectionStart+3)
-      
-          } else if(value[selectionStart-1] === "{" || value[selectionStart+1] === "}") {  // new line + two spaces indentation
-            e.preventDefault();
-      
-            codebox.current.value = value.slice(0, selectionStart) + "\n  " + value.slice(selectionEnd);
-            codebox.current.setSelectionRange(selectionStart+3, selectionStart+3)
+          } else if(value[selectionStart-1] === "{") {  // new line + indentation
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + value.slice(selectionEnd);
+            codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
+            
+          } else { // Maintain same indentation level
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + value.slice(selectionEnd);
+            codebox.current.setSelectionRange(selectionStart+indentation.length+1, selectionStart+indentation.length+1)
           }
           
         }
