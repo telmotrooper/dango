@@ -28,6 +28,8 @@ export const firstWordFound = /\S+/
 
 export const allWords = /\S+/g
 
+export const initialWhitespace = /^\s+/
+
 /* Word boundary (\b) prevents "aent" from being matched by "ent" and it also prevents
  * issues when a protected word is used as part of an entity title, e.g. "ent appointment". */
 export const allFromTextUpToClosingCurlyBrackets = (text: string): RegExp =>
