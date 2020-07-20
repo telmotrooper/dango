@@ -19,6 +19,7 @@ export const Home = (): JSX.Element => (
     <h6>Concepts:</h6>
 
     <ul>
+      <li><Link to={helpRoutes.compositeAttributes}>Composite attributes (TODO)</Link></li>
       <li><Link to={helpRoutes.relationships}>Relationships</Link></li>
       <li><Link to={helpRoutes.selfRelationships}>Self-relationships</Link></li>
       <li><Link to={helpRoutes.specializations}>Specializations</Link></li>
