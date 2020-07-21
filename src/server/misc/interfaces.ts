@@ -1,3 +1,5 @@
+import { GenericObject } from "../../shared/interfaces";
+
 export interface ER {  // entity-relationship diagram
   ent: Ent[];
   rel: Rel[];
@@ -9,6 +11,7 @@ export interface ER {  // entity-relationship diagram
 export interface Ent { // entity
   id: string;
   attributes: string[];
+  compositeAttributes: GenericObject;
   pk: string[];
 }
 

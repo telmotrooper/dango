@@ -10,6 +10,9 @@ export const secondWordFound = /(?<=\w )[^\s]+/
 
 export const allBetweenCurlyBrackets = /[^{]+(?=})/
 
+// This one works better with composite attributes.
+export const allBetweenCurlyBracketsIncludingThem = /\{[^]+\}/
+
 export const allButWhitespace = /(\S)+/g
 
 // Useful to split lines without returning the empty ones.
