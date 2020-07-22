@@ -1,7 +1,6 @@
-import { Ent } from "../misc/interfaces"
-import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace, allBetweenCurlyBracketsIncludingThem } from "../misc/regex"
+import { Ent, CompositeAttributes } from "../misc/interfaces"
+import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace, allButWhitespace } from "../misc/regex"
 import { removeIndentation } from "../cypher/helpers"
-import { GenericObject } from "../../shared/interfaces"
 
 const parseEntities = (rawEntities: string[]): Ent[] => {
   const entities: Ent[] = []
@@ -9,26 +8,36 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
   for (const ent of rawEntities) {
     const id: string = ent.match(secondWordFound)?.[0] ?? ""   
 
-    // TODO: Finish working on composite attributes.
-    let x: string = ent.match(allBetweenCurlyBracketsIncludingThem)?.[0] ?? ""
-    x = x.substr(1, x.length-1)
-    console.log(x)
-
     const data: string[] = ent.match(allBetweenCurlyBrackets)?.[0].match(linesIncludingWhitespace) ?? []
     removeIndentation(data)
 
     const attributes: string[] = []
-    // eslint-disable-next-line prefer-const
-    let compositeAttributes: GenericObject = {}
+    const compositeAttributes: CompositeAttributes = {}
     const pk: string[] = []
 
+    let isCompositeAttribute = ""
+
     for (let i = 0; i < data.length; i += 1) {
-      if (data[i].includes(" *")) {
+      if (data[i] == "]") {
+        isCompositeAttribute = ""
+
+      } else if (data[i].includes("[")) {
+        const compositeAttributeName = data[i].match(allButWhitespace)?.[0] ?? ""
+        compositeAttributes[compositeAttributeName] = []
+        isCompositeAttribute = compositeAttributeName
+
+      } else if (data[i].includes(" *")) {
         const attributeName = data[i].substr(0, data[i].length-2)
         attributes.push(attributeName)
         pk.push(attributeName)
+      
       } else {
-        attributes.push(data[i])
+        if (isCompositeAttribute != "") {
+          compositeAttributes[isCompositeAttribute].push(data[i])
+
+        } else {
+          attributes.push(data[i])
+        }
       }
     }
 

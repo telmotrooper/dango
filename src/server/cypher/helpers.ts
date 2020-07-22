@@ -1,6 +1,6 @@
 import { ER, Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
-import { anythingFromFirstCharacter } from "../misc/regex"
+import { allButWhitespace, anythingFromFirstCharacter } from "../misc/regex"
 import { titlefy } from "../../shared/removeAccents"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
@@ -60,8 +60,15 @@ export const removeIndentation = (lines: Array<string>): void => {
   for (let i = 0; i < lines.length; i++) {
     const lineWithoutIndentation = lines[i].match(anythingFromFirstCharacter)?.[0]
     
+    // What if line has a "  ]"? We should still match the "]" even though it's not a word.
+    const alternative = lines[i].match(allButWhitespace)?.[0]
+    
     if (lineWithoutIndentation) {
       lines[i] = lineWithoutIndentation
+      
+    } else if (alternative) {
+      lines[i] = alternative
+
     } else { // If line is composed solely of whitespace.
       removalList.push(i)
     }

@@ -1,5 +1,3 @@
-import { GenericObject } from "../../shared/interfaces";
-
 export interface ER {  // entity-relationship diagram
   ent: Ent[];
   rel: Rel[];
@@ -11,9 +9,15 @@ export interface ER {  // entity-relationship diagram
 export interface Ent { // entity
   id: string;
   attributes: string[];
-  compositeAttributes: GenericObject;
+  compositeAttributes: CompositeAttributes;
   pk: string[];
 }
+
+export interface CompositeAttributes {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [property: string]: Array<string>;
+}
+
 
 export interface Rel { // relationship
   id: string;
