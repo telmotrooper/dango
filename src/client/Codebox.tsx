@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
-import { convertER } from "./utils/graphviz"
+import { erToGraphviz } from "./utils/graphviz"
 import { mainExample } from "./utils/erExamples"
 
 interface Props {
@@ -47,7 +47,7 @@ const Codebox = React.memo((props: Props) => {
             }
 
             // Convert ER to Graphviz and update diagram
-            handleUpdate(convertER(res.data))
+            handleUpdate(erToGraphviz(res.data))
           }
         }
       }

@@ -199,7 +199,7 @@ const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = fals
   return text
 }
 
-const convertER = (code: ER): string => {
+const erToGraphviz = (code: ER): string => {
   if (Object.entries(code).length === 0) {
     return "graph G {}"
   }
@@ -269,9 +269,9 @@ const convertER = (code: ER): string => {
 
   diagram += "\n}"
 
-  // console.log(diagram)
+  console.log(diagram)
 
   return diagram
 }
 
-export { convertER }
+export { erToGraphviz }
