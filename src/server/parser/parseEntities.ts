@@ -15,25 +15,25 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
     const compositeAttributes: CompositeAttributes = {}
     const pk: string[] = []
 
-    let isCompositeAttribute = ""
+    let insideCompositeAttribute = ""
 
     for (let i = 0; i < data.length; i += 1) {
-      if (data[i] == "]") {
-        isCompositeAttribute = ""
+      if (data[i] == "]") { // Composite attribute has ended.
+        insideCompositeAttribute = ""
 
-      } else if (data[i].includes("[")) {
+      } else if (data[i].includes("[")) { // Beginning of composite attribute.
         const compositeAttributeName = data[i].match(allButWhitespace)?.[0] ?? ""
         compositeAttributes[compositeAttributeName] = []
-        isCompositeAttribute = compositeAttributeName
+        insideCompositeAttribute = compositeAttributeName
 
-      } else if (data[i].includes(" *")) {
+      } else if (data[i].includes(" *")) { // Unique attribute.
         const attributeName = data[i].substr(0, data[i].length-2)
         attributes.push(attributeName)
         pk.push(attributeName)
       
       } else {
-        if (isCompositeAttribute != "") {
-          compositeAttributes[isCompositeAttribute].push(data[i])
+        if (insideCompositeAttribute != "") {
+          compositeAttributes[insideCompositeAttribute].push(data[i])
 
         } else {
           attributes.push(data[i])
