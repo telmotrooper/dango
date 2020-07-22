@@ -1,5 +1,5 @@
 import { lower } from "../../shared/removeAccents"
-import { ER, Ent, AEnt, Rel, Spe, Conn } from "../../server/misc/interfaces"
+import { ER, Ent, AEnt, Rel, Spe, Conn, CompositeAttributes } from "../../server/misc/interfaces"
 import { Shape, Proportions } from "./interfaces"
 import { indentation } from "../../shared/constants"
 import { clusterize, serialize } from "./helpers"
@@ -199,6 +199,18 @@ const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = fals
   return text
 }
 
+const generateCompositeAttributes = (entityName: string, compAttributes: CompositeAttributes): string => {
+  let text = ""
+
+  for (const [key, value] of Object.entries(compAttributes)) {
+    text += getAttribute(entityName, key)
+
+    // TODO: ADD CONNECTIONS TO ATTRIBUTES OF COMPOSITE ATTRIBUTE
+  }
+  
+  return text
+}
+
 const erToGraphviz = (code: ER): string => {
   if (Object.entries(code).length === 0) {
     return "graph G {}"
@@ -235,6 +247,10 @@ const erToGraphviz = (code: ER): string => {
 
       diagram += getEntity(ent.id, isWeak) + "\n"
       diagram += generateAttributes(ent, false, true)
+
+      if (Object.entries(ent.compositeAttributes).length > 0) {
+        diagram += generateCompositeAttributes(ent.id, ent.compositeAttributes)
+      }
     }
   }
 
