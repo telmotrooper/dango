@@ -2,8 +2,8 @@ import React, { createRef, Fragment, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
 import { Engine } from "d3-graphviz"
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import { HelpModal } from "./modals/help/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
@@ -141,7 +141,7 @@ const App = (): JSX.Element => {
                     height: "100%" as unknown as number,
                     width: "100%" as unknown as number
                   }}
-                  dot={diagram || `graph G {}`}
+                  dot={diagram || "graph G {}"}
                 />
               </ErrorBoundary>
             </section>

@@ -17,7 +17,7 @@ export const generateTrigger = (triggerName: string, statement: string): string 
   return `CALL apoc.trigger.add('${triggerName}', ` +
   `'CALL apoc.periodic.submit("${triggerName}", \\'` + "\n" +
   statement + "\n" +
-  `\\')', {phase: 'after'});\n\n`
+  "\\')', {phase: 'after'});\n\n"
 }
 
 // Note: This method might also return associative entities in the future.

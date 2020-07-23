@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     "prefer-const": "warn",
     "semi": ["warn", "never"],
+    "quotes": ["warn", "double", {"avoidEscape": true}],
     "no-extra-parens": ["warn", "all"],
     "react/no-unescaped-entities": "off",
     "react/display-name": "off"

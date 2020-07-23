@@ -15,16 +15,16 @@ import { typeCheck, lintCheck } from "./misc/codeChecks"
 const app: express.Application = express()
 const port: number = normalizePort(process.env.PORT || 8000)
 
-const entryFiles = join(__dirname, '../client/index.html')
+const entryFiles = join(__dirname, "../client/index.html")
 
 const bundler = new Bundler(entryFiles, { // more at https://parceljs.org/cli.html#options
   sourceMaps: true,
-  outDir: 'build'
+  outDir: "build"
 } as Bundler.ParcelOptions)
 
-bundler.on('bundled', () => {
-  console.log('\n' + bold(`Running application on ` + blue(`http://localhost:${port}`)) + '\n')
-  console.log(blue('A type and lint checking report is being generated...\n'))
+bundler.on("bundled", () => {
+  console.log("\n" + bold("Running application on " + blue(`http://localhost:${port}`)) + "\n")
+  console.log(blue("A type and lint checking report is being generated...\n"))
   typeCheck()
   lintCheck()
 })
