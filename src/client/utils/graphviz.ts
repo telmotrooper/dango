@@ -126,7 +126,7 @@ const getSpecialization = (specialization: Spe): string => {
   return text
 }
 
-const getAttribute = (entityName: string, attributeName: string, primaryKey = false): string => {
+const getAttribute = (entityName: string, attributeName: string, primaryKey = false, isCompositeAttribute = false): string => {
   const label = getLabel(attributeName)
 
   const properties = serialize({
@@ -137,7 +137,7 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey = fa
     width: 0.25,
     height: 0.25,
     fontsize: 10,
-    fillcolor: attributeColor,
+    fillcolor: isCompositeAttribute ? "#00526d" : attributeColor,
     fontname: fontName,
     xlabel: label
   })
@@ -203,12 +203,12 @@ const generateCompositeAttributes = (entityName: string, compAttributes: Composi
   let text = ""
 
   for (const [key, value] of Object.entries(compAttributes)) {
-    text += getAttribute(entityName, key)
+    text += getAttribute(entityName, key, false, true)
     text += getConnection(entityName, key, false, false)
 
     for (const attribute of value) {
       const attributeId = lower(entityName + "_" + key)
-      text += getAttribute(attributeId, attribute)
+      text += getAttribute(attributeId, attribute, false)
       text += getConnection(attributeId, attribute, false, false)
     }
 
