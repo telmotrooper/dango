@@ -42,7 +42,7 @@ const parseAssociativeEntities = (
       relationship => relationship.entities.filter(
         entity => entity.id == associativeEntity.id).length >= 1)
     
-    associativeEntity.relationships = rel.map(rel => rel.id);
+    associativeEntity.relationships = rel.map(rel => rel.id)
     
     associativeEntities.push(associativeEntity)
   }

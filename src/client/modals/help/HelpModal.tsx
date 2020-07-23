@@ -1,13 +1,13 @@
 import React from "react"
-import { MemoryRouter, Switch, Route } from "react-router-dom";
+import { MemoryRouter, Switch, Route } from "react-router-dom"
 
-import { Home } from "./Home";
-import { SelfRelationships } from "./SelfRelationships";
-import { HelpWrapper } from "./HelpWrapper";
+import { Home } from "./Home"
+import { SelfRelationships } from "./SelfRelationships"
+import { HelpWrapper } from "./HelpWrapper"
 import { Specializations } from "./Specializations"
-import { helpRoutes } from "./helpRoutes";
-import { Relationships } from "./Relationships";
-import { CompositeAttributes } from "./CompositeAttributes";
+import { helpRoutes } from "./helpRoutes"
+import { Relationships } from "./Relationships"
+import { CompositeAttributes } from "./CompositeAttributes"
 
 interface Props {
   setCode: (code: string) => void;

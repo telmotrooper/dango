@@ -12,6 +12,7 @@ module.exports = {
   ],
   rules: {
     "prefer-const": "warn",
+    "semi": ["warn", "never"],
     "react/no-unescaped-entities": "off",
     "react/display-name": "off"
   },
@@ -20,4 +21,4 @@ module.exports = {
       version: "detect"
     }
   }
-};
+}

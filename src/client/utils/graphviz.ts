@@ -147,9 +147,9 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey = fa
 
 const getConnection = (entityName: string, attributeName: string, isAEnt = false, isWeak = false): string => {
   if (isAEnt || isWeak) {
-    return indentation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)}` + serialize({lhead: "cluster_" + lower(entityName)})
+    return indentation + `${lower(entityName + "_" + attributeName)} -- ${lower(entityName)}` + serialize({lhead: "cluster_" + lower(entityName)}) + "\n"
   } else {
-    return indentation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}`
+    return indentation + `${lower(entityName)} -- ${lower(entityName + "_" + attributeName)}` + "\n"
   }
 }
   
@@ -193,7 +193,7 @@ const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = fals
   for (const attribute of ent.attributes) {
     const isPrimaryKey = ent.pk.indexOf(attribute) !== -1
     text += getAttribute(ent.id, attribute, isPrimaryKey) + "\n"
-    text += getConnection(ent.id, attribute, isAEnt, isWeak) + "\n"
+    text += getConnection(ent.id, attribute, isAEnt, isWeak)
   }
 
   return text
@@ -204,6 +204,11 @@ const generateCompositeAttributes = (entityName: string, compAttributes: Composi
 
   for (const [key, value] of Object.entries(compAttributes)) {
     text += getAttribute(entityName, key)
+    text += getConnection(entityName, key, false, false)
+
+    for (const attribute of value) {
+      text += getAttribute(lower(entityName + "_" + key), attribute)
+    }
 
     // TODO: ADD CONNECTIONS TO ATTRIBUTES OF COMPOSITE ATTRIBUTE
   }

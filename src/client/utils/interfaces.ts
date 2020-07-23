@@ -1,8 +1,8 @@
 import { RefObject } from "react"
 
-import { GenericObject } from "../../shared/interfaces";
+import { GenericObject } from "../../shared/interfaces"
 
-export type Shape = "rectangle" | "triangle" | "doublecircle" | "circle" |"diamond";
+export type Shape = "rectangle" | "triangle" | "doublecircle" | "circle" |"diamond"
 
 export interface RequestStore {
   data: GenericObject | Array<unknown>

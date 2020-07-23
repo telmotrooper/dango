@@ -10,7 +10,7 @@ axios.interceptors.response.use(undefined, (error) => {
     toast.error(apiConnectionError, defaultToast)
   }
   return Promise.reject(error)
-});
+})
 
 export const submitCode = (code: string): Promise<AxiosResponse> =>
   axios.post("/api/er-to-json", {

@@ -32,8 +32,8 @@ const setupAutoComplete= (codebox: TextArea): void => {
   if(codebox.current) {
     codebox.current.addEventListener("keydown", (e) => {
       if(codebox.current) {
-        const { keyCode } = e;
-        const { value, selectionStart, selectionEnd } = codebox.current;
+        const { keyCode } = e
+        const { value, selectionStart, selectionEnd } = codebox.current
       
         // console.log(`Key code: ${keyCode}`)
 
@@ -44,9 +44,9 @@ const setupAutoComplete= (codebox: TextArea): void => {
         // console.log(currentLine)
       
         if (keyCode === 9) {  // TAB
-          e.preventDefault();
+          e.preventDefault()
       
-          codebox.current.value = value.slice(0, selectionStart) + "  " + value.slice(selectionEnd);
+          codebox.current.value = value.slice(0, selectionStart) + "  " + value.slice(selectionEnd)
       
           codebox.current.setSelectionRange(selectionStart+2, selectionStart+2)
         }
@@ -57,39 +57,39 @@ const setupAutoComplete= (codebox: TextArea): void => {
             closingCharacter = "]"
           }
 
-          codebox.current.value = value.slice(0, selectionStart) + closingCharacter + value.slice(selectionEnd);
+          codebox.current.value = value.slice(0, selectionStart) + closingCharacter + value.slice(selectionEnd)
           codebox.current.setSelectionRange(selectionStart, selectionStart)
         }
       
         if (keyCode === 13 && selectionStart !== value.length) {  // ENTER
-          e.preventDefault();
+          e.preventDefault()
 
           if(value[selectionStart-1] === "{" && value[selectionStart] === "}") {
-            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + indentation + value.slice(selectionEnd);
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + indentation + value.slice(selectionEnd)
             codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
       
           } else if(value[selectionStart-1] === "{") {  // new line + indentation
-            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + value.slice(selectionEnd);
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + value.slice(selectionEnd)
             codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
             
           } else { // Maintain same indentation level
-            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + value.slice(selectionEnd);
+            codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + value.slice(selectionEnd)
             codebox.current.setSelectionRange(selectionStart+indentation.length+1, selectionStart+indentation.length+1)
           }
           
         }
       
         if (keyCode === 57) {   // "("
-          codebox.current.value = value.slice(0, selectionStart) + ",)" + value.slice(selectionEnd);
+          codebox.current.value = value.slice(0, selectionStart) + ",)" + value.slice(selectionEnd)
           codebox.current.setSelectionRange(selectionStart, selectionStart)
         }
       
         if (keyCode === 188 && value.slice(selectionStart, selectionStart+1) === ",") {   // ","
-          e.preventDefault();
-          codebox.current.setSelectionRange(selectionStart+1, selectionStart+1);
+          e.preventDefault()
+          codebox.current.setSelectionRange(selectionStart+1, selectionStart+1)
         }
       }
-    });
+    })
   }
 }
 

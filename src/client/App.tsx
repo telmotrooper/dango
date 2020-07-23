@@ -2,8 +2,8 @@ import React, { createRef, Fragment, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
 import { Engine } from "d3-graphviz"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { HelpModal } from "./modals/help/HelpModal"
 import { ClearModal } from "./modals/ClearModal"
@@ -17,7 +17,7 @@ import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
-import { GenericObject } from "../shared/interfaces";
+import { GenericObject } from "../shared/interfaces"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
