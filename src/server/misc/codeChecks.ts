@@ -8,7 +8,7 @@ export const typeCheck = (): void => {
     const output = stdout.split('\n')
 
     if (output.length > 5) {  // 5 lines = output with no errors found
-      console.log('\n' + red(bold((output.length - 5) + ' type error(s) found:') + '\n'))
+      console.log('\n' + red(bold(output.length - 5 + ' type error(s) found:') + '\n'))
 
       for (let i = 4; i < output.length; i++) {
         if (output[i].substr(0, 4) === 'src/') {
@@ -29,7 +29,7 @@ export const lintCheck = (): void => {
     const output = stdout.split('\n')
 
     if (output.length > 5) {  // 5 lines = output with no errors found
-      console.log('\n' + red(bold((output.length - 7) + ' lint error(s) found:') + '\n'))
+      console.log('\n' + red(bold(output.length - 7 + ' lint error(s) found:') + '\n'))
 
       for (let i = 5; i < output.length - 2; i++) { // "- 2" because the two last lines are always empty
         console.log(red(output[i]) + '\n')

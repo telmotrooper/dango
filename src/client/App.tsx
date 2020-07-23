@@ -138,8 +138,8 @@ const App = (): JSX.Element => {
                   options={{
                     engine,
                     zoom: true,
-                    height: ("100%" as unknown as number),
-                    width: ("100%" as unknown as number)
+                    height: "100%" as unknown as number,
+                    width: "100%" as unknown as number
                   }}
                   dot={diagram || `graph G {}`}
                 />

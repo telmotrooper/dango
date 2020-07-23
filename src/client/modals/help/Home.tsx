@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import logo from "../../assets/dango.png"
 import { helpRoutes } from "./helpRoutes"
 
-export const Home = (): JSX.Element => (
+export const Home = (): JSX.Element => 
   <Fragment>
     <img className="logo" src={logo} />
 
@@ -25,4 +25,4 @@ export const Home = (): JSX.Element => (
       <li><Link to={helpRoutes.specializations}>Specializations</Link></li>
     </ul>
   </Fragment>
-)
+

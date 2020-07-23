@@ -61,7 +61,7 @@ export const cleanUpDatabase = async (): Promise<QueryResult> => {
         if (err.message.includes("WebSocket connection failure")) {
           toast.error(databaseConnectionError, defaultToast)
         }
-        throw(err)
+        throw err
     }
 
   } else {

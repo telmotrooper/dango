@@ -7,7 +7,7 @@ interface Props {
   setCode: (code: string) => void;
 }
 
-export const Specializations = (props: Props): JSX.Element => (
+export const Specializations = (props: Props): JSX.Element => 
   <Fragment>
     <p>
       <b>Specializations</b> allow us to declare entities which share attributes with other entities.
@@ -50,4 +50,4 @@ export const Specializations = (props: Props): JSX.Element => (
       </div>
     </div>
   </Fragment>
-)
+

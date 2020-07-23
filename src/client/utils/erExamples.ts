@@ -1,4 +1,4 @@
-export const mainExample = (
+export const mainExample = 
 `ent Bibliotecários {
   CPF *
   Nome
@@ -56,9 +56,9 @@ aent empréstimo {
   DataPrevistaDevolução
   ValorMulta
 }`
-)
 
-export const relationshipExample = (
+
+export const relationshipExample = 
 `ent Driver {}
 
 ent Car {}
@@ -68,27 +68,27 @@ rel has {
   Car (0,n)
   since
 }`
-)
 
-export const selfRelationshipsSameCardinalities = (
+
+export const selfRelationshipsSameCardinalities = 
 `ent Worker {}
 
 rel management {
   Worker (0,1)
   Worker (0,1)
 }`
-)
 
-export const selfRelationshipsDifferentCardinalities = (
+
+export const selfRelationshipsDifferentCardinalities = 
 `ent Worker {}
 
 rel management {
   Worker (1,1)
   Worker (0,n)
 }`
-)
 
-export const specializationsTotalDisjoint = (
+
+export const specializationsTotalDisjoint = 
 `ent Person {}
 
 ent Developer {}
@@ -100,9 +100,9 @@ spe {
   Developer
   Non-Developer
 }`
-)
 
-export const specializationsPartialOverlap = (
+
+export const specializationsPartialOverlap = 
 `ent Person {}
 
 ent Cyclist {}
@@ -114,4 +114,4 @@ spe {
   Cyclist
   Engineer
 }`
-)
+

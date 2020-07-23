@@ -8,7 +8,7 @@ interface Props {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const CompositeAttributes = (props: Props): JSX.Element => (
+export const CompositeAttributes = (props: Props): JSX.Element => 
   <Fragment>
     <p>TODO: WRITE ABOUT COMPOSITE ATTRIBUTES.</p>
     {/* <p>
@@ -37,4 +37,4 @@ export const CompositeAttributes = (props: Props): JSX.Element => (
       In this example we define that a Person can be a Cyclist and/or a Driver (overlap), but there might be People who are neither (partial).
     </p> */}
   </Fragment>
-)
+

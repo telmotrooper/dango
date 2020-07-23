@@ -9,7 +9,7 @@ interface Props {
   setCode: (code: string) => void;
 }
 
-export const SelfRelationships = (props: Props): JSX.Element => (
+export const SelfRelationships = (props: Props): JSX.Element => 
   <div>
     <p>
       <b>Self-relationships</b> are relationships on which an entity connects to itself.
@@ -40,4 +40,4 @@ export const SelfRelationships = (props: Props): JSX.Element => (
       </div>
     </div>
   </div>
-)
+

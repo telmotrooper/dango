@@ -7,7 +7,7 @@ interface Props {
   setCode: (code: string) => void;
 }
 
-export const Relationships = (props: Props): JSX.Element => (
+export const Relationships = (props: Props): JSX.Element => 
   <Fragment>
     <p>
       <b>Relationships</b> denote how Entities relate to each other. They contain Cardinalities
@@ -35,4 +35,4 @@ export const Relationships = (props: Props): JSX.Element => (
       In this example we define that a Person can be a Cyclist and/or a Driver (overlap), but there might be People who are neither (partial).
     </p> */}
   </Fragment>
-)
+

@@ -207,7 +207,9 @@ const generateCompositeAttributes = (entityName: string, compAttributes: Composi
     text += getConnection(entityName, key, false, false)
 
     for (const attribute of value) {
-      text += getAttribute(lower(entityName + "_" + key), attribute)
+      const attributeId = lower(entityName + "_" + key)
+      text += getAttribute(attributeId, attribute)
+      text += getConnection(attributeId, attribute, false, false)
     }
 
     // TODO: ADD CONNECTIONS TO ATTRIBUTES OF COMPOSITE ATTRIBUTE
