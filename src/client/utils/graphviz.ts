@@ -49,7 +49,7 @@ const getProportions = (shape: Shape, label: string): Proportions => {
   const height = 0.5
   let width = 1
 
-  switch(shape) {
+  switch (shape) {
     case "rectangle":
       width = 1
       break
@@ -225,7 +225,7 @@ const erToGraphviz = (code: ER): string => {
 
   const associativeEntites: Array<string> = []
 
-  if(code.aent) { // Fill an array with the ids for all associative entities in the ER diagram
+  if (code.aent) { // Fill an array with the ids for all associative entities in the ER diagram
     for (const aent of code.aent) {
       associativeEntites.push(aent.id)
     }
@@ -247,7 +247,7 @@ const erToGraphviz = (code: ER): string => {
 
       
       connections.forEach(conn => {
-        if(conn.weak) {
+        if (conn.weak) {
           isWeak = true
         }
       })

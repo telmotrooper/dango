@@ -67,7 +67,7 @@ export const generateCompletenessTrigger = (parent: string, entities: Array<stri
 export const generateChildrenTrigger = (parent: string, entities: Array<string>): string => {
   let statement = "MATCH (n) WHERE" + "\n" + indentation + "("
   
-  for(let i = 0; i < entities.length; i++) {
+  for (let i = 0; i < entities.length; i++) {
     if (i != 0) {
       statement += indentation
     }

@@ -80,7 +80,7 @@ export const runStatements = async (statements: Array<string>): Promise<void> =>
   
       await session.close()
       
-    } catch(err) {
+    } catch (err) {
       if (err.message.includes("WebSocket connection failure")) {
         toast.error(databaseConnectionError, defaultToast)
       }

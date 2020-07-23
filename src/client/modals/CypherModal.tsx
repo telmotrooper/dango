@@ -30,7 +30,7 @@ const CypherModal = React.memo((props: Props) => {
 
       toast.success("Cypher statements executed.", defaultToast)
 
-    } catch(err) {
+    } catch (err) {
       // ALL NEO4J ERRORS APPLY HERE, MAYBE I SHOULD STANDARDIZE ERROR HANDLING?
       console.error(err)
     }

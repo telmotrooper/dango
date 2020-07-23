@@ -4,7 +4,7 @@ import { TextArea } from "./interfaces"
 import { initialWhitespace } from "../../server/misc/regex"
 
 const clearCode = (codebox: TextArea, setShow: (arg0: boolean) => void): void => {
-  if(codebox.current) {
+  if (codebox.current) {
     codebox.current.value = ""
   }
 
@@ -29,9 +29,9 @@ const saveToDevice = (codebox: TextArea, filename: string): void => {
 }
 
 const setupAutoComplete= (codebox: TextArea): void => {
-  if(codebox.current) {
+  if (codebox.current) {
     codebox.current.addEventListener("keydown", (e) => {
-      if(codebox.current) {
+      if (codebox.current) {
         const { keyCode } = e
         const { value, selectionStart, selectionEnd } = codebox.current
       
@@ -64,11 +64,11 @@ const setupAutoComplete= (codebox: TextArea): void => {
         if (keyCode === 13 && selectionStart !== value.length) {  // ENTER
           e.preventDefault()
 
-          if(value[selectionStart-1] === "{" && value[selectionStart] === "}") {
+          if (value[selectionStart-1] === "{" && value[selectionStart] === "}") {
             codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + indentation + value.slice(selectionEnd)
             codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
       
-          } else if(value[selectionStart-1] === "{") {  // new line + indentation
+          } else if (value[selectionStart-1] === "{") {  // new line + indentation
             codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + value.slice(selectionEnd)
             codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
             

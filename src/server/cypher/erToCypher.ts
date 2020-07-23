@@ -49,7 +49,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     /* If both entities are the same then it's a self-relationship and we
      * don't need to generate verifications for both sides of the relationship. */
-    if(relationship.entities[0].id !== relationship.entities[1].id) {
+    if (relationship.entities[0].id !== relationship.entities[1].id) {
       schema += generateTrigger(relationship.id + " " + relationship.entities[0].id,
       `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
       )
@@ -69,7 +69,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     /* If both entities are the same then it's a self-relationship and we
      * don't need to generate verifications for both sides of the relationship. */
-    if(relationship.entities[0].id !== relationship.entities[1].id) {
+    if (relationship.entities[0].id !== relationship.entities[1].id) {
       if (c0.min != "0") { schema += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.min) }
       if (c0.max != "n") { schema += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.max) }
     }

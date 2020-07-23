@@ -76,7 +76,7 @@ export const removeIndentation = (lines: Array<string>): void => {
 
   removalList.reverse()
 
-  for(const index of removalList) {
+  for (const index of removalList) {
      lines.splice(index)
   }
 }

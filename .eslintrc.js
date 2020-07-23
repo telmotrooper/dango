@@ -14,6 +14,7 @@ module.exports = {
     "prefer-const": "warn",
     "semi": ["warn", "never"],
     "quotes": ["warn", "double", {"avoidEscape": true}],
+    "keyword-spacing": ["warn", { "before": true }],
     "no-extra-parens": ["warn", "all"],
     "react/no-unescaped-entities": "off",
     "react/display-name": "off"

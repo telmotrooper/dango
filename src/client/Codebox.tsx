@@ -37,7 +37,7 @@ const Codebox = React.memo((props: Props) => {
           } else {
             const res = await submitCode(debouncedCode)
 
-            if(res.data?.warning) {
+            if (res.data?.warning) {
               toast.dismiss()
               setSendButtonDisabled(true)
               toast(res.data.warning)

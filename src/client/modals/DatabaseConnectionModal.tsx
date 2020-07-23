@@ -33,8 +33,8 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
       toast.success("Successfully connected to local Neo4j instance.", defaultToast)
       setShow(false)
       
-    } catch(err) {
-      if(err.message.substr(0, 9) == "WebSocket") {
+    } catch (err) {
+      if (err.message.substr(0, 9) == "WebSocket") {
         setError("WebSocket connection failure. Are you sure the local database is running?")
 
       } else if (err.message.substr(87, 8) == "Triggers") {
