@@ -11,6 +11,7 @@ module.exports = {
     "plugin:react/recommended"
   ],
   rules: {
+    "eol-last": "warn",
     "prefer-const": "warn",
     "semi": ["warn", "never"],
     "quotes": ["warn", "double", {"avoidEscape": true}],
