@@ -2,6 +2,16 @@ import { indentation } from "../../shared/constants"
 import { generateTrigger, getTwoByTwoCombinations } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
 
+export const generateNodePropertyExistenceConstraints = (entity: string, attributes: Array<string>): string => {
+  let statement = ""
+
+  for (const attribute of attributes) {
+    statement += `CREATE CONSTRAINT ON (${lower(entity)[0]}:${normalize(entity)}) ASSERT exists(${lower(entity)[0]}.${normalize(attribute)});\n`
+  }
+
+  return statement
+}
+
 export const generateStrictModeTrigger = (entities: Array<string>, label = ""): string => {
   if (label != "") {
     label = ":" + label // If there is a label, prepend it with ":"

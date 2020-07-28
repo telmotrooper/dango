@@ -2,7 +2,7 @@ import { lower, normalize } from "../../shared/removeAccents"
 import { ER, Cardinality } from "../misc/interfaces"
 import { generateTrigger, getEntitiesAsList, extractCardinality, getTwoByTwoCombinations } from "./helpers"
 import { generateStrictModeTrigger, generateMaxCardinalityTrigger, generateMinCardinalityTrigger,
-  generateDisjointednessTrigger, generateCompletenessTrigger, generateChildrenTrigger } from "./statements"
+  generateDisjointednessTrigger, generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints } from "./statements"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -19,9 +19,8 @@ const erToCypher = (er: string, strictMode = true): string => {
   for (const entity of ent) {
     const { attributes, id, pk } = entity
 
-    // Node property existence constraints
-    for (const item of attributes) {
-      schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT exists(${lower(id)[0]}.${normalize(item)});\n`
+    schema += generateNodePropertyExistenceConstraints(id, attributes)
+    if (attributes.length > 0) {
       constraintCounter++
     }
 
@@ -29,6 +28,15 @@ const erToCypher = (er: string, strictMode = true): string => {
     for (const item of pk) {
       schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
       constraintCounter++
+    }
+
+    // Create existence constraint for each composite attribute's attributes.
+    for (const [key, value] of Object.entries(entity.compositeAttributes)) {
+      // console.log(`key: ${key}` + "\n" + `value: ${value}`)
+      schema += generateNodePropertyExistenceConstraints(key, value)
+      if (attributes.length > 0) {
+        constraintCounter++
+      }
     }
   }
 
