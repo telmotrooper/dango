@@ -24,8 +24,8 @@ export const generateRelationships = (relationships: Array<Rel>): string => {
       )
     }
 
-    statement += generateTrigger(relationship.id + " " + relationship.entities[0].id,
-    `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
+    statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
 
     statement += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
