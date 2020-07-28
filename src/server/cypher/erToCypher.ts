@@ -1,8 +1,9 @@
 import { lower, normalize } from "../../shared/removeAccents"
-import { ER, Cardinality } from "../misc/interfaces"
-import { generateTrigger, getEntitiesAsList, extractCardinality, getTwoByTwoCombinations } from "./helpers"
-import { generateStrictModeTrigger, generateMaxCardinalityTrigger, generateMinCardinalityTrigger,
-  generateDisjointednessTrigger, generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints } from "./statements"
+import { ER, Rel } from "../misc/interfaces"
+import { getEntitiesAsList, getTwoByTwoCombinations } from "./helpers"
+import { generateStrictModeTrigger, generateDisjointednessTrigger,
+  generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints } from "./statements"
+import { generateRelationships } from "./relationships"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -10,7 +11,6 @@ const erToCypher = (er: string, strictMode = true): string => {
   let schema = ""
 
   const entities = getEntitiesAsList(erCode)
-  let constraintCounter = 0
 
   if (strictMode) {
     schema += generateStrictModeTrigger(entities) 
@@ -20,71 +20,40 @@ const erToCypher = (er: string, strictMode = true): string => {
     const { attributes, id, pk } = entity
 
     schema += generateNodePropertyExistenceConstraints(id, attributes)
-    if (attributes.length > 0) {
-      constraintCounter++
-    }
 
     // Unique node constraints
     for (const item of pk) {
       schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
-      constraintCounter++
     }
 
     // Create existence constraint for each composite attribute's attributes.
     for (const [key, value] of Object.entries(entity.compositeAttributes)) {
-      // console.log(`key: ${key}` + "\n" + `value: ${value}`)
-      schema += generateNodePropertyExistenceConstraints(key, value)
-      if (attributes.length > 0) {
-        constraintCounter++
-      }
+      const compositeAttribute = key
+      const itsAttributes = value
+      schema += generateNodePropertyExistenceConstraints(compositeAttribute, itsAttributes)
+
+      const hasAttribute: Array<Rel> = [{
+        id: `has_${compositeAttribute}`,
+        entities: [
+          {
+            id: entity.id,
+            cardinality: "1,1",
+            weak: false
+          },
+          {
+            id: compositeAttribute,
+            cardinality: "1,1",
+            weak: false
+          }
+        ],
+        attributes: [],
+        pk: []
+      }]
+      schema += generateRelationships(hasAttribute)
     }
   }
 
-  for (const relationship of rel) {
-    const { entities, attributes, id } = relationship
-
-    // Node property existence constraints
-    for (const item of attributes) {
-      schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${id}]-() ASSERT exists(${lower(id)[0]}.${normalize(item)});\n`
-      constraintCounter++
-    }
-
-    if (constraintCounter > 0) {
-      schema += "\n"
-    }
-
-    // Appropriate labels
-
-    /* If both entities are the same then it's a self-relationship and we
-     * don't need to generate verifications for both sides of the relationship. */
-    if (relationship.entities[0].id !== relationship.entities[1].id) {
-      schema += generateTrigger(relationship.id + " " + relationship.entities[0].id,
-      `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
-      )
-    }
-
-    schema += generateTrigger(relationship.id + " " + relationship.entities[0].id,
-    `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
-    )
-
-    schema += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
-    `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
-    )
-
-    // Cardinality
-    const c0: Cardinality = extractCardinality(relationship.entities[0].cardinality)
-    const c1: Cardinality = extractCardinality(relationship.entities[1].cardinality)
-
-    /* If both entities are the same then it's a self-relationship and we
-     * don't need to generate verifications for both sides of the relationship. */
-    if (relationship.entities[0].id !== relationship.entities[1].id) {
-      if (c0.min != "0") { schema += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.min) }
-      if (c0.max != "n") { schema += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.max) }
-    }
-
-    if (c1.min != "0") { schema += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.min) }
-    if (c1.max != "n") { schema += generateMaxCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.max) }
-  }
+  schema += generateRelationships(rel)
 
   for (const associativeEntity of aent) {
     const { attributes, id } = associativeEntity
