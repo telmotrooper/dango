@@ -115,3 +115,14 @@ spe {
   Engineer
 }`
 
+export const compositeAttributes = 
+`ent Employee {
+  name
+  birthdate
+  address [
+    number
+    street
+    suburb
+  ]
+  salary
+}`
