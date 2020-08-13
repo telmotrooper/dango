@@ -3,7 +3,9 @@ import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
 import { Engine } from "d3-graphviz"
 import { ToastContainer } from "react-toastify"
+
 import "react-toastify/dist/ReactToastify.css"
+import "bulma/css/bulma.css"
 
 import { HelpModal } from "./modals/help/HelpModal"
 import { ClearModal } from "./modals/ClearModal"

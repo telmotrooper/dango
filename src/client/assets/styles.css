@@ -15,7 +15,13 @@
 }
 
 [name="codebox"] {
-  height: 100%;
+  flex: 1;
+  max-height: none !important;
+}
+
+#main-form {
+  display: flex;
+  flex-direction: column;
 }
 
 [type="checkbox"] {
