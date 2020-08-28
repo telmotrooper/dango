@@ -1,4 +1,4 @@
-import { ER, Cardinality } from "../misc/interfaces"
+import { Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { allButWhitespace, anythingFromFirstCharacter } from "../misc/regex"
 import { titlefy } from "../../shared/removeAccents"
@@ -18,13 +18,6 @@ export const generateTrigger = (triggerName: string, statement: string): string 
   `'CALL apoc.periodic.submit("${triggerName}", \\'` + "\n" +
   statement + "\n" +
   "\\')', {phase: 'after'});\n\n"
-}
-
-// Note: This method might also return associative entities in the future.
-export const getEntitiesAsList = (er: ER): Array<string> => {
-  const { ent: entities } = er
-
-  return entities.map(entity => entity.id)
 }
 
 export const extractCardinality = (text: string): Cardinality => {

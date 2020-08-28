@@ -12,7 +12,7 @@ export const generateNodePropertyExistenceConstraints = (entity: string, attribu
   return statement
 }
 
-export const generateStrictModeTrigger = (entities: Array<string>, label = ""): string => {
+export const generateStrictModeTriggerForNodes = (entities: Array<string>, label = ""): string => {
   if (label != "") {
     label = ":" + label // If there is a label, prepend it with ":"
   }
@@ -25,9 +25,22 @@ export const generateStrictModeTrigger = (entities: Array<string>, label = ""): 
   statement = statement.substr(0, statement.length-4)
   statement += "\n" + "DETACH DELETE n"
 
-  const triggerLabel = label == "" ? "strict mode" : lower(label.substr(1, label.length)) + " completeness"
+  const triggerLabel = label == "" ? "strict mode (nodes)" : lower(label.substr(1, label.length)) + " completeness"
 
   return generateTrigger(triggerLabel, statement)
+}
+
+export const generateStrictModeTriggerForRelationships = (relationships: Array<string>): string => {
+  let statement = "MATCH ()-[r]-() WHERE" + "\n"
+
+  for (const relationship of relationships) {
+    statement += indentation + `TYPE(r) <> "${relationship}" AND` + "\n"
+  }
+
+  statement = statement.substr(0, statement.length-4)
+  statement += "\n" + "DETACH DELETE r"
+
+  return generateTrigger("strict mode (relationships)", statement)
 }
 
 export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, relationship: string, maxCardinality = "1"): string => {
@@ -71,7 +84,7 @@ export const generateDisjointednessTrigger = (parent: string, entities: Array<st
 }
 
 export const generateCompletenessTrigger = (parent: string, entities: Array<string>): string => {
-  return generateStrictModeTrigger(entities, parent)
+  return generateStrictModeTriggerForNodes(entities, parent)
 }
 
 export const generateChildrenTrigger = (parent: string, entities: Array<string>): string => {

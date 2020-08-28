@@ -1,8 +1,8 @@
 import { lower, normalize } from "../../shared/removeAccents"
 import { ER, Rel } from "../misc/interfaces"
-import { getEntitiesAsList, getTwoByTwoCombinations } from "./helpers"
-import { generateStrictModeTrigger, generateDisjointednessTrigger,
-  generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints } from "./statements"
+import { getTwoByTwoCombinations } from "./helpers"
+import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
+  generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
 import { generateRelationships } from "./relationships"
 
 const erToCypher = (er: string, strictMode = true): string => {
@@ -10,10 +10,12 @@ const erToCypher = (er: string, strictMode = true): string => {
   const { ent, rel, aent, spe } = erCode
   let schema = ""
 
-  const entities = getEntitiesAsList(erCode)
+  const entities = erCode.ent.map(entity => entity.id)
+  const relationships = erCode.rel.map(relationship => relationship.id)
 
   if (strictMode) {
-    schema += generateStrictModeTrigger(entities) 
+    schema += generateStrictModeTriggerForNodes(entities)
+    schema += generateStrictModeTriggerForRelationships(relationships)
   }
 
   for (const entity of ent) {
