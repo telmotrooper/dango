@@ -10,11 +10,15 @@ const erToCypher = (er: string, strictMode = true): string => {
   const { ent, rel, aent, spe } = erCode
   let schema = ""
 
-  const entities = erCode.ent.map(entity => entity.id)
-  const relationships = erCode.rel.map(relationship => relationship.id)
+  const entities = ent.map(entity => entity.id)
+  const compositeAttributes = ent.flatMap(entity => Object.keys(entity.compositeAttributes))
+
+  console.log(compositeAttributes)
+
+  const relationships = rel.map(relationship => relationship.id)
 
   if (strictMode) {
-    schema += generateStrictModeTriggerForNodes(entities)
+    schema += generateStrictModeTriggerForNodes(entities.concat(compositeAttributes))
     schema += generateStrictModeTriggerForRelationships(relationships)
   }
 
