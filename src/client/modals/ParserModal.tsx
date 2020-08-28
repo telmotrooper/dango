@@ -30,7 +30,7 @@ const ParserModal = React.memo((props: Props) => {
         <label className="checkbox">
           <input type="checkbox" ref={checkboxRef} defaultChecked={true} />
           <b>Strict mode: </b>
-          <span>Prevents nodes with types not specified in the ER diagram from being created.</span>
+          <span>Prevents nodes and relationships with labels or types not specified in the ER diagram from being created.</span>
         </label>
       </section>
       <footer className="modal-card-foot jc-space-between">
