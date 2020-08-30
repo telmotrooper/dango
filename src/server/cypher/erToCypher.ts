@@ -12,7 +12,9 @@ const erToCypher = (er: string, strictMode = true): string => {
   let schema = ""
 
   const entities = ent.map(entity => entity.id)
-  const compositeAttributes = ent.flatMap(entity => Object.keys(entity.compositeAttributes))
+
+  // Let's list all composite attributes, put them in a set to remove duplicates and them convert it back to an array.
+  const compositeAttributes = Array.from(new Set(ent.flatMap(entity => Object.keys(entity.compositeAttributes))))
 
   const relationships = rel.map(relationship => relationship.id)
   const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))
