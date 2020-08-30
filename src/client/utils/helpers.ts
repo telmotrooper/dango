@@ -13,6 +13,8 @@ export const clusterize = (name: string, innerElement: string, fillColor = "#f8e
   )
 }
 
+export const getRelNameForCompAttribute = (compositeAttribute: string): string => `has_${compositeAttribute}`
+
 export const serialize = (obj: GenericObject): string => {
   if (Object.entries(obj).length == 0) {
     return ""

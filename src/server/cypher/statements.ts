@@ -30,7 +30,7 @@ export const generateStrictModeTriggerForNodes = (entities: Array<string>, label
   return generateTrigger(triggerLabel, statement)
 }
 
-export const generateStrictModeTriggerForRelationships = (relationships: Array<string>): string => {
+export const generateStrictModeTriggerForRelationships = (relationships: Array<string>): string => {  
   let statement = "MATCH ()-[r]-() WHERE" + "\n"
 
   for (const relationship of relationships) {

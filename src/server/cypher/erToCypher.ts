@@ -4,6 +4,7 @@ import { getTwoByTwoCombinations } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
   generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
 import { generateRelationships } from "./relationships"
+import { getRelNameForCompAttribute } from "../../client/utils/helpers"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -13,13 +14,12 @@ const erToCypher = (er: string, strictMode = true): string => {
   const entities = ent.map(entity => entity.id)
   const compositeAttributes = ent.flatMap(entity => Object.keys(entity.compositeAttributes))
 
-  console.log(compositeAttributes)
-
   const relationships = rel.map(relationship => relationship.id)
+  const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))
 
   if (strictMode) {
     schema += generateStrictModeTriggerForNodes(entities.concat(compositeAttributes))
-    schema += generateStrictModeTriggerForRelationships(relationships)
+    schema += generateStrictModeTriggerForRelationships(relationships.concat(compositeAttributeRel))
   }
 
   for (const entity of ent) {
@@ -39,7 +39,7 @@ const erToCypher = (er: string, strictMode = true): string => {
       schema += generateNodePropertyExistenceConstraints(compositeAttribute, itsAttributes)
 
       const hasAttribute: Array<Rel> = [{
-        id: `has_${compositeAttribute}`,
+        id: getRelNameForCompAttribute(compositeAttribute),
         entities: [
           {
             id: entity.id,
