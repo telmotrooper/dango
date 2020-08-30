@@ -13,7 +13,10 @@ export const clusterize = (name: string, innerElement: string, fillColor = "#f8e
   )
 }
 
-export const getRelNameForCompAttribute = (compositeAttribute: string): string => `has_${compositeAttribute}`
+export const getEntNameForCompAttribute = (entity: string, attribute: string): string => `${entity}_${attribute}`
+
+// Notice this receives the a "compositeAttribute" which was returned from "getEntNameForCompAttribute"
+export const getRelNameForCompAttribute = (compositeAttribute: string): string => `has_${lower(compositeAttribute)}`
 
 export const serialize = (obj: GenericObject): string => {
   if (Object.entries(obj).length == 0) {

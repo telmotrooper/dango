@@ -4,7 +4,7 @@ import { getTwoByTwoCombinations } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
   generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
 import { generateRelationships } from "./relationships"
-import { getRelNameForCompAttribute } from "../../client/utils/helpers"
+import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -13,8 +13,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   const entities = ent.map(entity => entity.id)
 
-  // Let's list all composite attributes, put them in a set to remove duplicates and them convert it back to an array.
-  const compositeAttributes = Array.from(new Set(ent.flatMap(entity => Object.keys(entity.compositeAttributes))))
+  const compositeAttributes = ent.flatMap(entity => Object.keys(entity.compositeAttributes).map(x => getEntNameForCompAttribute(entity.id, x)))
 
   const relationships = rel.map(relationship => relationship.id)
   const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))
@@ -36,7 +35,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
     // Create existence constraint for each composite attribute's attributes.
     for (const [key, value] of Object.entries(entity.compositeAttributes)) {
-      const compositeAttribute = key
+      const compositeAttribute = getEntNameForCompAttribute(entity.id, key)
       const itsAttributes = value
       schema += generateNodePropertyExistenceConstraints(compositeAttribute, itsAttributes)
 
