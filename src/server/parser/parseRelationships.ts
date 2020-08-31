@@ -1,6 +1,6 @@
 import { Rel, ER, Conn } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace,
-  nonWhitespaceBetweenParentheses, digitOrN, allWords } from "../misc/regex"
+  nonWhitespaceBetweenParentheses, digitOrNGlobal, allWords } from "../misc/regex"
 import { removeIndentation } from "../cypher/helpers"
 
 const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
@@ -22,8 +22,8 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
         pk: []
       }
 
-      const cardinalityA: Array<string> = data[0]?.match(nonWhitespaceBetweenParentheses)?.[0].match(digitOrN) ?? []
-      const cardinalityB: Array<string>  = data[1]?.match(nonWhitespaceBetweenParentheses)?.[0].match(digitOrN) ?? []
+      const cardinalityA: Array<string> = data[0]?.match(nonWhitespaceBetweenParentheses)?.[0].match(digitOrNGlobal) ?? []
+      const cardinalityB: Array<string>  = data[1]?.match(nonWhitespaceBetweenParentheses)?.[0].match(digitOrNGlobal) ?? []
 
       const entityA = data[0].match(allWords) // E.g. ["Interns", "(0,n)"] or ["w", "Interns", "(0,n)"]
       const entityB = data[1].match(allWords)

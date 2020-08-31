@@ -25,6 +25,7 @@ export const anythingFromFirstCharacter = /\b[^]+/
 export const nonWhitespaceBetweenParentheses = /\(\S+\)/
 
 // Get array [10, n] from string (10,n).
+export const digitOrNGlobal = /\d+|n/g
 export const digitOrN = /\d+|n/g
 
 export const firstWordFound = /\S+/

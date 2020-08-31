@@ -1,6 +1,6 @@
 import { Cardinality } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
-import { allButWhitespace, anythingFromFirstCharacter } from "../misc/regex"
+import { allButWhitespace, anythingFromFirstCharacter, digitOrN } from "../misc/regex"
 import { titlefy } from "../../shared/removeAccents"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
@@ -21,11 +21,13 @@ export const generateTrigger = (triggerName: string, statement: string): string 
 }
 
 export const extractCardinality = (text: string): Cardinality => {
+  // Example inputs: "<1,n>", "0,n", "(1,1)".
+  
   const values = text.split(",")
 
   return {
-    min: values[0],
-    max: values[1]
+    min: values[0].match(digitOrN)?.[0] ?? "",
+    max: values[1].match(digitOrN)?.[0] ?? ""
   }
 }
 
