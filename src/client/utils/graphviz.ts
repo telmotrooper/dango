@@ -126,8 +126,8 @@ const getSpecialization = (specialization: Spe): string => {
   return text
 }
 
-const getAttribute = (entityName: string, attributeName: string, primaryKey = false, isCompositeAttribute = false): string => {
-  const label = getLabel(attributeName)
+const getAttribute = (entityName: string, attributeName: string, primaryKey = false, isCompositeAttribute = false, isMultivalued = false): string => {
+  const label = isMultivalued ? attributeName : getLabel(attributeName) // Multivalued attributes have labels like "Person (1,n)".
 
   const properties = serialize({
     label: "",
@@ -196,9 +196,11 @@ const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = fals
     text += getConnection(ent.id, attribute, isAEnt, isWeak)
   }
 
-  // for (const [key, value] of Object.entries(ent.multivalued)) {
-  //  
-  // }
+  for (const [key, value] of Object.entries(ent.multivalued)) {
+    const attributeName = `${key} (${value.min},${value.max})`
+    text += getAttribute(ent.id, attributeName, false, false, true) + "\n"
+    text += getConnection(ent.id, attributeName)
+  }
 
   return text
 }

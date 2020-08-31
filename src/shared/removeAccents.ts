@@ -8,6 +8,12 @@ export const lower = (text: string): string => {
   temp = temp.replace("-", "_") // Character "-" can't be used in Graphviz labels.
   temp = temp.replace(" ", "_") // Required to properly display attributes with whitespace in their names.
 
+  // Handling multivalued attributes.
+  temp = temp.replace(",","_")
+  temp = temp.replace("(","")
+  temp = temp.replace(")","")
+
+
   return temp.toLowerCase()
 }
 
