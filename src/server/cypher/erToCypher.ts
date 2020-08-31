@@ -2,7 +2,7 @@ import { lower, normalize } from "../../shared/removeAccents"
 import { ER, Rel } from "../misc/interfaces"
 import { getTwoByTwoCombinations } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
-  generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
+  generateCompletenessTrigger, generateChildrenTrigger, generateNodePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateMultivaluedAttributeTrigger } from "./statements"
 import { generateRelationships } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 
@@ -59,6 +59,10 @@ const erToCypher = (er: string, strictMode = true): string => {
         pk: []
       }]
       schema += generateRelationships(hasAttribute)
+    }
+
+    for (const [key, value] of Object.entries(entity.multivalued)) {
+      schema += generateMultivaluedAttributeTrigger(entity.id, key, value.min, value.max)
     }
   }
 

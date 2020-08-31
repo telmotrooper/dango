@@ -106,3 +106,27 @@ export const generateChildrenTrigger = (parent: string, entities: Array<string>)
 
   return generateTrigger(`${parent} children`, statement)
 }
+
+export const generateMultivaluedAttributeTrigger = (entity: string, attribute: string, min: string, max: string): string => {
+  if (min == "0" && max == "n") {
+    return ""
+  }
+
+  let statement = `MATCH (n:${entity}) WHERE` + "\n"
+
+  if (Number(min) > 0) {
+    statement += indentation + `size(n.${attribute}) < ${min}`
+
+    if (max != "n") {
+      statement += " OR" + "\n"
+    }
+  }
+
+  if (max != "n") {
+    statement += indentation + `size(n.${attribute}) > ${max}`
+  }
+
+  statement += "\n" + "DETACH DELETE n"
+
+  return generateTrigger(`${entity} ${attribute} multivalued`, statement)
+}
