@@ -53,6 +53,8 @@ const erToCypher = (er: string, strictMode = true): string => {
             weak: false
           }
         ],
+        compositeAttributes: {},
+        multivalued: {},
         attributes: [],
         pk: []
       }]

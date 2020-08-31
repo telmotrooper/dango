@@ -19,6 +19,8 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
         id,
         entities: [],
         attributes: [],
+        compositeAttributes: {},
+        multivalued: {},
         pk: []
       }
 

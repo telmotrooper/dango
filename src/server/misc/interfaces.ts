@@ -6,12 +6,8 @@ export interface ER {  // entity-relationship diagram
   warning?: string;
 }
 
-export interface Ent { // entity
+export interface Ent extends AllAttributes { // entity
   id: string;
-  attributes: string[];
-  compositeAttributes: CompositeAttributes;
-  multivalued: MultivaluedAttributes;
-  pk: string[];
 }
 
 export interface CompositeAttributes {
@@ -22,11 +18,16 @@ export interface MultivaluedAttributes {
   [property: string]: Cardinality;
 }
 
-export interface Rel { // relationship
+export interface AllAttributes {
+  attributes: string[];
+  compositeAttributes: CompositeAttributes;
+  multivalued: MultivaluedAttributes;
+  pk: string[];
+}
+
+export interface Rel extends AllAttributes { // relationship
   id: string;
   entities: Conn[];
-  attributes: string[];
-  pk: string[];
 }
 
 export interface Conn {  // connection

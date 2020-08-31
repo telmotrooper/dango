@@ -14,6 +14,8 @@ const parseAssociativeEntities = (
       id,
       entities: [],
       attributes: [],
+      compositeAttributes: {},
+      multivalued: {},
       pk: [],
       relationships: []
     }

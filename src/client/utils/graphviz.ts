@@ -196,6 +196,10 @@ const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = fals
     text += getConnection(ent.id, attribute, isAEnt, isWeak)
   }
 
+  // for (const [key, value] of Object.entries(ent.multivalued)) {
+  //  
+  // }
+
   return text
 }
 
@@ -270,6 +274,11 @@ const erToGraphviz = (code: ER): string => {
       diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality, isAEnt1, rel.entities[0].weak) + "\n"
       diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality, isAEnt2, rel.entities[1].weak) + "\n"
       diagram += generateAttributes(rel)
+
+
+      if (Object.entries(rel.compositeAttributes).length > 0) {
+        diagram += generateCompositeAttributes(rel.id, rel.compositeAttributes)
+      }
     }
   }
 
@@ -280,6 +289,10 @@ const erToGraphviz = (code: ER): string => {
       
       for (const entity of aent.entities) {
         diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality, true) + "\n"
+      }
+
+      if (Object.entries(aent.compositeAttributes).length > 0) {
+        diagram += generateCompositeAttributes(aent.id, aent.compositeAttributes)
       }
     }
   }
