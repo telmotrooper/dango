@@ -83,6 +83,11 @@ const setupAutoComplete= (codebox: TextArea): void => {
           codebox.current.value = value.slice(0, selectionStart) + ",)" + value.slice(selectionEnd)
           codebox.current.setSelectionRange(selectionStart, selectionStart)
         }
+
+        if (e.key == "<") {
+          codebox.current.value = value.slice(0, selectionStart) + ",>" + value.slice(selectionEnd)
+          codebox.current.setSelectionRange(selectionStart, selectionStart)
+        }
       
         if (keyCode === 188 && value.slice(selectionStart, selectionStart+1) === ",") {   // ","
           e.preventDefault()
