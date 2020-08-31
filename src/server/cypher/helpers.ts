@@ -1,7 +1,8 @@
-import { Cardinality } from "../misc/interfaces"
+import { Cardinality, Ent } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { allButWhitespace, anythingFromFirstCharacter, digitOrN } from "../misc/regex"
 import { titlefy } from "../../shared/removeAccents"
+import { generateMultivaluedAttributeTrigger } from "./statements"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
   triggerName = titlefy(triggerName)
@@ -76,3 +77,13 @@ export const removeIndentation = (lines: Array<string>): void => {
   }
 }
 
+
+export const generateMultivaluedAttributeTriggers = (entity: Ent): string => {
+  let schema = ""
+
+  for (const [key, value] of Object.entries(entity.multivalued)) {
+    schema += generateMultivaluedAttributeTrigger(entity.id, key, value.min, value.max)
+  }
+
+  return schema
+}
