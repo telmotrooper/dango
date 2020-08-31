@@ -10,14 +10,17 @@ export interface Ent { // entity
   id: string;
   attributes: string[];
   compositeAttributes: CompositeAttributes;
+  multivalued: MultivaluedAttributes;
   pk: string[];
 }
 
 export interface CompositeAttributes {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [property: string]: Array<string>;
 }
 
+export interface MultivaluedAttributes {
+  [property: string]: Cardinality;
+}
 
 export interface Rel { // relationship
   id: string;

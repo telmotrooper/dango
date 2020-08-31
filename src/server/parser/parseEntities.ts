@@ -1,4 +1,4 @@
-import { Ent, CompositeAttributes } from "../misc/interfaces"
+import { Ent, CompositeAttributes, MultivaluedAttributes } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace, allButWhitespace } from "../misc/regex"
 import { removeIndentation } from "../cypher/helpers"
 
@@ -13,6 +13,7 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
 
     const attributes: string[] = []
     const compositeAttributes: CompositeAttributes = {}
+    const multivalued: MultivaluedAttributes = {}
     const pk: string[] = []
 
     let insideCompositeAttribute = ""
@@ -41,7 +42,7 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
       }
     }
 
-    entities.push({ id, attributes, compositeAttributes,  pk })
+    entities.push({ id, attributes, compositeAttributes, multivalued, pk })
   }
 
   return entities
