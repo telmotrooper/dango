@@ -126,3 +126,9 @@ export const compositeAttributes =
   ]
   salary
 }`
+
+export const multivaluedAttributes =
+`ent Person {
+  name
+  languages <1,3>
+}`

@@ -8,6 +8,7 @@ import { Specializations } from "./Specializations"
 import { helpRoutes } from "./helpRoutes"
 import { Relationships } from "./Relationships"
 import { CompositeAttributes } from "./CompositeAttributes"
+import { MultivaluedAttributes } from "./MultivaluedAttributes"
 
 interface Props {
   setCode: (code: string) => void;
@@ -32,6 +33,7 @@ const HelpModal = React.memo((props: Props) => {
               <Switch>
                 <Route path={helpRoutes.compositeAttributes} component={() => HelpWrapper(CompositeAttributes({setCode}))} />
                 <Route exact path="/" component={() => Home()} />
+                <Route path={helpRoutes.multivalued} component={() => HelpWrapper(MultivaluedAttributes({setCode}))} />
                 <Route path={helpRoutes.relationships} component={() => HelpWrapper(Relationships({setCode}))} />
                 <Route path={helpRoutes.selfRelationships} component={() => HelpWrapper(SelfRelationships({setCode}))} />
                 <Route path={helpRoutes.specializations} component={() => HelpWrapper(Specializations({setCode}))} />
