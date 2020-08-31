@@ -25,8 +25,8 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
       } else if (data[i].includes("<")) { // Multivalued attribute.
         const matches = data[i].match(allButWhitespace)
         const attributeName = matches?.[0] ?? ""
-        const cardinalityText = matches?.[1] ?? ""
-        console.log(extractCardinality(cardinalityText))
+        const cardinalityText = matches?.[1] ?? ""        
+        multivalued[attributeName] = extractCardinality(cardinalityText)
 
       } else if (data[i].includes("[")) { // Beginning of composite attribute.
         const compositeAttributeName = data[i].match(allButWhitespace)?.[0] ?? ""
