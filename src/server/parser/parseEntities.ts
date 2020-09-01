@@ -1,6 +1,6 @@
 import { Ent, CompositeAttributes, MultivaluedAttributes } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace, allButWhitespace } from "../misc/regex"
-import { removeIndentation, extractCardinality } from "../cypher/helpers"
+import { removeIndentation, getMultivaluedAttribute } from "../cypher/helpers"
 
 const parseEntities = (rawEntities: string[]): Ent[] => {
   const entities: Ent[] = []
@@ -23,10 +23,7 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
         insideCompositeAttribute = ""
 
       } else if (data[i].includes("<")) { // Multivalued attribute.
-        const matches = data[i].match(allButWhitespace)
-        const attributeName = matches?.[0] ?? ""
-        const cardinalityText = matches?.[1] ?? ""        
-        multivalued[attributeName] = extractCardinality(cardinalityText)
+        getMultivaluedAttribute(multivalued, data[i]) // This assigns to "multivalued"
 
       } else if (data[i].includes("[")) { // Beginning of composite attribute.
         const compositeAttributeName = data[i].match(allButWhitespace)?.[0] ?? ""

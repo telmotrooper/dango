@@ -1,4 +1,4 @@
-import { Cardinality, Ent } from "../misc/interfaces"
+import { Cardinality, Ent, MultivaluedAttributes } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { allButWhitespace, anythingFromFirstCharacter, digitOrN } from "../misc/regex"
 import { titlefy } from "../../shared/removeAccents"
@@ -86,4 +86,11 @@ export const generateMultivaluedAttributeTriggers = (entity: Ent): string => {
   }
 
   return schema
+}
+
+export const getMultivaluedAttribute = (multivalued: MultivaluedAttributes, data: string): void => {
+  const matches = data.match(allButWhitespace)
+  const attributeName = matches?.[0] ?? ""
+  const cardinalityText = matches?.[1] ?? ""        
+  multivalued[attributeName] = extractCardinality(cardinalityText)
 }
