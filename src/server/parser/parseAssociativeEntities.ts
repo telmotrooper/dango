@@ -1,5 +1,6 @@
 import { AEnt, Conn, Rel } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
+import { getMultivaluedAttribute } from "../cypher/helpers"
 
 const parseAssociativeEntities = (
   rawAssociativeEntities: string[], relationships: Rel[]): AEnt[] => {
@@ -33,6 +34,11 @@ const parseAssociativeEntities = (
           if (data[i-1]) {
             associativeEntity.pk.push(data[i-1])
           }
+        } else if (data[i][0] == "<") {
+          const attributeName = `${data[i-1]} ${data[i]}`
+          getMultivaluedAttribute(associativeEntity.multivalued, attributeName) // This assigns to "associativeEntity.multivalued"
+          associativeEntity.attributes.pop() // Remove multivalued attribute which was saved as attribute before
+
         } else if (data[i][0] != "(") { // attribute
           associativeEntity.attributes.push(data[i])
         }
