@@ -3,7 +3,7 @@ import { ER, Rel } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
-         generateNodePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
+         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
 import { generateRelationships } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 
@@ -27,7 +27,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   for (const entity of ent) {
     const { attributes, id, pk } = entity
 
-    schema += generateNodePropertyExistenceConstraints(id, attributes)
+    schema += generatePropertyExistenceConstraints(id, attributes)
 
     // Unique node constraints
     for (const item of pk) {
@@ -38,7 +38,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     for (const [key, value] of Object.entries(entity.compositeAttributes)) {
       const compositeAttribute = getEntNameForCompAttribute(entity.id, key)
       const itsAttributes = value
-      schema += generateNodePropertyExistenceConstraints(compositeAttribute, itsAttributes)
+      schema += generatePropertyExistenceConstraints(compositeAttribute, itsAttributes)
 
       const hasAttribute: Array<Rel> = [{
         id: getRelNameForCompAttribute(compositeAttribute),
@@ -69,11 +69,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   for (const associativeEntity of aent) {
     const { attributes, id } = associativeEntity
-
-    // Relationship property existence constraint
-    for (const attribute of attributes) {
-      schema += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${normalize(id)}]-() ASSERT exists(${lower(id)[0]}.${attribute});\n`
-    }
+    schema += generatePropertyExistenceConstraints(id, attributes, true)
   }
 
   for (const specialization of spe) {

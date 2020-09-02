@@ -2,11 +2,19 @@ import { indentation } from "../../shared/constants"
 import { generateTrigger, getTwoByTwoCombinations } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
 
-export const generateNodePropertyExistenceConstraints = (entity: string, attributes: Array<string>): string => {
+export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
   let statement = ""
 
-  for (const attribute of attributes) {
-    statement += `CREATE CONSTRAINT ON (${lower(entity)[0]}:${normalize(entity)}) ASSERT exists(${lower(entity)[0]}.${normalize(attribute)});\n`
+  if (isRelationship) {
+    // Relationship property existence constraint
+    for (const attribute of attributes) {
+      statement += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${normalize(id)}]-() ASSERT exists(${lower(id)[0]}.${attribute});\n`
+    }
+
+  } else {
+    for (const attribute of attributes) {
+      statement += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT exists(${lower(id)[0]}.${normalize(attribute)});\n`
+    }
   }
 
   return statement

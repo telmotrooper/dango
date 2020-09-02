@@ -1,7 +1,7 @@
-import { lower, normalize } from "../../shared/removeAccents"
+import { normalize } from "../../shared/removeAccents"
 import { generateTrigger, extractCardinality } from "./helpers"
 import { Cardinality, Rel } from "../misc/interfaces"
-import { generateMinCardinalityTrigger, generateMaxCardinalityTrigger } from "./statements"
+import { generateMinCardinalityTrigger, generateMaxCardinalityTrigger, generatePropertyExistenceConstraints } from "./statements"
 
 export const generateRelationships = (relationships: Array<Rel>): string => {
   let statement = ""
@@ -9,10 +9,8 @@ export const generateRelationships = (relationships: Array<Rel>): string => {
   for (const relationship of relationships) {
     const { entities, attributes, id } = relationship
 
-    // Node property existence constraints
-    for (const item of attributes) {
-      statement += `CREATE CONSTRAINT ON ()-[${lower(id)[0]}:${id}]-() ASSERT exists(${lower(id)[0]}.${normalize(item)});\n`
-    }
+    statement += generatePropertyExistenceConstraints(id, attributes, true)
+
 
     // Appropriate labels
 
