@@ -25,6 +25,8 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateStrictModeTriggerForRelationships(relationships.concat(compositeAttributeRel))
   }
 
+
+  // Entities
   for (const entity of ent) {
     const { attributes, id, pk } = entity
 
@@ -66,8 +68,14 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateMultivaluedAttributeTriggers(entity)
   }
 
+  // Relationships
   schema += generateRelationships(rel)
 
+  for (const relationship of rel) {
+    schema += generateMultivaluedAttributeTriggers(relationship, true)
+  }
+
+  // Associative entities
   for (const associativeEntity of aent) {
     const { attributes, id } = associativeEntity
     schema += generatePropertyExistenceConstraints(id, attributes, true)
@@ -75,6 +83,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateMultivaluedAttributeTriggers(associativeEntity)
   }
 
+  // Specializations
   for (const specialization of spe) {
     schema += generateChildrenTrigger(specialization.id, specialization.entities)
 
