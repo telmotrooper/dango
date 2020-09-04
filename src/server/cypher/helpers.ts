@@ -1,6 +1,6 @@
-import { Cardinality, Ent, MultivaluedAttributes } from "../misc/interfaces"
+import { Cardinality, Ent, MultivaluedAttributes, Conn, ER } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
-import { allButWhitespace, anythingFromFirstCharacter, digitOrN } from "../misc/regex"
+import { allButWhitespace, anythingFromFirstCharacter, digitOrN, allWords } from "../misc/regex"
 import { titlefy } from "../../shared/removeAccents"
 import { generateMultivaluedAttributeTrigger } from "./statements"
 
@@ -95,11 +95,43 @@ export const getMultivaluedAttribute = (multivalued: MultivaluedAttributes, data
   multivalued[attributeName] = extractCardinality(cardinalityText)
 }
 
-export const parseAttributes = (entity: Ent, data: string[], start: number): void => {
+export const parseAttributesAndConnections = (entity: Ent, data: string[], start: number, connections?: Conn[], er?: ER): void => {
+  // Control variables
   let insideCompositeAttribute = ""
+  const entitiesSet = new Set()
 
   for (let i = start; i < data.length; i += 1) {
-    if (data[i] == "]") { // Composite attribute has ended.
+    if (connections != null && data[i].includes("(") && data[i].includes(")")) {
+      const matches = data[i].match(allWords)
+      
+      if (matches && matches.length >= 2) {
+        const { min, max } = matches[0] == "w" ? extractCardinality(matches[2]) : extractCardinality(matches[1])
+
+        const conn: Conn = {
+          id: matches[0] == "w" ? matches[1] : matches[0],
+          cardinality: `${min},${max}`,
+          weak: matches[0] == "w"
+        }
+        connections.push(conn)
+
+        if (er != null) {
+          if (!entitiesSet.has(conn.id)) { 
+            entitiesSet.add(conn.id)
+
+          } else { // Self-relationship found
+            const previousEntry: Conn | undefined = connections.find(c => c.id == conn.id)
+
+            if (previousEntry?.cardinality != `${min},${max}` ) { // Are the cardinalities different?
+              er.warning = `Self-relationship detected on "${entity.id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${data[2]}".`
+            }
+          }
+  
+          entitiesSet.add(conn.id)
+        }
+
+      }
+
+    } else if (data[i] == "]") { // Composite attribute has ended.
       insideCompositeAttribute = ""
 
     } else if (data[i].includes("<")) { // Multivalued attribute.

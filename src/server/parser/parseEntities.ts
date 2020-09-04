@@ -1,6 +1,6 @@
 import { Ent } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace } from "../misc/regex"
-import { removeIndentation, parseAttributes } from "../cypher/helpers"
+import { removeIndentation, parseAttributesAndConnections } from "../cypher/helpers"
 
 const parseEntities = (rawEntities: string[]): Ent[] => {
   const entities: Ent[] = []
@@ -17,7 +17,7 @@ const parseEntities = (rawEntities: string[]): Ent[] => {
       pk: []
     }
 
-    parseAttributes(entity, data, 0)
+    parseAttributesAndConnections(entity, data, 0)
 
     entities.push(entity)
   }
