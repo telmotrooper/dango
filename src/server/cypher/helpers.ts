@@ -94,3 +94,34 @@ export const getMultivaluedAttribute = (multivalued: MultivaluedAttributes, data
   const cardinalityText = matches?.[1] ?? ""        
   multivalued[attributeName] = extractCardinality(cardinalityText)
 }
+
+export const parseAttributes = (entity: Ent, data: string[], start: number): void => {
+  let insideCompositeAttribute = ""
+
+  for (let i = start; i < data.length; i += 1) {
+    if (data[i] == "]") { // Composite attribute has ended.
+      insideCompositeAttribute = ""
+
+    } else if (data[i].includes("<")) { // Multivalued attribute.
+      getMultivaluedAttribute(entity.multivalued, data[i]) // This assigns to "multivalued"
+
+    } else if (data[i].includes("[")) { // Beginning of composite attribute.
+      const compositeAttributeName = data[i].match(allButWhitespace)?.[0] ?? ""
+      entity.compositeAttributes[compositeAttributeName] = []
+      insideCompositeAttribute = compositeAttributeName
+
+    } else if (data[i].includes(" *")) { // Unique attribute.
+      const attributeName = data[i].substr(0, data[i].length-2)
+      entity.attributes.push(attributeName)
+      entity.pk.push(attributeName)
+    
+    } else {
+      if (insideCompositeAttribute != "") {
+        entity.compositeAttributes[insideCompositeAttribute].push(data[i])
+
+      } else {
+        entity.attributes.push(data[i])
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { Rel, ER, Conn } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace,
   nonWhitespaceBetweenParentheses, digitOrNGlobal, allWords } from "../misc/regex"
-import { removeIndentation, getMultivaluedAttribute } from "../cypher/helpers"
+import { removeIndentation, parseAttributes } from "../cypher/helpers"
 
 const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
   const relationships: Rel[] = []
@@ -64,19 +64,7 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
         er.warning = `Self-relationship detected on "${id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${data[2]}".`
       }
 
-      for (let i = 2; i < data.length; i += 1) {
-        if (data[i] !== "*") {
-          if (data[i].includes("<")) { // Multivalued attribute.
-            getMultivaluedAttribute(rel.multivalued, data[i]) // This assigns to "rel.multivalued"
-
-          } else {
-            rel.attributes.push(data[i])
-          }
-
-        } else {
-          rel.pk.push(data[i - 1])
-        }
-      }
+      parseAttributes(rel, data, 2)
 
       relationships.push(rel)
     }
