@@ -122,7 +122,7 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
             const previousEntry: Conn | undefined = connections.find(c => c.id == conn.id)
 
             if (previousEntry?.cardinality != `${min},${max}` ) { // Are the cardinalities different?
-              er.warning = `Self-relationship detected on "${entity.id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${data[2]}".`
+              er.warning = `Self-relationship detected on "${entity.id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${conn.id}".`
             }
           }
   
