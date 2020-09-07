@@ -22,7 +22,7 @@ const parseERCode = (code: string): ER => {
   // 2nd level regexes
   er["ent"] = parseEntities(rawEntities)
   er["rel"] = parseRelationships(rawRelationships, er)
-  er["aent"] = parseAssociativeEntities(rawAssociativeEntities, er["rel"])
+  er["aent"] = parseAssociativeEntities(rawAssociativeEntities, er)
   er["spe"] = parseSpecializations(rawSpecializations)
 
   return er

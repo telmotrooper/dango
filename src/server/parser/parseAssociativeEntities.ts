@@ -1,15 +1,16 @@
-import { AEnt, Conn, Rel } from "../misc/interfaces"
-import { allBetweenCurlyBrackets, allButWhitespace, secondWordFound } from "../misc/regex"
-import { getMultivaluedAttribute } from "../cypher/helpers"
+import { AEnt, Rel, ER } from "../misc/interfaces"
+import { allBetweenCurlyBrackets, secondWordFound, linesIncludingWhitespace } from "../misc/regex"
+import { parseAttributesAndConnections, removeIndentation } from "../cypher/helpers"
 
 const parseAssociativeEntities = (
-  rawAssociativeEntities: string[], relationships: Rel[]): AEnt[] => {
+  rawAssociativeEntities: string[], er: ER): AEnt[] => {
   const associativeEntities: AEnt[] = []
 
   for (const aent of rawAssociativeEntities) {
     const id: string = aent.match(secondWordFound)?.[0] ?? ""
 
-    const data: string[] = aent.match(allBetweenCurlyBrackets)?.[0].match(allButWhitespace) ?? []
+    const data: string[] = aent.match(allBetweenCurlyBrackets)?.[0].match(linesIncludingWhitespace) ?? []
+    removeIndentation(data)
 
     const associativeEntity: AEnt = {
       id,
@@ -21,32 +22,10 @@ const parseAssociativeEntities = (
       relationships: []
     }
 
-    if (data) {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i+1] && data[i+1][0] == "(") { // entity followed by its cardinality
-          const ent: Conn = {
-            id: data[i],
-            cardinality: data[i+1].substr(1, 3),
-            weak: false // TODO: Change this to reflect actual weakness.
-          }
-          associativeEntity.entities.push(ent)
-        } else if (data[i][0] == "*") { // primary key
-          if (data[i-1]) {
-            associativeEntity.pk.push(data[i-1])
-          }
-        } else if (data[i][0] == "<") {
-          const attributeName = `${data[i-1]} ${data[i]}`
-          getMultivaluedAttribute(associativeEntity.multivalued, attributeName) // This assigns to "associativeEntity.multivalued"
-          associativeEntity.attributes.pop() // Remove multivalued attribute which was saved as attribute before
-
-        } else if (data[i][0] != "(") { // attribute
-          associativeEntity.attributes.push(data[i])
-        }
-      }
-    }
+    parseAttributesAndConnections(associativeEntity, data, 0, associativeEntity.entities, er)
 
     // Get relationships that include this associative entity
-    const rel: Rel[] = relationships.filter(
+    const rel: Rel[] = er.rel.filter(
       relationship => relationship.entities.filter(
         entity => entity.id == associativeEntity.id).length >= 1)
     
