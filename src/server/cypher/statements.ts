@@ -1,6 +1,9 @@
 import { indentation } from "../../shared/constants"
 import { generateTrigger, getTwoByTwoCombinations } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
+import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
+import { generateRelationships } from "./relationships"
+import { Ent, Rel } from "../misc/interfaces"
 
 export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
   let statement = ""
@@ -140,4 +143,38 @@ export const generateMultivaluedAttributeTrigger = (entity: string, attribute: s
   statement += "\n" + `DETACH DELETE ${variable}`
 
   return generateTrigger(`${entity} ${attribute} multivalued`, statement)
+}
+
+export const generateCompositeAttributeTriggers = (entity: Ent): string => {
+  let schema = ""
+
+  // Create existence constraint for each composite attribute's attributes.
+  for (const [key, value] of Object.entries(entity.compositeAttributes)) {
+    const compositeAttribute = getEntNameForCompAttribute(entity.id, key)
+    const itsAttributes = value
+    schema += generatePropertyExistenceConstraints(compositeAttribute, itsAttributes)
+
+    const hasAttribute: Array<Rel> = [{
+      id: getRelNameForCompAttribute(compositeAttribute),
+      entities: [
+        {
+          id: entity.id,
+          cardinality: "1,1",
+          weak: false
+        },
+        {
+          id: compositeAttribute,
+          cardinality: "1,1",
+          weak: false
+        }
+      ],
+      compositeAttributes: {},
+      multivalued: {},
+      attributes: [],
+      pk: []
+    }]
+    schema += generateRelationships(hasAttribute)
+  }
+
+  return schema
 }

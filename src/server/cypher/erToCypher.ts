@@ -1,9 +1,9 @@
 import { lower, normalize } from "../../shared/removeAccents"
-import { ER, Rel } from "../misc/interfaces"
+import { ER } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
-         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships } from "./statements"
+         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers } from "./statements"
 import { generateRelationships } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 
@@ -37,34 +37,7 @@ const erToCypher = (er: string, strictMode = true): string => {
       schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
     }
 
-    // Create existence constraint for each composite attribute's attributes.
-    for (const [key, value] of Object.entries(entity.compositeAttributes)) {
-      const compositeAttribute = getEntNameForCompAttribute(entity.id, key)
-      const itsAttributes = value
-      schema += generatePropertyExistenceConstraints(compositeAttribute, itsAttributes)
-
-      const hasAttribute: Array<Rel> = [{
-        id: getRelNameForCompAttribute(compositeAttribute),
-        entities: [
-          {
-            id: entity.id,
-            cardinality: "1,1",
-            weak: false
-          },
-          {
-            id: compositeAttribute,
-            cardinality: "1,1",
-            weak: false
-          }
-        ],
-        compositeAttributes: {},
-        multivalued: {},
-        attributes: [],
-        pk: []
-      }]
-      schema += generateRelationships(hasAttribute)
-    }
-
+    schema += generateCompositeAttributeTriggers(entity)
     schema += generateMultivaluedAttributeTriggers(entity)
   }
 
@@ -72,6 +45,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   schema += generateRelationships(rel)
 
   for (const relationship of rel) {
+    // schema += generateCompositeAttributeTriggers(relationship) // NOT SUPPORTED
     schema += generateMultivaluedAttributeTriggers(relationship, true)
   }
 
@@ -80,6 +54,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     const { attributes, id } = associativeEntity
     schema += generatePropertyExistenceConstraints(id, attributes, true)
 
+    schema += generateCompositeAttributeTriggers(associativeEntity)
     schema += generateMultivaluedAttributeTriggers(associativeEntity)
   }
 

@@ -23,6 +23,10 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
 
       parseAttributesAndConnections(rel, data, 0, rel.entities, er)
 
+      if (Object.entries(rel.compositeAttributes).length > 0) {
+        er.warning = `Relationship "${rel.id}" contains a composite attributes and this is currently not supported.`
+      }
+
       relationships.push(rel)
     }
   }
