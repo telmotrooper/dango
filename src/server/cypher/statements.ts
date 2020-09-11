@@ -171,7 +171,8 @@ export const generateCompositeAttributeTriggers = (entity: Ent): string => {
       compositeAttributes: {},
       multivalued: {},
       attributes: [],
-      pk: []
+      pk: [],
+      hasTimestamps: false
     }]
     schema += generateRelationships(hasAttribute)
   }

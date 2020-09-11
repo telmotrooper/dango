@@ -24,6 +24,7 @@ export interface MultivaluedAttributes {
 
 export interface Rel extends Ent { // relationship
   entities: Conn[];
+  hasTimestamps: boolean;
 }
 
 export interface Conn {  // connection

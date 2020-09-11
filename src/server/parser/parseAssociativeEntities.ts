@@ -19,7 +19,8 @@ const parseAssociativeEntities = (
       compositeAttributes: {},
       multivalued: {},
       pk: [],
-      relationships: []
+      relationships: [],
+      hasTimestamps: false
     }
 
     parseAttributesAndConnections(associativeEntity, data, 0, associativeEntity.entities, er)
