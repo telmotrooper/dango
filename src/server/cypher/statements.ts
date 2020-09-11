@@ -57,7 +57,7 @@ export const generateStrictModeTriggerForRelationships = (relationships: Array<s
 export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, relationship: string, maxCardinality = "1"): string => {
   // Must not have more than X relationships, where X is the cardinality number.
   const statement = `MATCH (n:${normalize(entity1)})-[r:${normalize(relationship)}]-(:${normalize(entity2)})
-  WITH n, COLLECT(r) AS rs
+  WITH n, COLLECT(DISTINCT r) AS rs
   WHERE SIZE(rs) > ${maxCardinality}
   FOREACH (r IN rs[${maxCardinality}..] | DELETE r)`
 
@@ -71,7 +71,7 @@ export const generateMinCardinalityTrigger = (entity1: string, entity2: string, 
     statement = `MATCH (n:${entity1}) WHERE NOT (:${normalize(entity2)})-[:${normalize(relationship)}]-(n) DETACH DELETE n`
   } else {
     statement = `MATCH (n:${entity1})-[r:${normalize(relationship)}]-(:${normalize(entity2)})
-    WITH n, COLLECT(r) AS rs
+    WITH n, COLLECT(DISTINCT r) AS rs
     WHERE SIZE(rs) < ${minCardinality}
     DETACH DELETE n`
   }
