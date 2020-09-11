@@ -37,12 +37,12 @@ export const generateRelationships = (relationships: Array<Rel>): string => {
     /* If both entities are the same then it's a self-relationship and we
      * don't need to generate verifications for both sides of the relationship. */
     if (relationship.entities[0].id !== relationship.entities[1].id) {
-      if (c0.min != "0") { statement += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.min) }
-      if (c0.max != "n") { statement += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.max) }
+      if (c0.min != "0") { statement += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.min, relationship.hasTimestamp) }
+      if (c0.max != "n") { statement += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.max, relationship.hasTimestamp) }
     }
 
-    if (c1.min != "0") { statement += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.min) }
-    if (c1.max != "n") { statement += generateMaxCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.max) }
+    if (c1.min != "0") { statement += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.min, relationship.hasTimestamp) }
+    if (c1.max != "n") { statement += generateMaxCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.max, relationship.hasTimestamp) }
   }
 
   return statement
