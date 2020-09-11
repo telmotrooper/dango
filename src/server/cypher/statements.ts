@@ -172,7 +172,7 @@ export const generateCompositeAttributeTriggers = (entity: Ent): string => {
       multivalued: {},
       attributes: [],
       pk: [],
-      hasTimestamps: false
+      hasTimestamp: false
     }]
     schema += generateRelationships(hasAttribute)
   }

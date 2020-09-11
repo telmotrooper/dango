@@ -19,13 +19,13 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
         compositeAttributes: {},
         multivalued: {},
         pk: [],
-        hasTimestamps: false
+        hasTimestamp: false
       }
 
       parseAttributesAndConnections(rel, data, 0, rel.entities, er)
 
       if (rel.attributes.includes("timestamp")) {
-        rel.hasTimestamps = true
+        rel.hasTimestamp = true
       }
 
       if (Object.entries(rel.compositeAttributes).length > 0) {
