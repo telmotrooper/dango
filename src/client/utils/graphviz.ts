@@ -8,6 +8,7 @@ import { clusterize, serialize } from "./helpers"
 const entityColor          = "#f8ec88"
 const attributeColor       = "#79bddc"
 const relationshipColor    = "#dc9079"
+const specialColor         = "#53c150"
 const fontName             = "mono"
 const relationshipFontSize = "12"
 const cardinalityFontSize  = "12"
@@ -137,7 +138,7 @@ const getAttribute = (entityName: string, attributeName: string, primaryKey = fa
     width: 0.25,
     height: 0.25,
     fontsize: 10,
-    fillcolor: isCompositeAttribute ? "#00526d" : attributeColor,
+    fillcolor: isCompositeAttribute ? "#00526d" : label == "timestamp" ? specialColor : attributeColor,
     fontname: fontName,
     xlabel: label
   })
