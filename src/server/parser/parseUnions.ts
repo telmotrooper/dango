@@ -1,4 +1,4 @@
-import { removeIndentation } from "../cypher/helpers"
+import { parseAttributesAndConnections, removeIndentation } from "../cypher/helpers"
 import { ER, Union } from "../misc/interfaces"
 import { allBetweenCurlyBrackets, linesIncludingWhitespace, secondWordFound } from "../misc/regex"
 
@@ -21,15 +21,19 @@ const parseUnions = (
       pk: []
     }
 
-    // parseAttributesAndConnections(associativeEntity, data, 0, associativeEntity.entities, er)
+    parseAttributesAndConnections(union, data, 0, undefined, er)
 
-    // // Get relationships that include this associative entity
-    // const rel: Rel[] = er.rel.filter(
-    //   relationship => relationship.entities.filter(
-    //     entity => entity.id == associativeEntity.id).length >= 1)
-    
-    // associativeEntity.relationships = rel.map(rel => rel.id)
-    
+
+    const entitiesInDiagram: Set<string> = new Set(er.ent.map(entity => entity.id))
+
+    // Iterate in reverse, moving attributes which are actually entities to the correct array.
+    for (let i = union.attributes.length - 1; i >= 0; i--) {
+      if (entitiesInDiagram.has(union.attributes[i])) {
+        union.entities.push(union.attributes[i])
+        union.attributes.splice(i,1)
+      }
+    }
+
     unions.push(union)
   }
 
