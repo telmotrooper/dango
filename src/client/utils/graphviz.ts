@@ -1,5 +1,5 @@
 import { lower } from "../../shared/removeAccents"
-import { ER, Ent, AEnt, Rel, Spe, Conn, CompositeAttributes } from "../../server/misc/interfaces"
+import { ER, Ent, AEnt, Rel, Spe, Conn, CompositeAttributes, Union } from "../../server/misc/interfaces"
 import { Shape, Proportions } from "./interfaces"
 import { indentation } from "../../shared/constants"
 import { clusterize, serialize } from "./helpers"
@@ -90,6 +90,10 @@ const getEntity = (entityName: string, isWeak = false): string => {
   }
 
   return element
+}
+
+const getUnion = (union: Union): string => {
+  return ""
 }
 
 const getSpecialization = (specialization: Spe): string => {
@@ -189,6 +193,40 @@ const getAEnt = (entityName: string): string => {
   return clusterize(entityName, getRelationship(entityName))
 }
 
+const drawEntities = (entities: Ent[], er: ER) => {
+  let diagram = ""
+
+  if (entities) {
+    for (const ent of entities) {
+      let isWeak = false
+
+      const connections: Array<Conn> = []
+
+      er.rel.forEach(rel => rel.entities.find(conn => {
+        if (conn.id == ent.id) {
+          connections.push(conn)
+        }
+      }))
+
+      
+      connections.forEach(conn => {
+        if (conn.weak) {
+          isWeak = true
+        }
+      })
+
+      diagram += getEntity(ent.id, isWeak) + "\n"
+      diagram += generateAttributes(ent, false, true)
+
+      if (Object.entries(ent.compositeAttributes).length > 0) {
+        diagram += generateCompositeAttributes(ent.id, ent.compositeAttributes)
+      }
+    }
+  }
+
+  return diagram
+}
+
 const generateAttributes = (ent: Ent | AEnt | Rel, isAEnt = false, isWeak = false): string => {
   let text = ""
   for (const attribute of ent.attributes) {
@@ -240,33 +278,7 @@ const erToGraphviz = (code: ER): string => {
 
   let diagram = "graph G {\n" + indentation + "compound = true\n\n"
 
-  if (code.ent) {
-    for (const ent of code.ent) {
-      let isWeak = false
-
-      const connections: Array<Conn> = []
-
-      code.rel.forEach(rel => rel.entities.find(conn => {
-        if (conn.id == ent.id) {
-          connections.push(conn)
-        }
-      }))
-
-      
-      connections.forEach(conn => {
-        if (conn.weak) {
-          isWeak = true
-        }
-      })
-
-      diagram += getEntity(ent.id, isWeak) + "\n"
-      diagram += generateAttributes(ent, false, true)
-
-      if (Object.entries(ent.compositeAttributes).length > 0) {
-        diagram += generateCompositeAttributes(ent.id, ent.compositeAttributes)
-      }
-    }
-  }
+  diagram += drawEntities(code.ent, code)
 
   if (code.rel) {
     for (const rel of code.rel) {
@@ -306,9 +318,17 @@ const erToGraphviz = (code: ER): string => {
     }
   }
 
+  if (code.unions) {
+    diagram += drawEntities(code.unions, code)
+
+    for (const union of code.unions) {
+      diagram += getUnion(union)
+    }
+  }
+
   diagram += "\n}"
 
-  // console.log(diagram)
+  console.log(diagram)
 
   return diagram
 }
