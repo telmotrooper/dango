@@ -21,7 +21,7 @@ const CypherModal = React.memo((props: Props) => {
     try {
       await cleanUpDatabase()
 
-      const statements = (textAreaRef.current?.value)?.replace(/\n/g, "")
+      const statements = textAreaRef.current?.value?.replace(/\n/g, "")
         .split(";")
         .filter(text => text != "") ?? []
       // console.log(statements)
