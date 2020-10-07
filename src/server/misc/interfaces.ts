@@ -3,6 +3,7 @@ export interface ER {  // entity-relationship diagram
   rel: Rel[];
   aent: AEnt[];
   spe: Spe[];
+  unions: Union[];
   warning?: string;
 }
 
@@ -47,4 +48,8 @@ export interface Spe {
 export interface Cardinality {
   min: string,
   max: string
+}
+
+export interface Union extends Ent {
+  entities: string[];
 }
