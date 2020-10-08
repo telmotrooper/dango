@@ -106,7 +106,7 @@ const getUnion = (union: Union): string => {
     fontname: fontName
   })
 
-  let text = indentation + lower(name) + properties + "\n" + `${parent} -- ${lower(name)}`
+  let text = indentation + lower(name) + properties + "\n" + `${parent} -- ${lower(name)} [label="∩"]`
 
   for (const entity of union.entities) {
     text += "\n" + `${lower(name)} -- ${lower(entity)}`
