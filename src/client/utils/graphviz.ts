@@ -5,9 +5,10 @@ import { indentation } from "../../shared/constants"
 import { clusterize, serialize } from "./helpers"
 
 
-const entityColor          = "#f8ec88"
-const attributeColor       = "#79bddc"
+const entityColor          = "#f8ec88" // yellow
+const attributeColor       = "#79bddc" // blue
 const relationshipColor    = "#dc9079"
+const unionColor           = "#82ea76" // green
 const specialColor         = "#53c150"
 const fontName             = "mono"
 const relationshipFontSize = "12"
@@ -93,7 +94,25 @@ const getEntity = (entityName: string, isWeak = false): string => {
 }
 
 const getUnion = (union: Union): string => {
-  return ""
+  const parent = lower(union.id)
+
+  const name = `${lower(union.id)}_union`
+
+  const properties = serialize({
+    label: "U",
+    shape: "circle",
+    style: "filled",
+    fillcolor: unionColor,
+    fontname: fontName
+  })
+
+  let text = indentation + lower(name) + properties + "\n" + `${parent} -- ${lower(name)}`
+
+  for (const entity of union.entities) {
+    text += "\n" + `${lower(name)} -- ${lower(entity)}`
+  }
+
+  return text
 }
 
 const getSpecialization = (specialization: Spe): string => {
