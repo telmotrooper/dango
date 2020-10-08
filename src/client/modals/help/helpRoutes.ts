@@ -5,5 +5,6 @@ export const helpRoutes = {
   multivalued: "/multivalued",
   relationships: "/relationships",
   selfRelationships: "/self-relationships",
-  specializations: "/specializations"
+  specializations: "/specializations",
+  unions: "/unions"
 }

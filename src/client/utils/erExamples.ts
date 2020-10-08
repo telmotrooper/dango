@@ -149,3 +149,13 @@ aent loan {
   withdrawal_date
   return_date
 }`
+
+export const union = 
+`ent Car {}
+ent Truck {}
+
+union Vehicle {
+  Car
+  Truck
+  plate_number
+}`

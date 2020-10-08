@@ -9,7 +9,7 @@ export const Home = (): JSX.Element =>
     <img className="logo" src={logo} />
 
     <p>
-      <b>Dango</b> is a graph database modeling tool which allows you to write a schema for a Neo4j database by writing an Entity-Relationship diagram.
+      <b>Dango</b> is a graph database modeling tool which allows you to write a schema for a Neo4j database by writing an Enhanced Entity-Relationship diagram.
     </p>
 
     <p>
@@ -25,6 +25,7 @@ export const Home = (): JSX.Element =>
       <li><Link to={helpRoutes.relationships}>Relationships</Link></li>
       <li><Link to={helpRoutes.selfRelationships}>Self-relationships</Link></li>
       <li><Link to={helpRoutes.specializations}>Specializations</Link></li>
+      <li><Link to={helpRoutes.unions}>Unions</Link></li>
     </ul>
   </Fragment>
 

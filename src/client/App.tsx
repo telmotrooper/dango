@@ -118,7 +118,7 @@ const App = (): JSX.Element => {
           </section>
 
           <p className="mb-05 fs-09 mt-minus-05">
-            We've made a simple notation to represent ER diagrams in human-readable code!
+            We've made a simple notation to represent EER diagrams in human-readable code!
             Learn more <a onClick={(): void => setShowHelpModal(!showHelpModal)}>here</a>.
           </p>
 
