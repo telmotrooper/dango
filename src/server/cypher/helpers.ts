@@ -1,8 +1,8 @@
 import { Cardinality, Ent, MultivaluedAttributes, Conn, ER } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { allButWhitespace, anythingFromFirstCharacter, digitOrN, allWords } from "../misc/regex"
-import { titlefy } from "../../shared/removeAccents"
-import { generateMultivaluedAttributeTrigger } from "./statements"
+import { lower, normalize, titlefy } from "../../shared/removeAccents"
+import { generateCompositeAttributeTriggers, generateMultivaluedAttributeTrigger, generatePropertyExistenceConstraints } from "./statements"
 
 export const generateTrigger = (triggerName: string, statement: string): string => {
   triggerName = titlefy(triggerName)
@@ -156,4 +156,22 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
       }
     }
   }
+}
+
+export const generateAllAttributes = (entity: Ent): string => {
+  const { attributes, id, pk } = entity
+
+  let statement = ""
+
+  statement += generatePropertyExistenceConstraints(id, attributes)
+
+  // Unique node constraints
+  for (const item of pk) {
+    statement += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
+  }
+
+  statement += generateCompositeAttributeTriggers(entity)
+  statement += generateMultivaluedAttributeTriggers(entity)
+
+  return statement
 }

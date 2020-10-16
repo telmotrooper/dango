@@ -1,6 +1,5 @@
-import { lower, normalize } from "../../shared/removeAccents"
 import { ER } from "../misc/interfaces"
-import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers } from "./helpers"
+import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
          generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers } from "./statements"
@@ -9,7 +8,7 @@ import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../cl
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
-  const { ent, rel, aent, spe } = erCode
+  const { ent, rel, aent, spe, unions } = erCode
   let schema = ""
 
   const entities = ent.map(entity => entity.id)
@@ -28,17 +27,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   // Entities
   for (const entity of ent) {
-    const { attributes, id, pk } = entity
-
-    schema += generatePropertyExistenceConstraints(id, attributes)
-
-    // Unique node constraints
-    for (const item of pk) {
-      schema += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
-    }
-
-    schema += generateCompositeAttributeTriggers(entity)
-    schema += generateMultivaluedAttributeTriggers(entity)
+    schema += generateAllAttributes(entity)
   }
 
   // Relationships
@@ -71,6 +60,10 @@ const erToCypher = (er: string, strictMode = true): string => {
     if (specialization.total) {
       schema += generateCompletenessTrigger(specialization.id, specialization.entities)
     }
+  }
+
+  for (const union of unions) {
+    schema += generateAllAttributes(union)
   }
 
   return schema
