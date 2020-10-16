@@ -2,7 +2,7 @@ import { ER } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
-         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers } from "./statements"
+         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers, generateUnionTriggerForParent } from "./statements"
 import { generateRelationships } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 
@@ -23,7 +23,6 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateStrictModeTriggerForNodes(entities.concat(compositeAttributes).concat(associativeEntities))
     schema += generateStrictModeTriggerForRelationships(relationships.concat(compositeAttributeRel))
   }
-
 
   // Entities
   for (const entity of ent) {
@@ -64,6 +63,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   for (const union of unions) {
     schema += generateAllAttributes(union)
+    schema += generateUnionTriggerForParent(union)
   }
 
   return schema

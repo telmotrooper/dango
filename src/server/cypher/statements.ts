@@ -3,7 +3,7 @@ import { generateTrigger, getTwoByTwoCombinations } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { generateRelationships } from "./relationships"
-import { Ent, Rel } from "../misc/interfaces"
+import { Ent, Rel, Union } from "../misc/interfaces"
 
 export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
   let statement = ""
@@ -23,7 +23,7 @@ export const generatePropertyExistenceConstraints = (id: string, attributes: Arr
   return statement
 }
 
-export const generateStrictModeTriggerForNodes = (entities: Array<string>, label = ""): string => {
+export const generateStrictModeTriggerForNodes = (entities: Array<string>, label = "", title = ""): string => {
   if (label != "") {
     label = ":" + label // If there is a label, prepend it with ":"
   }
@@ -36,9 +36,9 @@ export const generateStrictModeTriggerForNodes = (entities: Array<string>, label
   statement = statement.substr(0, statement.length-4)
   statement += "\n" + "DETACH DELETE n"
 
-  const triggerLabel = label == "" ? "strict mode (nodes)" : lower(label.substr(1, label.length)) + " completeness"
+  const triggerTitle = title == "" ? "strict mode (nodes)" : title
 
-  return generateTrigger(triggerLabel, statement)
+  return generateTrigger(triggerTitle, statement)
 }
 
 export const generateStrictModeTriggerForRelationships = (relationships: Array<string>): string => {  
@@ -99,7 +99,7 @@ export const generateDisjointednessTrigger = (parent: string, entities: Array<st
 }
 
 export const generateCompletenessTrigger = (parent: string, entities: Array<string>): string => {
-  return generateStrictModeTriggerForNodes(entities, parent)
+  return generateStrictModeTriggerForNodes(entities, parent, lower(parent) + " completeness")
 }
 
 export const generateChildrenTrigger = (parent: string, entities: Array<string>): string => {
@@ -182,4 +182,8 @@ export const generateCompositeAttributeTriggers = (entity: Ent): string => {
   }
 
   return schema
+}
+
+export const generateUnionTriggerForParent = (union: Union): string => {
+  return generateStrictModeTriggerForNodes(union.entities, union.id, `Union ${union.id} for parent`)
 }
