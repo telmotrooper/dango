@@ -191,3 +191,20 @@ export const generateCompositeAttributeTriggers = (entity: Ent): string => {
 export const generateUnionTriggerForParent = (union: Union): string => {
   return generateStrictModeTriggerForNodes(union.entities, union.id, `Union ${union.id} for parent`)
 }
+
+export const generateUnionTriggerForChildren = (union: Union): string => {
+  const { id, entities } = union
+
+  let statement = "MATCH (n) WHERE" + "\n" + indentation + `NOT n:${id} AND` + "\n" + indentation + "("
+
+  for (const entity of entities) {
+    statement += `n:${entity} OR `
+  }
+
+
+  statement = statement.substr(0, statement.length-4)
+  statement += ")" + "\n" + "DETACH DELETE n"
+
+
+  return generateTrigger(`Union ${union.id} for children`, statement)
+}
