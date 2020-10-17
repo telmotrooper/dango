@@ -175,3 +175,9 @@ export const generateAllAttributes = (entity: Ent): string => {
 
   return statement
 }
+
+export const hasNoAttributes = (entity: Ent): boolean => {
+  return entity.attributes.length === 0 &&
+         Object.keys(entity.compositeAttributes).length === 0 &&
+         Object.keys(entity.multivalued).length === 0
+}

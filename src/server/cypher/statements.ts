@@ -1,5 +1,5 @@
 import { indentation } from "../../shared/constants"
-import { generateTrigger, getTwoByTwoCombinations } from "./helpers"
+import { generateTrigger, getTwoByTwoCombinations, hasNoAttributes } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { generateRelationships } from "./relationships"
@@ -201,10 +201,10 @@ export const generateUnionTriggerForChildren = (union: Union): string => {
     statement += `n:${entity} OR `
   }
 
-
   statement = statement.substr(0, statement.length-4)
-  statement += ")" + "\n" + "DETACH DELETE n"
-
+  statement += ")" + "\n"
+  
+  statement += hasNoAttributes(union) ? "SET n:Vehicle": "DETACH DELETE n"
 
   return generateTrigger(`Union ${union.id} for children`, statement)
 }
