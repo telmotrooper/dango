@@ -42,6 +42,10 @@ export const generateStrictModeTriggerForNodes = (entities: Array<string>, label
 }
 
 export const generateStrictModeTriggerForRelationships = (relationships: Array<string>): string => {  
+  if (relationships.length === 0) {
+    return ""
+  }
+  
   let statement = "MATCH ()-[r]-() WHERE" + "\n"
 
   for (const relationship of relationships) {
