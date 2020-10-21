@@ -43,7 +43,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   // Associative entities
   for (const associativeEntity of aent) {
     const { attributes, entities, id } = associativeEntity
-    schema += generatePropertyExistenceConstraints(id, attributes, true)
+    schema += generatePropertyExistenceConstraints(id, attributes)
 
     schema += generateCompositeAttributeTriggers(associativeEntity)
     schema += generateMultivaluedAttributeTriggers(associativeEntity)
