@@ -2,7 +2,7 @@ import { indentation } from "../../shared/constants"
 import { generateTrigger, getTwoByTwoCombinations, hasNoAttributes } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
-import { generateRelationships } from "./relationships"
+import { generateRelationship } from "./relationships"
 import { Ent, Rel, Union } from "../misc/interfaces"
 
 export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
@@ -182,7 +182,10 @@ export const generateCompositeAttributeTriggers = (entity: Ent): string => {
       pk: [],
       hasTimestamp: false
     }]
-    schema += generateRelationships(hasAttribute)
+
+    for (const relationship of hasAttribute) {
+      schema += generateRelationship(relationship)
+    }
   }
 
   return schema

@@ -1,10 +1,11 @@
-import { ER } from "../misc/interfaces"
+import { ER, Rel } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
          generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers, generateUnionTriggerForParent, generateUnionTriggerForChildren } from "./statements"
-import { generateRelationships } from "./relationships"
+import { generateRelationship } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
+import { lower } from "../../shared/removeAccents"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -30,8 +31,10 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   // Relationships
-  schema += generateRelationships(rel)
-
+  for (const relationship of rel) {
+    schema += generateRelationship(relationship)
+  }
+  
   for (const relationship of rel) {
     // schema += generateCompositeAttributeTriggers(relationship) // NOT SUPPORTED
     schema += generateMultivaluedAttributeTriggers(relationship, true)
@@ -39,11 +42,37 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   // Associative entities
   for (const associativeEntity of aent) {
-    const { attributes, id } = associativeEntity
+    const { attributes, entities, id } = associativeEntity
     schema += generatePropertyExistenceConstraints(id, attributes, true)
 
     schema += generateCompositeAttributeTriggers(associativeEntity)
     schema += generateMultivaluedAttributeTriggers(associativeEntity)
+
+    // Split associative entity into many relationships to reuse relationship trigger logic.
+    for (const entity of entities) {
+      const rel: Rel = {
+        id: `associated_to_${lower(id)}`,
+        entities: [
+          {
+            id: id,
+            cardinality: "0,n",
+            weak: false
+          },
+          {
+            id: entity.id,
+            cardinality: entity.cardinality,
+            weak: false
+          }
+        ],
+        hasTimestamp: false,
+        attributes: [],
+        compositeAttributes: {},
+        multivalued: {},
+        pk: []
+      }
+
+      schema += generateRelationship(rel)
+    }
   }
 
   // Specializations
