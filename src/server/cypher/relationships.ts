@@ -3,7 +3,7 @@ import { generateTrigger, extractCardinality } from "./helpers"
 import { Cardinality, Rel } from "../misc/interfaces"
 import { generateMinCardinalityTrigger, generateMaxCardinalityTrigger, generatePropertyExistenceConstraints } from "./statements"
 
-export const generateRelationship = (relationship: Rel): string => {
+export const generateRelationship = (relationship: Rel, includeTriggerBack = true): string => {
   let statement = ""
 
   const { entities, attributes, id } = relationship
@@ -21,13 +21,17 @@ export const generateRelationship = (relationship: Rel): string => {
     )
   }
 
-  statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
-  `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
-  )
+  if (includeTriggerBack) { // "false" for associative entities which reuse the same relationship label.
+    statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+    )
+  
+    statement += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+    )
+  }
 
-  statement += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
-  `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
-  )
+
 
   // Cardinality
   const c0: Cardinality = extractCardinality(relationship.entities[0].cardinality)

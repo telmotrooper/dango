@@ -71,7 +71,7 @@ const erToCypher = (er: string, strictMode = true): string => {
         pk: []
       }
 
-      schema += generateRelationship(rel)
+      schema += generateRelationship(rel, false)
     }
   }
 
