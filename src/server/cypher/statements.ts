@@ -3,7 +3,7 @@ import { generateTrigger, getTwoByTwoCombinations, hasNoAttributes } from "./hel
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { generateRelationship } from "./relationships"
-import { Ent, Rel, Union } from "../misc/interfaces"
+import { AEnt, Ent, Rel, Union } from "../misc/interfaces"
 
 export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
   let statement = ""
@@ -210,4 +210,23 @@ export const generateUnionTriggerForChildren = (union: Union): string => {
   statement += hasNoAttributes(union) ? "SET n:Vehicle": "DETACH DELETE n"
 
   return generateTrigger(`Union ${union.id} for children`, statement)
+}
+
+export const generateAssociativeEntityRelationshipControl = (aent: AEnt): string => {
+  const { entities, id } = aent
+
+  const relName = `associated_to_${lower(id)}`
+
+  let statement = `MATCH (n)-[:${relName}]-(:${lower(id)}) WHERE ` + "\n"
+
+  const entitiesAssociated = entities.map(entity => entity.id)
+
+  for (const entity of entitiesAssociated) {
+    statement += indentation + `NOT n:\`${entity}\` AND` + "\n"
+  }
+
+  statement = statement.substr(0, statement.length-4)
+  statement += "\n" + "DETACH DELETE n"
+
+  return generateTrigger(`${id} associations`, statement)
 }
