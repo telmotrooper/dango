@@ -13,6 +13,8 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   const entities = ent.map(entity => entity.id)
   const associativeEntities = aent.map(aent => aent.id)
+  const associativeEntitiesRelationships = aent.map(aent => getNameForAEntRelationship(aent.id))
+
 
   const compositeAttributes = ent.flatMap(entity => Object.keys(entity.compositeAttributes).map(x => getEntNameForCompAttribute(entity.id, x)))
 
@@ -21,7 +23,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   if (strictMode) {
     schema += generateStrictModeTriggerForNodes(entities.concat(compositeAttributes).concat(associativeEntities))
-    schema += generateStrictModeTriggerForRelationships(relationships.concat(compositeAttributeRel))
+    schema += generateStrictModeTriggerForRelationships(relationships.concat(compositeAttributeRel).concat(associativeEntitiesRelationships))
   }
 
   // Entities
