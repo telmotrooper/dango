@@ -181,3 +181,6 @@ export const hasNoAttributes = (entity: Ent): boolean => {
          Object.keys(entity.compositeAttributes).length === 0 &&
          Object.keys(entity.multivalued).length === 0
 }
+
+export const getNameForAEntRelationship = (id: string): string =>
+  `associated_to_${lower(id)}`

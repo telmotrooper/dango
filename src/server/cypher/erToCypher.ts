@@ -1,11 +1,10 @@
 import { ER, Rel } from "../misc/interfaces"
-import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes } from "./helpers"
+import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes, getNameForAEntRelationship } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
          generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers, generateUnionTriggerForParent, generateUnionTriggerForChildren, generateAssociativeEntityRelationshipControl } from "./statements"
 import { generateRelationship } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
-import { lower } from "../../shared/removeAccents"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -48,7 +47,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateCompositeAttributeTriggers(associativeEntity)
     schema += generateMultivaluedAttributeTriggers(associativeEntity)
 
-    const relationshipName = `associated_to_${lower(id)}`
+    const relationshipName = getNameForAEntRelationship(id)
 
     // Split associative entity into many relationships to reuse relationship trigger logic.
     for (const entity of entities) {
