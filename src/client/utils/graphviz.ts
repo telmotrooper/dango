@@ -275,8 +275,6 @@ const generateCompositeAttributes = (entityName: string, compAttributes: Composi
       text += getAttribute(attributeId, attribute, false)
       text += getConnection(attributeId, attribute, false, false)
     }
-
-    // TODO: ADD CONNECTIONS TO ATTRIBUTES OF COMPOSITE ATTRIBUTE
   }
   
   return text
@@ -301,14 +299,22 @@ const erToGraphviz = (code: ER): string => {
 
   if (code.rel) {
     for (const rel of code.rel) {
-      const isAEnt1 = associativeEntites.includes(rel.entities[0].id)
-      const isAEnt2 = associativeEntites.includes(rel.entities[1].id)
 
       diagram += getRelationship(rel.id) + "\n"
-      diagram += getConnectionForRelationship(rel.entities[0].id, rel.id, rel.entities[0].cardinality, isAEnt1, rel.entities[0].weak) + "\n"
-      diagram += getConnectionForRelationship(rel.id, rel.entities[1].id, rel.entities[1].cardinality, isAEnt2, rel.entities[1].weak) + "\n"
-      diagram += generateAttributes(rel)
 
+      for (const [index, entity] of rel.entities.entries()) {
+        const isAEnt = associativeEntites.includes(entity.id)
+
+        // This "index != 1" thing is just a workaround so we get the desired order when drawing the relationship.
+        diagram += getConnectionForRelationship(
+          index != 1 ? entity.id : rel.id,
+          index != 1 ? rel.id : entity.id,
+          entity.cardinality,
+          isAEnt,
+          entity.weak) + "\n"
+      }
+
+      diagram += generateAttributes(rel)
 
       if (Object.entries(rel.compositeAttributes).length > 0) {
         diagram += generateCompositeAttributes(rel.id, rel.compositeAttributes)
