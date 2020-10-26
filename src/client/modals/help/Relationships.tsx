@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
 
-import { relationshipExample } from "../../utils/erExamples"
+import { nAryRelationshipExample, relationshipExample } from "../../utils/erExamples"
 import { ExampleCodebox } from "./ExampleCodebox"
 
 interface Props {
@@ -14,7 +14,7 @@ export const Relationships = (props: Props): JSX.Element =>
       which indicate how many of each Entity are connected through the relationship.
     </p>
 
-    <p>Example:</p>
+    <p>Example 1 - Relationship between two entities:</p>
     <div className="columns">
       <div className="column">
         <ExampleCodebox code={relationshipExample} setCode={props.setCode} rows={9} />
@@ -28,6 +28,17 @@ export const Relationships = (props: Props): JSX.Element =>
       </div>
     </div>
 
+    <p>Example 2 - N-ary relationship (n ≥ 3):</p>
+    <div className="columns">
+      <div className="column">
+        <ExampleCodebox code={nAryRelationshipExample} setCode={props.setCode} rows={9} />
+      </div>
+      <div className="column">
+        <p>
+          TODO: WRITE HERE.
+        </p>
+      </div>
+    </div>
 
     {/* <p>Example 2 - Partial and overlap:</p>
     <ExampleCodebox code={specializationsPartialOverlap} setCode={props.setCode} rows={11} />

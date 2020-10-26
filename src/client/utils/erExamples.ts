@@ -69,6 +69,17 @@ rel has {
   since
 }`
 
+export const nAryRelationshipExample = 
+`ent City {}
+ent Supplier {}
+ent Product {}
+
+rel distribution {
+  City (1,n)
+  Supplier (1,1)
+  Product (1,n)
+}`
+
 
 export const selfRelationshipsSameCardinalities = 
 `ent Worker {}
