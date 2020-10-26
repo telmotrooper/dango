@@ -1,7 +1,7 @@
-![Dango](src/client/assets/dango.png)
-
 # Dango
 EER model to Neo4j schema
+
+<img src="src/client/assets/dango.png" width="175" height="175" />
 
 ## Installing
 
