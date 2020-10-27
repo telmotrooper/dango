@@ -2,7 +2,9 @@ import { ER, Rel } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes, getNameForAEntRelationship } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
-         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships, generateCompositeAttributeTriggers, generateUnionTriggerForParent, generateUnionTriggerForChildren, generateAssociativeEntityRelationshipControl } from "./statements"
+         generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships,
+         generateCompositeAttributeTriggers, generateUnionTriggerForParent,
+         generateUnionTriggerForChildren, generateAssociativeEntityRelationshipControl } from "./statements"
 import { generateRelationship } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 
@@ -31,14 +33,17 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateAllAttributes(entity)
   }
 
-  // Relationships
   for (const relationship of rel) {
-    schema += generateRelationship(relationship)
-  }
-  
-  for (const relationship of rel) {
-    // schema += generateCompositeAttributeTriggers(relationship) // NOT SUPPORTED
+    if (relationship.entities.length == 2) {
+      schema += generateRelationship(relationship)
+    }
+    else if (relationship.entities.length > 2) {
+      schema += generatePropertyExistenceConstraints(relationship.id, relationship.attributes)
+      schema += generateCompositeAttributeTriggers(relationship) // Not supported for relationships, but supported for nodes.
+    }
+
     schema += generateMultivaluedAttributeTriggers(relationship, true)
+
   }
 
   // Associative entities
