@@ -64,7 +64,7 @@ const setupAutoComplete= (codebox: TextArea): void => {
         if (keyCode === 13 && selectionStart !== value.length) {  // ENTER
           e.preventDefault()
 
-          if (value[selectionStart-1] === "{" && value[selectionStart] === "}") {
+          if (value[selectionStart-1] === "{" && value[selectionStart] === "}" || value[selectionStart-1] === "[" && value[selectionStart] === "]") {
             codebox.current.value = value.slice(0, selectionStart) + "\n" + indentation + "  " + "\n" + indentation + value.slice(selectionEnd)
             codebox.current.setSelectionRange(selectionStart+indentation.length+3, selectionStart+indentation.length+3)
       
