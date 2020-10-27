@@ -28,7 +28,7 @@ const parseRelationships = (rawRelationships: string[], er: ER): Rel[] => {
         rel.hasTimestamp = true
       }
 
-      if (Object.entries(rel.compositeAttributes).length > 0) {
+      if (Object.entries(rel.compositeAttributes).length > 0 && rel.entities.length == 2) {
         er.warning = `Relationship "${rel.id}" contains a composite attributes and this is currently not supported.`
       }
 
