@@ -1,5 +1,6 @@
 import { ER, Rel } from "../misc/interfaces"
-import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers, generateAllAttributes, getNameForAEntRelationship } from "./helpers"
+import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers,
+         generateAllAttributes, getNameForAEntRelationship, getNameForNAryRelationship } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
          generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships,
@@ -7,6 +8,7 @@ import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateUnionTriggerForChildren, generateAssociativeEntityRelationshipControl } from "./statements"
 import { generateRelationship } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
+import { lower } from "../../shared/removeAccents"
 
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
@@ -17,15 +19,31 @@ const erToCypher = (er: string, strictMode = true): string => {
   const associativeEntities = aent.map(aent => aent.id)
   const associativeEntitiesRelationships = aent.map(aent => getNameForAEntRelationship(aent.id))
 
+  const nAryRelationships = rel.filter(relationship => relationship.entities.length > 2)
+  const nAryRelationshipNodes: Set<string> = new Set(nAryRelationships.map(relationship => lower(relationship.id)))
+  const nAryRelationshipConnections = nAryRelationships.map(relationship => getNameForNAryRelationship(relationship.id))
 
-  const compositeAttributes = ent.flatMap(entity => Object.keys(entity.compositeAttributes).map(x => getEntNameForCompAttribute(entity.id, x)))
+  const compositeAttributes = ent
+    .flatMap(entity => Object.keys(entity.compositeAttributes)
+      .map(x => getEntNameForCompAttribute(entity.id, x))
+    )
 
-  const relationships = rel.map(relationship => relationship.id)
+  const relationships = rel
+    .filter(relationship => !nAryRelationshipNodes.has(lower(relationship.id))) // n-ary relationships become nodes, not connections.
+    .map(relationship => relationship.id)
+  
   const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))
 
   if (strictMode) {
-    schema += generateStrictModeTriggerForNodes(entities.concat(compositeAttributes).concat(associativeEntities))
-    schema += generateStrictModeTriggerForRelationships(relationships.concat(compositeAttributeRel).concat(associativeEntitiesRelationships))
+    schema += generateStrictModeTriggerForNodes(entities
+      .concat(compositeAttributes)
+      .concat(associativeEntities)
+      .concat(Array.from(nAryRelationshipNodes)))
+      
+    schema += generateStrictModeTriggerForRelationships(relationships
+      .concat(compositeAttributeRel)
+      .concat(associativeEntitiesRelationships)
+      .concat(nAryRelationshipConnections))
   }
 
   // Entities

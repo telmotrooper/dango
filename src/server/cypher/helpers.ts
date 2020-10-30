@@ -184,3 +184,6 @@ export const hasNoAttributes = (entity: Ent): boolean => {
 
 export const getNameForAEntRelationship = (id: string): string =>
   `associated_to_${lower(id)}`
+
+export const getNameForNAryRelationship = (id: string): string =>
+  `connected_to_${lower(id)}`
