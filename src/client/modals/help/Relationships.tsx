@@ -21,7 +21,7 @@ export const Relationships = (props: Props): JSX.Element =>
       </div>
       <div className="column">
         <p>
-          In this example we define that entities Driver and Car are connected through a "has" relationship.
+          In this example, we define that entities Driver and Car are connected through a "has" relationship.
           Since the cardinalities in both directions are minimum 0 and maximum n we don't have any restriction
           on how many of each should be in a given relationship.
         </p>
@@ -35,7 +35,8 @@ export const Relationships = (props: Props): JSX.Element =>
       </div>
       <div className="column">
         <p>
-          TODO: WRITE HERE.
+          In this example, we define a 3-ary relationship "distribution" that connects entities of types "City",
+          "Supplier" and "Product".
         </p>
       </div>
     </div>
