@@ -21,7 +21,7 @@ export const generateRelationship = (relationship: Rel, includeTriggerBack = tru
     )
   }
 
-  if (includeTriggerBack) { // "false" for associative entities which reuse the same relationship label.
+  if (includeTriggerBack) { // "false" for associative entities which reuse the same relationship label. Their trigger back logic is handled by "generateAssociativeEntityRelationshipControl".
     statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
     `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
     )
