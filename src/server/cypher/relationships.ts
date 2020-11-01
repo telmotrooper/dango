@@ -16,7 +16,7 @@ export const generateRelationship = (relationship: Rel, includeTriggerBack = tru
   /* If both entities are the same then it's a self-relationship and we
     * don't need to generate verifications for both sides of the relationship. */
   if (relationship.entities[0].id !== relationship.entities[1].id) {
-    statement += generateTrigger(relationship.id + " " + relationship.entities[0].id,
+    statement += generateTrigger(relationship.id + " " + relationship.entities[1].id + " " + relationship.entities[0].id,
     `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
   }
