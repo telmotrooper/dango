@@ -1,5 +1,5 @@
 import { indentation } from "../../shared/constants"
-import { generateTrigger, getNameForAEntRelationship, getTwoByTwoCombinations, hasNoAttributes } from "./helpers"
+import { generateTrigger, getNameForAEntRelationship, getNameForNAryRelationship, getTwoByTwoCombinations, hasNoAttributes } from "./helpers"
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { generateRelationship } from "./relationships"
@@ -212,10 +212,10 @@ export const generateUnionTriggerForChildren = (union: Union): string => {
   return generateTrigger(`Union ${union.id} for children`, statement)
 }
 
-export const generateAssociativeEntityRelationshipControl = (aent: AEnt): string => {
+export const generateAssociativeEntityRelationshipControl = (aent: AEnt | Rel, isNAryRelationship = false): string => {
   const { entities, id } = aent
 
-  const relName = getNameForAEntRelationship(id)
+  const relName = isNAryRelationship ? getNameForNAryRelationship(id) : getNameForAEntRelationship(id)
 
   let statement = `MATCH (n)-[:${relName}]-(:${lower(id)}) WHERE ` + "\n"
 

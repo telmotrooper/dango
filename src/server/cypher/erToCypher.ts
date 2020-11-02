@@ -52,12 +52,41 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const relationship of rel) {
-    if (relationship.entities.length == 2) {
-      schema += generateRelationship(relationship)
+    if (relationship.entities.length == 2) { // Simple relationship, mapped to a Neo4j relationship.
+      schema += generateRelationship(relationship) // This includes "generatePropertyExistenceConstraints".
+
     }
-    else if (relationship.entities.length > 2) {
+    else if (relationship.entities.length > 2) { // Complex relationship, mapped to its own Neo4j node.
       schema += generatePropertyExistenceConstraints(relationship.id, relationship.attributes)
       schema += generateCompositeAttributeTriggers(relationship) // Not supported for relationships, but supported for nodes.
+
+      // Split associative entity into many relationships to reuse relationship trigger logic.
+      for (const entity of relationship.entities) { // TODO: The logic is pretty much the same for associative entities, this deserves a refactoring.
+        const rel: Rel = {
+          id: getNameForNAryRelationship(relationship.id),
+          entities: [
+            {
+              id: relationship.id,
+              cardinality: "0,n",
+              weak: false
+            },
+            {
+              id: entity.id,
+              cardinality: entity.cardinality,
+              weak: false
+            }
+          ],
+          hasTimestamp: false,
+          attributes: [],
+          compositeAttributes: {},
+          multivalued: {},
+          pk: []
+        }
+
+        schema += generateRelationship(rel, false)
+      }
+
+      schema += generateAssociativeEntityRelationshipControl(relationship, true)
     }
 
     schema += generateMultivaluedAttributeTriggers(relationship, true)
