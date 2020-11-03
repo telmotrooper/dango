@@ -6,5 +6,6 @@ export const helpRoutes = {
   relationships: "/relationships",
   selfRelationships: "/self-relationships",
   specializations: "/specializations",
-  unions: "/unions"
+  unions: "/unions",
+  weakEntities: "/weak-entities"
 }

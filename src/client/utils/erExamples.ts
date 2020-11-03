@@ -170,3 +170,19 @@ union Vehicle {
   Truck
   plate_number
 }`
+
+export const weakEntity =
+`ent Book {
+  isbn *
+  title
+}
+
+ent Copy {
+  id
+  acquisition_date
+}
+
+rel has {
+  Book (1,1)
+  w Copy (0,n)
+}`

@@ -11,6 +11,7 @@ import { CompositeAttributes } from "./CompositeAttributes"
 import { MultivaluedAttributes } from "./MultivaluedAttributes"
 import { AssociativeEntities } from "./AssociativeEntities"
 import { Unions } from "./Unions"
+import { WeakEntities } from "./WeakEntities"
 
 interface Props {
   setCode: (code: string) => void;
@@ -41,6 +42,7 @@ const HelpModal = React.memo((props: Props) => {
                 <Route path={helpRoutes.selfRelationships} component={() => HelpWrapper(SelfRelationships({setCode}))} />
                 <Route path={helpRoutes.specializations} component={() => HelpWrapper(Specializations({setCode}))} />
                 <Route path={helpRoutes.unions} component={() => HelpWrapper(Unions({setCode}))} />
+                <Route path={helpRoutes.weakEntities} component={() => HelpWrapper(WeakEntities({setCode}))} />
               </Switch>
             </MemoryRouter>
           </div>

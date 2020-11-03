@@ -26,6 +26,7 @@ export const Home = (): JSX.Element =>
       <li><Link to={helpRoutes.selfRelationships}>Self-relationships</Link></li>
       <li><Link to={helpRoutes.specializations}>Specializations</Link></li>
       <li><Link to={helpRoutes.unions}>Unions</Link></li>
+      <li><Link to={helpRoutes.weakEntities}>Weak entities</Link></li>
     </ul>
   </Fragment>
 
