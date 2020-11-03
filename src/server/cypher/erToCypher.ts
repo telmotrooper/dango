@@ -1,11 +1,11 @@
-import { ER, Rel } from "../misc/interfaces"
+import { Conn, ER, Rel } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers,
          generateAllAttributes, getNameForAEntRelationship, getNameForNAryRelationship } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
          generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships,
          generateCompositeAttributeTriggers, generateUnionTriggerForParent,
-         generateUnionTriggerForChildren, generateAssociativeEntityRelationshipControl } from "./statements"
+         generateUnionTriggerForChildren, generateAssociativeEntityRelationshipControl, generateWeakEntityTrigger } from "./statements"
 import { generateRelationship } from "./relationships"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { lower } from "../../shared/removeAccents"
@@ -55,6 +55,12 @@ const erToCypher = (er: string, strictMode = true): string => {
     if (relationship.entities.length == 2) { // Simple relationship, mapped to a Neo4j relationship.
       schema += generateRelationship(relationship) // This includes "generatePropertyExistenceConstraints".
 
+      // Check whether a weak entity exists.
+      const weakEntity: Conn | null = relationship.entities.find(conn => conn.weak == true) ?? null
+      
+      if (weakEntity !== null) {
+        schema += generateWeakEntityTrigger(weakEntity, relationship)
+      }
     }
     else if (relationship.entities.length > 2) { // Complex relationship, mapped to its own Neo4j node.
       schema += generatePropertyExistenceConstraints(relationship.id, relationship.attributes)

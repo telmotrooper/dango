@@ -3,7 +3,7 @@ import { generateTrigger, getNameForAEntRelationship, getNameForNAryRelationship
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { generateRelationship } from "./relationships"
-import { AEnt, Ent, Rel, Union } from "../misc/interfaces"
+import { AEnt, Conn, Ent, Rel, Union } from "../misc/interfaces"
 
 export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
   let statement = ""
@@ -229,4 +229,18 @@ export const generateAssociativeEntityRelationshipControl = (aent: AEnt | Rel, i
   statement += "\n" + "DETACH DELETE n"
 
   return generateTrigger(`${id} associations`, statement)
+}
+
+export const generateWeakEntityTrigger = (conn: Conn, rel: Rel): string => {
+  const strongEntity: Conn | null = rel.entities.find(entity => entity.weak == false) ?? null
+
+  if (strongEntity !== null) {
+    let statement = `MATCH (n:${conn.id})` + "\n"
+    statement += indentation + `WHERE NOT (:${strongEntity.id})-[:${rel.id}]-(n)` + "\n"
+    statement += indentation + "DETACH DELETE n"
+
+    return generateTrigger(`Weak entity ${conn.id} in ${rel.id}`, statement)
+  }
+
+  return ""
 }
