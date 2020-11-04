@@ -103,6 +103,14 @@ union FiltrosDePesquisa {
   Editoras
   Livros
   Autores
+}
+
+rel ContratoDeEstágio {
+  InstituiçõesEnsino (1,1)
+  Estagiários (1,1)
+  Efetivos (1,1)
+  DataInicio
+  Salário
 }`
 
 
