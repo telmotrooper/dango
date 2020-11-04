@@ -75,8 +75,8 @@ rel cadastro {
 }
 
 rel disponibilidade {
-  Exemplares (1,n)
   Livros (1,1)
+  w Exemplares (1,n)
 }
 
 rel publicação {
