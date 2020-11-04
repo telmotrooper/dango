@@ -22,7 +22,33 @@ ent Exemplares {
 }
 
 ent Clientes {
-  ID
+  ID *
+  Nome
+  Telefone <0,n>
+  Endereço [
+    CEP
+    rua
+    número
+    complemento
+  ]
+}
+
+ent Livros {
+  ISBN *
+  Título
+  Volume
+  Ano
+  NroPáginas
+}
+
+ent Autores {
+  CPF *
+  Nome
+  DN
+}
+
+ent Editoras {
+  CNPJ *
   Nome
 }
 
@@ -37,7 +63,7 @@ rel responsabilidade {
   Estagiários (0,n)
   DataInicio
 }
-
+  
 rel vínculo {
   Estagiários (0,n)
   InstituiçõesEnsino (1,1)
@@ -48,11 +74,27 @@ rel cadastro {
   empréstimo (0,n)
 }
 
+rel disponibilidade {
+  Exemplares (1,n)
+  Livros (1,1)
+}
+
+rel publicação {
+  Editoras (1,1)
+  Livros (0,n)
+}
+
+rel autoria {
+  Livros (0,n)
+  Autores (1,n)
+  Ordem
+}
+
 aent empréstimo {
   Exemplares (0,n)
   Clientes (0,1)
   Efetivos (0,n)
-  DataRetirada *
+  DataRetirada
   DataPrevistaDevolução
   ValorMulta
 }`
