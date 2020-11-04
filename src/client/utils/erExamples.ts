@@ -24,7 +24,7 @@ ent Exemplares {
 ent Clientes {
   ID *
   Nome
-  Telefone <0,n>
+  Telefone <1,2>
   Endereço [
     CEP
     rua
