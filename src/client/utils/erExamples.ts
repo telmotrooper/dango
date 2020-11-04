@@ -97,6 +97,12 @@ aent empréstimo {
   DataRetirada
   DataPrevistaDevolução
   ValorMulta
+}
+
+union FiltrosDePesquisa {
+  Editoras
+  Livros
+  Autores
 }`
 
 
