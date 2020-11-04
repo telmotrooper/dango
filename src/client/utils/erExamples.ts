@@ -99,6 +99,11 @@ aent empréstimo {
   ValorMulta
 }
 
+rel recomendado_por {
+  Clientes (0,n)
+  Clientes (0,n)
+}
+
 union FiltrosDePesquisa {
   Editoras
   Livros
