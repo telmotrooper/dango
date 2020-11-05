@@ -1,50 +1,49 @@
 export const mainExample = 
-`ent Bibliotecários {
+`ent Bibliotecarios {
   CPF *
   Nome
-  Salário
+  Salario
 }
 
-ent Estagiários {}
+ent Estagiarios {}
 
 ent Efetivos {
-  DataAdmissão
+  DataAdmissao
 }
 
-ent InstituiçõesEnsino {
+ent InstituicoesEnsino {
   CNPJ *
   Nome
 }
 
 ent Exemplares {
-  Número *
-  EstadoConservação
+  Numero *
+  EstadoConservacao
 }
 
 ent Clientes {
   ID *
   Nome
   Telefone <1,2>
-  Endereço [
+  Endereco [
     CEP
-    rua
-    número
-    complemento
+    Rua
+    Numero
+    Complemento
   ]
 }
 
 ent Livros {
   ISBN *
-  Título
+  Titulo
   Volume
   Ano
-  NroPáginas
+  NumeroDePaginas
 }
 
 ent Autores {
   CPF *
   Nome
-  DN
 }
 
 ent Editoras {
@@ -53,25 +52,25 @@ ent Editoras {
 }
 
 spe {
-  Bibliotecários (t,d)
-  Estagiários
+  Bibliotecarios (t,d)
+  Estagiarios
   Efetivos
 }
 
 rel responsabilidade {
   Efetivos (1,1)
-  Estagiários (0,n)
+  Estagiarios (0,n)
   DataInicio
 }
   
-rel vínculo {
-  Estagiários (0,n)
-  InstituiçõesEnsino (1,1)
+rel vinculo {
+  Estagiarios (0,n)
+  InstituicoesEnsino (1,1)
 }
 
 rel cadastro {
-  Bibliotecários (1,1)
-  empréstimo (0,n)
+  Bibliotecarios (1,1)
+  Emprestimo (0,n)
 }
 
 rel disponibilidade {
@@ -79,7 +78,7 @@ rel disponibilidade {
   w Exemplares (1,n)
 }
 
-rel publicação {
+rel publicacao {
   Editoras (1,1)
   Livros (0,n)
 }
@@ -90,12 +89,12 @@ rel autoria {
   Ordem
 }
 
-aent empréstimo {
+aent Emprestimo {
   Exemplares (0,n)
   Clientes (0,1)
   Efetivos (0,n)
   DataRetirada
-  DataPrevistaDevolução
+  DataPrevistaDevolucao
   ValorMulta
 }
 
@@ -110,12 +109,12 @@ union FiltrosDePesquisa {
   Autores
 }
 
-rel ContratoDeEstágio {
-  InstituiçõesEnsino (1,1)
-  Estagiários (1,1)
+rel contrato_de_estagio {
+  InstituicoesEnsino (1,1)
+  Estagiarios (1,1)
   Efetivos (1,1)
   DataInicio
-  Salário
+  Salario
 }`
 
 
