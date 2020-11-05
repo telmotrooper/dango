@@ -32,6 +32,7 @@ export interface Conn {  // connection
   id: string;
   cardinality: string;
   weak: boolean;
+  relName: string | null;
 }
 
 export interface AEnt extends Rel {

@@ -168,12 +168,14 @@ export const generateCompositeAttributeTriggers = (entity: Ent): string => {
         {
           id: entity.id,
           cardinality: "1,1",
-          weak: false
+          weak: false,
+          relName: null
         },
         {
           id: compositeAttribute,
           cardinality: "1,1",
-          weak: false
+          weak: false,
+          relName: null
         }
       ],
       compositeAttributes: {},

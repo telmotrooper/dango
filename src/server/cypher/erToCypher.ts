@@ -74,12 +74,14 @@ const erToCypher = (er: string, strictMode = true): string => {
             {
               id: relationship.id,
               cardinality: "0,n",
-              weak: false
+              weak: false,
+              relName: null,
             },
             {
               id: entity.id,
               cardinality: entity.cardinality,
-              weak: false
+              weak: false,
+              relName: null
             }
           ],
           hasTimestamp: false,
@@ -117,12 +119,14 @@ const erToCypher = (er: string, strictMode = true): string => {
           {
             id: id,
             cardinality: "0,n",
-            weak: false
+            weak: false,
+            relName: null
           },
           {
             id: entity.id,
             cardinality: entity.cardinality,
-            weak: false
+            weak: false,
+            relName: null
           }
         ],
         hasTimestamp: false,

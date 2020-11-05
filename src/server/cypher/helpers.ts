@@ -110,7 +110,8 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
         const conn: Conn = {
           id: matches[0] == "w" ? matches[1] : matches[0],
           cardinality: `${min},${max}`,
-          weak: matches[0] == "w"
+          weak: matches[0] == "w",
+          relName: matches[2] ?? null
         }
         connections.push(conn)
 
@@ -119,11 +120,10 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
             entitiesSet.add(conn.id)
 
           } else { // Self-relationship found
-            const previousEntry: Conn | undefined = connections.find(c => c.id == conn.id)
+            const relNames = new Set(connections.filter(conn => conn.relName !== null).map(conn => conn.relName))
 
-            if (previousEntry?.cardinality != `${min},${max}` ) { // Are the cardinalities different?
-              er.warning = `Self-relationship detected on "${entity.id}". Since there isn't enough information to infer how the cardinalities should be handled, we recommend writing specializations for entity "${conn.id}".`
-            }
+            if (relNames.size != connections.length)
+              er.warning = `Self-relationship "${entity.id}" missing definition of roles.`
           }
   
           entitiesSet.add(conn.id)
