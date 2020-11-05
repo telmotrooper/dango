@@ -19,15 +19,31 @@ export const generateRelationship = (relationship: Rel, includeTriggerBack = tru
     statement += generateTrigger(relationship.id + " " + relationship.entities[1].id + " " + relationship.entities[0].id,
     `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
-  }
 
-  if (includeTriggerBack) { // "false" for associative entities which reuse the same relationship label. Their trigger back logic is handled by "generateAssociativeEntityRelationshipControl".
-    statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
-    `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+    if (includeTriggerBack) { // "false" for associative entities which reuse the same relationship label. Their trigger back logic is handled by "generateAssociativeEntityRelationshipControl".
+      statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
+      `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+      )
+    
+      statement += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
+      `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+      )
+    }
+  } else {
+    let relationshipId = relationship.entities[0].relName != null ?
+      relationship.entities[0].relName :
+      relationship.id
+    
+    statement += generateTrigger(relationship.entities[0].id + " " + relationshipId + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationshipId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
-  
-    statement += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
-    `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
+
+    relationshipId = relationship.entities[1].relName != null ?
+      relationship.entities[1].relName :
+      relationship.id
+
+    statement += generateTrigger(relationship.entities[0].id + " " + relationshipId + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationshipId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
   }
 
