@@ -178,7 +178,7 @@ const getConnection = (entityName: string, attributeName: string, isAEnt = false
 }
   
 
-const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, isAEnt = false, isWeak = false, relName = null): string => {
+const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, isAEnt = false, isWeak = false, relName: string | null = null): string => {
   const connectionLabel = relName ?
     relName + "\n" + `(${label})` :
     `(${label})`
@@ -316,7 +316,7 @@ const erToGraphviz = (code: ER): string => {
           entity.cardinality,
           isAEnt,
           entity.weak,
-          entity.relName) + "\n"
+          entity.relName ?? null) + "\n"
       }
 
       diagram += generateAttributes(rel)
