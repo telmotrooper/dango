@@ -99,8 +99,8 @@ aent Emprestimo {
 }
 
 rel indicacao {
-  Clientes (0,1) indicou
-  Clientes (0,n) foi_indicado
+  Clientes (0,1) indicado_por
+  Clientes (0,n) indicou
 }
 
 union FiltrosDePesquisa {
