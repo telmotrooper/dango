@@ -33,6 +33,11 @@ const erToCypher = (er: string, strictMode = true): string => {
     .filter(relationship => relationship.entities.find(entity => entity.relName != null) == null) // ignore auto-relationships.
     .map(relationship => relationship.id)
   
+  const selfRelationships = new Set(rel
+    .flatMap(relationship => relationship.entities
+      .filter(entity => entity.relName != null)
+        .flatMap(entity => entity.relName)))
+
   const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))
 
   if (strictMode) {
@@ -44,7 +49,8 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateStrictModeTriggerForRelationships(relationships
       .concat(compositeAttributeRel)
       .concat(associativeEntitiesRelationships)
-      .concat(nAryRelationshipConnections))
+      .concat(nAryRelationshipConnections)
+      .concat(Array.from(selfRelationships as Set<string>)))
   }
 
   // Entities
