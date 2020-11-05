@@ -11,7 +11,13 @@ export const generateRelationship = (relationship: Rel, includeTriggerBack = tru
   statement += generatePropertyExistenceConstraints(id, attributes, true)
 
 
-  // Appropriate labels
+  const relationshipZeroId = relationship.entities[0].relName != null ?
+    relationship.entities[0].relName :
+    relationship.id
+
+  const relationshipOneId = relationship.entities[1].relName != null ?
+    relationship.entities[1].relName :
+    relationship.id
 
   /* If both entities are the same then it's a self-relationship and we
     * don't need to generate verifications for both sides of the relationship. */
@@ -30,20 +36,12 @@ export const generateRelationship = (relationship: Rel, includeTriggerBack = tru
       )
     }
   } else {
-    let relationshipId = relationship.entities[0].relName != null ?
-      relationship.entities[0].relName :
-      relationship.id
-    
-    statement += generateTrigger(relationship.entities[0].id + " " + relationshipId + " " + relationship.entities[1].id,
-    `MATCH (n)-[r:${normalize(relationshipId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
+    statement += generateTrigger(relationship.entities[0].id + " " + relationshipZeroId + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationshipZeroId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
-    relationshipId = relationship.entities[1].relName != null ?
-      relationship.entities[1].relName :
-      relationship.id
-
-    statement += generateTrigger(relationship.entities[0].id + " " + relationshipId + " " + relationship.entities[1].id,
-    `MATCH (n)-[r:${normalize(relationshipId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
+    statement += generateTrigger(relationship.entities[0].id + " " + relationshipOneId + " " + relationship.entities[1].id,
+    `MATCH (n)-[r:${normalize(relationshipOneId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
   }
 
@@ -53,15 +51,11 @@ export const generateRelationship = (relationship: Rel, includeTriggerBack = tru
   const c0: Cardinality = extractCardinality(relationship.entities[0].cardinality)
   const c1: Cardinality = extractCardinality(relationship.entities[1].cardinality)
 
-  /* If both entities are the same then it's a self-relationship and we
-    * don't need to generate verifications for both sides of the relationship. */
-  if (relationship.entities[0].id !== relationship.entities[1].id) {
-    if (c0.min != "0") { statement += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.min, relationship.hasTimestamp) }
-    if (c0.max != "n") { statement += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationship.id, c0.max, relationship.hasTimestamp) }
-  }
+  if (c0.min != "0") { statement += generateMinCardinalityTrigger(entities[1].id, entities[0].id, relationshipZeroId, c0.min, relationship.hasTimestamp) }
+  if (c0.max != "n") { statement += generateMaxCardinalityTrigger(entities[1].id, entities[0].id, relationshipZeroId, c0.max, relationship.hasTimestamp) }
 
-  if (c1.min != "0") { statement += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.min, relationship.hasTimestamp) }
-  if (c1.max != "n") { statement += generateMaxCardinalityTrigger(entities[0].id, entities[1].id, relationship.id, c1.max, relationship.hasTimestamp) }
+  if (c1.min != "0") { statement += generateMinCardinalityTrigger(entities[0].id, entities[1].id, relationshipOneId, c1.min, relationship.hasTimestamp) }
+  if (c1.max != "n") { statement += generateMaxCardinalityTrigger(entities[0].id, entities[1].id, relationshipOneId, c1.max, relationship.hasTimestamp) }
 
   return statement
 }
