@@ -30,6 +30,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   const relationships = rel
     .filter(relationship => !nAryRelationshipNodes.has(lower(relationship.id))) // n-ary relationships become nodes, not connections.
+    .filter(relationship => relationship.entities.find(entity => entity.relName != null) == null) // ignore auto-relationships.
     .map(relationship => relationship.id)
   
   const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))

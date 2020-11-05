@@ -111,7 +111,7 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
           id: matches[0] == "w" ? matches[1] : matches[0],
           cardinality: `${min},${max}`,
           weak: matches[0] == "w",
-          relName: matches[2] ?? null
+          relName: (matches[0] == "w" ? matches[3] : matches[2]) ?? null
         }
         connections.push(conn)
 
