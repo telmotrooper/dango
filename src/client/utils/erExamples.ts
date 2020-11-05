@@ -98,9 +98,9 @@ aent Emprestimo {
   ValorMulta
 }
 
-rel recomendado_por {
-  Clientes (0,n)
-  Clientes (0,n)
+rel indicacao {
+  Clientes (0,1) indicou
+  Clientes (0,n) foi_indicado
 }
 
 union FiltrosDePesquisa {

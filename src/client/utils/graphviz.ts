@@ -178,9 +178,13 @@ const getConnection = (entityName: string, attributeName: string, isAEnt = false
 }
   
 
-const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, isAEnt = false, isWeak = false): string => {
+const getConnectionForRelationship = (entityName1: string, entityName2: string, label?: string, isAEnt = false, isWeak = false, relName = null): string => {
+  const connectionLabel = relName ?
+    relName + "\n" + `(${label})` :
+    `(${label})`
+
   const properties = serialize({
-    label: label && "(" + label + ")",
+    label: label && connectionLabel,
     fontname: fontName,
     fontsize: cardinalityFontSize,
     lhead: (isAEnt || isWeak) && "cluster_" + lower(entityName2),
@@ -311,7 +315,8 @@ const erToGraphviz = (code: ER): string => {
           index != 1 ? rel.id : entity.id,
           entity.cardinality,
           isAEnt,
-          entity.weak) + "\n"
+          entity.weak,
+          entity.relName) + "\n"
       }
 
       diagram += generateAttributes(rel)
