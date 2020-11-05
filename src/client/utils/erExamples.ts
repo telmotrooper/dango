@@ -141,23 +141,13 @@ rel distribution {
 }`
 
 
-export const selfRelationshipsSameCardinalities = 
+export const selfRelationships = 
 `ent Worker {}
 
-rel management {
-  Worker (0,1)
-  Worker (0,1)
+rel supervision {
+  Worker (1,1) supervisor
+  Worker (0,1) supervisee
 }`
-
-
-export const selfRelationshipsDifferentCardinalities = 
-`ent Worker {}
-
-rel management {
-  Worker (1,1)
-  Worker (0,n)
-}`
-
 
 export const specializationsTotalDisjoint = 
 `ent Person {}
