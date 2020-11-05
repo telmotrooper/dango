@@ -146,7 +146,7 @@ export const selfRelationships =
 
 rel supervision {
   Worker (1,1) supervisor
-  Worker (0,1) supervisee
+  Worker (0,n) supervisee
 }`
 
 export const specializationsTotalDisjoint = 
