@@ -145,7 +145,7 @@ export const selfRelationships =
 `ent Worker {}
 
 rel supervision {
-  Worker (1,1) supervisor
+  Worker (0,1) supervisor
   Worker (0,n) supervisee
 }`
 
