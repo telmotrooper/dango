@@ -61,10 +61,12 @@ export const generateStrictModeTriggerForRelationships = (relationships: Array<s
 export const getTimestampFilter = (hasTimestamp: boolean): string =>
   hasTimestamp ? "\n  WITH n, r\n  ORDER BY r.timestamp ASC" : ""
 
-export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, relationship: string, maxCardinality = "1", hasTimestamp = false): string => {
+export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, relationship: string, maxCardinality = "1", hasTimestamp = false, considerDirection = false): string => {
   // Must not have more than X relationships, where X is the cardinality number.
 
-  const statement = `MATCH (n:${normalize(entity1)})-[r:${normalize(relationship)}]-(:${normalize(entity2)}) ${getTimestampFilter(hasTimestamp)}
+  const direction = considerDirection ? "->" : "-"
+
+  const statement = `MATCH (n:${normalize(entity1)})-[r:${normalize(relationship)}]${direction}(:${normalize(entity2)}) ${getTimestampFilter(hasTimestamp)}
   WITH n, COLLECT(r) AS rs
   WHERE SIZE(rs) > ${maxCardinality}
   FOREACH (r IN rs[${maxCardinality}..] | DELETE r)`
@@ -72,13 +74,15 @@ export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, 
   return generateTrigger(`${entity1} ${relationship} more than ${maxCardinality} ${entity2}`, statement)
 }
 
-export const generateMinCardinalityTrigger = (entity1: string, entity2: string, relationship: string, minCardinality = "1", hasTimestamp = false): string => {
+export const generateMinCardinalityTrigger = (entity1: string, entity2: string, relationship: string, minCardinality = "1", hasTimestamp = false, considerDirection = false): string => {
   let statement = ""
 
+  const direction = considerDirection ? "->" : "-"
+
   if (minCardinality == "1") {  // Must have at least one relationship
-    statement = `MATCH (n:${entity1}) WHERE NOT (:${normalize(entity2)})-[:${normalize(relationship)}]-(n) DETACH DELETE n`
+    statement = `MATCH (n:${entity1}) WHERE NOT (:${normalize(entity2)})-[:${normalize(relationship)}]${direction}(n) DETACH DELETE n`
   } else {
-    statement = `MATCH (n:${entity1})-[r:${normalize(relationship)}]-(:${normalize(entity2)}) ${getTimestampFilter(hasTimestamp)}
+    statement = `MATCH (n:${entity1})-[r:${normalize(relationship)}]${direction}(:${normalize(entity2)}) ${getTimestampFilter(hasTimestamp)}
     WITH n, COLLECT(r) AS rs
     WHERE SIZE(rs) < ${minCardinality}
     DETACH DELETE n`
