@@ -54,3 +54,8 @@ export interface Cardinality {
 export interface Union extends Ent {
   entities: string[];
 }
+
+export interface OrderedSchema {
+  strictMode: string,
+  constraints: string
+}

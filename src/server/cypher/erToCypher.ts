@@ -1,4 +1,4 @@
-import { Conn, ER, Rel } from "../misc/interfaces"
+import { Conn, ER, OrderedSchema, Rel } from "../misc/interfaces"
 import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers,
          generateAllAttributes, getNameForAEntRelationship, getNameForNAryRelationship } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
@@ -14,6 +14,11 @@ const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
   const { ent, rel, aent, spe, unions } = erCode
   let schema = ""
+
+  const orderedSchema: OrderedSchema = {
+    strictMode: "",
+    constraints: ""
+  }
 
   const entities = ent.map(entity => entity.id)
   const associativeEntities = aent.map(aent => aent.id)
@@ -41,12 +46,12 @@ const erToCypher = (er: string, strictMode = true): string => {
   const compositeAttributeRel = compositeAttributes.map(attribute => getRelNameForCompAttribute(attribute))
 
   if (strictMode) {
-    schema += generateStrictModeTriggerForNodes(entities
+    orderedSchema.strictMode += generateStrictModeTriggerForNodes(entities
       .concat(compositeAttributes)
       .concat(associativeEntities)
       .concat(Array.from(nAryRelationshipNodes)))
       
-    schema += generateStrictModeTriggerForRelationships(relationships
+    orderedSchema.strictMode += generateStrictModeTriggerForRelationships(relationships
       .concat(compositeAttributeRel)
       .concat(associativeEntitiesRelationships)
       .concat(nAryRelationshipConnections)
@@ -170,7 +175,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     schema += generateUnionTriggerForChildren(union)
   }
 
-  return schema
+  return orderedSchema.strictMode + schema
 }
 
 export { erToCypher }
