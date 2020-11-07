@@ -3,7 +3,7 @@ import { generateTrigger, getNameForAEntRelationship, getNameForNAryRelationship
 import { lower, normalize } from "../../shared/removeAccents"
 import { getRelNameForCompAttribute, getEntNameForCompAttribute } from "../../client/utils/helpers"
 import { generateRelationship } from "./relationships"
-import { AEnt, Conn, Ent, Rel, Union } from "../misc/interfaces"
+import { AEnt, Conn, Ent, OrderedSchema, Rel, Union } from "../misc/interfaces"
 
 export const generatePropertyExistenceConstraints = (id: string, attributes: Array<string>, isRelationship = false): string => {
   let statement = ""
@@ -157,14 +157,14 @@ export const generateMultivaluedAttributeTrigger = (entity: string, attribute: s
   return generateTrigger(`${entity} ${attribute} multivalued`, statement)
 }
 
-export const generateCompositeAttributeTriggers = (entity: Ent): string => {
+export const generateCompositeAttributeTriggers = (entity: Ent, orderedSchema: OrderedSchema): string => {
   let schema = ""
 
   // Create existence constraint for each composite attribute's attributes.
   for (const [key, value] of Object.entries(entity.compositeAttributes)) {
     const compositeAttribute = getEntNameForCompAttribute(entity.id, key)
     const itsAttributes = value
-    schema += generatePropertyExistenceConstraints(compositeAttribute, itsAttributes)
+    orderedSchema.constraints += generatePropertyExistenceConstraints(compositeAttribute, itsAttributes)
 
     const hasAttribute: Array<Rel> = [{
       id: getRelNameForCompAttribute(compositeAttribute),

@@ -76,7 +76,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     }
     else if (relationship.entities.length > 2) { // Complex relationship, mapped to its own Neo4j node.
       orderedSchema.constraints += generatePropertyExistenceConstraints(relationship.id, relationship.attributes)
-      schema += generateCompositeAttributeTriggers(relationship) // Not supported for relationships, but supported for nodes.
+      schema += generateCompositeAttributeTriggers(relationship, orderedSchema) // Not supported for relationships, but supported for nodes.
 
       // Split associative entity into many relationships to reuse relationship trigger logic.
       for (const entity of relationship.entities) { // TODO: The logic is pretty much the same for associative entities, this deserves a refactoring.
@@ -118,7 +118,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     const { attributes, entities, id } = associativeEntity
     orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes)
 
-    schema += generateCompositeAttributeTriggers(associativeEntity)
+    schema += generateCompositeAttributeTriggers(associativeEntity, orderedSchema)
     schema += generateMultivaluedAttributeTriggers(associativeEntity)
 
     const relationshipName = getNameForAEntRelationship(id)

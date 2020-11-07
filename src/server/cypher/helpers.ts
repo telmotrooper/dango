@@ -170,7 +170,7 @@ export const generateAllAttributes = (entity: Ent, orderedSchema: OrderedSchema)
     orderedSchema.constraints += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
   }
 
-  statement += generateCompositeAttributeTriggers(entity)
+  statement += generateCompositeAttributeTriggers(entity, orderedSchema)
   statement += generateMultivaluedAttributeTriggers(entity)
 
   return statement
