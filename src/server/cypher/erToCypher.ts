@@ -1,5 +1,5 @@
 import { Conn, ER, OrderedSchema, Rel } from "../misc/interfaces"
-import { getTwoByTwoCombinations, generateMultivaluedAttributeTriggers,
+import { generateMultivaluedAttributeTriggers,
          generateAllAttributes, getNameForAEntRelationship, getNameForNAryRelationship } from "./helpers"
 import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
@@ -18,6 +18,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   const orderedSchema: OrderedSchema = {
     strictMode: "",
     constraints: "",
+    specializations: "",
     unions: "",
     weakEntities: ""
   }
@@ -158,16 +159,14 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   // Specializations
   for (const specialization of spe) {
-    schema += generateChildrenTrigger(specialization.id, specialization.entities)
+    orderedSchema.specializations += generateChildrenTrigger(specialization.id, specialization.entities)
 
     if (specialization.disjoint) {
-      schema += generateDisjointednessTrigger(specialization.id, specialization.entities)
-
-      getTwoByTwoCombinations(specialization.entities)
+      orderedSchema.specializations += generateDisjointednessTrigger(specialization.id, specialization.entities)
     }
 
     if (specialization.total) {
-      schema += generateCompletenessTrigger(specialization.id, specialization.entities)
+      orderedSchema.specializations += generateCompletenessTrigger(specialization.id, specialization.entities)
     }
   }
 
@@ -183,7 +182,10 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (orderedSchema.constraints != "")
     orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints + "\n"
 
-    if (orderedSchema.unions != "")
+  if (orderedSchema.specializations != "")
+    orderedSchema.specializations = "/* Specializations */\n\n" + orderedSchema.specializations
+
+  if (orderedSchema.unions != "")
     orderedSchema.unions = "/* Unions */\n\n" + orderedSchema.unions
 
   if (orderedSchema.weakEntities != "")
@@ -192,7 +194,12 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (schema != "")
     schema = "/* Remaining situations */\n\n" + schema
 
-  return orderedSchema.strictMode + orderedSchema.constraints + orderedSchema.unions + orderedSchema.weakEntities + schema
+  return orderedSchema.strictMode +
+         orderedSchema.constraints +
+         orderedSchema.specializations +
+         orderedSchema.unions +
+         orderedSchema.weakEntities +
+         schema
 }
 
 export { erToCypher }

@@ -58,6 +58,7 @@ export interface Union extends Ent {
 export interface OrderedSchema {
   strictMode: string,
   constraints: string,
+  specializations: string,
   unions: string,
   weakEntities: string
 }
