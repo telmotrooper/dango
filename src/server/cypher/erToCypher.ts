@@ -13,7 +13,6 @@ import { lower } from "../../shared/removeAccents"
 const erToCypher = (er: string, strictMode = true): string => {
   const erCode: ER = JSON.parse(er)
   const { ent, rel, aent, spe, unions } = erCode
-  let schema = ""
 
   const orderedSchema: OrderedSchema = {
     strictMode: "",
@@ -203,9 +202,6 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (orderedSchema.relationshipCardinalities != "")
     orderedSchema.relationshipCardinalities = "/* Relationships (cardinalities) */\n\n" + orderedSchema.relationshipCardinalities
 
-  if (schema != "")
-    schema = "/* Remaining situations */\n\n" + schema
-
   return orderedSchema.strictMode +
          orderedSchema.constraints +
          orderedSchema.multivalued +
@@ -213,8 +209,7 @@ const erToCypher = (er: string, strictMode = true): string => {
          orderedSchema.unions +
          orderedSchema.weakEntities +
          orderedSchema.relationshipsFormat +
-         orderedSchema.relationshipCardinalities +
-         schema
+         orderedSchema.relationshipCardinalities 
 }
 
 export { erToCypher }
