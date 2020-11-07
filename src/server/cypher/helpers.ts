@@ -171,7 +171,7 @@ export const generateAllAttributes = (entity: Ent, orderedSchema: OrderedSchema)
   }
 
   statement += generateCompositeAttributeTriggers(entity, orderedSchema)
-  statement += generateMultivaluedAttributeTriggers(entity)
+  orderedSchema.multivalued += generateMultivaluedAttributeTriggers(entity)
 
   return statement
 }

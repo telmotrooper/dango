@@ -18,6 +18,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   const orderedSchema: OrderedSchema = {
     strictMode: "",
     constraints: "",
+    multivalued: "",
     specializations: "",
     unions: "",
     weakEntities: ""
@@ -112,7 +113,7 @@ const erToCypher = (er: string, strictMode = true): string => {
       schema += generateAssociativeEntityRelationshipControl(relationship, true)
     }
 
-    schema += generateMultivaluedAttributeTriggers(relationship, true)
+    orderedSchema.multivalued += generateMultivaluedAttributeTriggers(relationship, true)
 
   }
 
@@ -122,7 +123,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes)
 
     schema += generateCompositeAttributeTriggers(associativeEntity, orderedSchema)
-    schema += generateMultivaluedAttributeTriggers(associativeEntity)
+    orderedSchema.multivalued += generateMultivaluedAttributeTriggers(associativeEntity)
 
     const relationshipName = getNameForAEntRelationship(id)
 
@@ -182,6 +183,9 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (orderedSchema.constraints != "")
     orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints + "\n"
 
+  if (orderedSchema.multivalued != "")
+    orderedSchema.multivalued = "/* Multivalued attributes */\n\n" + orderedSchema.multivalued
+
   if (orderedSchema.specializations != "")
     orderedSchema.specializations = "/* Specializations */\n\n" + orderedSchema.specializations
 
@@ -196,6 +200,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   return orderedSchema.strictMode +
          orderedSchema.constraints +
+         orderedSchema.multivalued +
          orderedSchema.specializations +
          orderedSchema.unions +
          orderedSchema.weakEntities +
