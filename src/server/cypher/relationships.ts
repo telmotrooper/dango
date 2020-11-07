@@ -1,14 +1,14 @@
 import { normalize } from "../../shared/removeAccents"
 import { generateTrigger, extractCardinality } from "./helpers"
-import { Cardinality, Rel } from "../misc/interfaces"
+import { Cardinality, OrderedSchema, Rel } from "../misc/interfaces"
 import { generateMinCardinalityTrigger, generateMaxCardinalityTrigger, generatePropertyExistenceConstraints } from "./statements"
 
-export const generateRelationship = (relationship: Rel, includeTriggerBack = true): string => {
+export const generateRelationship = (relationship: Rel, orderedSchema: OrderedSchema, includeTriggerBack = true): string => {
   let statement = ""
 
   const { entities, attributes, id } = relationship
 
-  statement += generatePropertyExistenceConstraints(id, attributes, true)
+  orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes, true)
 
   const isSelfRelationship = relationship.entities[0].id === relationship.entities[1].id
 

@@ -65,7 +65,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   for (const relationship of rel) {
     if (relationship.entities.length == 2) { // Simple relationship, mapped to a Neo4j relationship.
-      schema += generateRelationship(relationship) // This includes "generatePropertyExistenceConstraints".
+      schema += generateRelationship(relationship, orderedSchema) // This includes "generatePropertyExistenceConstraints".
 
       // Check whether a weak entity exists.
       const weakEntity: Conn | null = relationship.entities.find(conn => conn.weak == true) ?? null
@@ -103,7 +103,7 @@ const erToCypher = (er: string, strictMode = true): string => {
           pk: []
         }
 
-        schema += generateRelationship(rel, false)
+        schema += generateRelationship(rel, orderedSchema, false)
       }
 
       schema += generateAssociativeEntityRelationshipControl(relationship, true)
@@ -148,7 +148,7 @@ const erToCypher = (er: string, strictMode = true): string => {
         pk: []
       }
 
-      schema += generateRelationship(rel, false)
+      schema += generateRelationship(rel, orderedSchema, false)
     }
 
     schema += generateAssociativeEntityRelationshipControl(associativeEntity)

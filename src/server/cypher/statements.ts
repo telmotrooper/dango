@@ -190,7 +190,7 @@ export const generateCompositeAttributeTriggers = (entity: Ent, orderedSchema: O
     }]
 
     for (const relationship of hasAttribute) {
-      schema += generateRelationship(relationship)
+      schema += generateRelationship(relationship, orderedSchema)
     }
   }
 
