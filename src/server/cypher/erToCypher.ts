@@ -179,7 +179,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     orderedSchema.strictMode = "/* Strict mode */\n\n" + orderedSchema.strictMode
 
   if (orderedSchema.constraints != "")
-    orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints
+    orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints + "\n"
 
   if (schema != "")
     schema = "/* Remaining situations */\n\n" + schema
