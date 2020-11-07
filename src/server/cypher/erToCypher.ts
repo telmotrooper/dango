@@ -17,7 +17,8 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   const orderedSchema: OrderedSchema = {
     strictMode: "",
-    constraints: ""
+    constraints: "",
+    weakEntities: ""
   }
 
   const entities = ent.map(entity => entity.id)
@@ -71,7 +72,7 @@ const erToCypher = (er: string, strictMode = true): string => {
       const weakEntity: Conn | null = relationship.entities.find(conn => conn.weak == true) ?? null
       
       if (weakEntity !== null) {
-        schema += generateWeakEntityTrigger(weakEntity, relationship)
+        orderedSchema.weakEntities += generateWeakEntityTrigger(weakEntity, relationship)
       }
     }
     else if (relationship.entities.length > 2) { // Complex relationship, mapped to its own Neo4j node.
@@ -181,10 +182,13 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (orderedSchema.constraints != "")
     orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints + "\n"
 
+  if (orderedSchema.weakEntities != "")
+    orderedSchema.weakEntities = "/* Weak entities */\n\n" + orderedSchema.weakEntities
+
   if (schema != "")
     schema = "/* Remaining situations */\n\n" + schema
 
-  return orderedSchema.strictMode + orderedSchema.constraints + schema
+  return orderedSchema.strictMode + orderedSchema.constraints + orderedSchema.weakEntities + schema
 }
 
 export { erToCypher }
