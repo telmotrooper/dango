@@ -51,10 +51,19 @@ ent Editoras {
   Nome
 }
 
+ent CursosRelevantes {
+  Nome
+}
+
 spe {
   Bibliotecarios (t,d)
   Estagiarios
   Efetivos
+}
+
+rel oferta {
+  InstituicoesEnsino (1,1)
+  CursosRelevantes (2,10)
 }
 
 rel responsabilidade {
