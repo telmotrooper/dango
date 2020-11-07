@@ -21,7 +21,8 @@ const erToCypher = (er: string, strictMode = true): string => {
     multivalued: "",
     specializations: "",
     unions: "",
-    weakEntities: ""
+    weakEntities: "",
+    relationshipsFormat: ""
   }
 
   const entities = ent.map(entity => entity.id)
@@ -110,7 +111,7 @@ const erToCypher = (er: string, strictMode = true): string => {
         schema += generateRelationship(rel, orderedSchema, false)
       }
 
-      schema += generateAssociativeEntityRelationshipControl(relationship, true)
+      orderedSchema.relationshipsFormat += generateAssociativeEntityRelationshipControl(relationship, true)
     }
 
     orderedSchema.multivalued += generateMultivaluedAttributeTriggers(relationship, true)
@@ -155,7 +156,7 @@ const erToCypher = (er: string, strictMode = true): string => {
       schema += generateRelationship(rel, orderedSchema, false)
     }
 
-    schema += generateAssociativeEntityRelationshipControl(associativeEntity)
+    orderedSchema.relationshipsFormat += generateAssociativeEntityRelationshipControl(associativeEntity)
   }
 
   // Specializations
@@ -195,6 +196,9 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (orderedSchema.weakEntities != "")
     orderedSchema.weakEntities = "/* Weak entities */\n\n" + orderedSchema.weakEntities
 
+  if (orderedSchema.relationshipsFormat != "")
+    orderedSchema.relationshipsFormat = "/* Relationships (format) */\n\n" + orderedSchema.relationshipsFormat
+
   if (schema != "")
     schema = "/* Remaining situations */\n\n" + schema
 
@@ -204,6 +208,7 @@ const erToCypher = (er: string, strictMode = true): string => {
          orderedSchema.specializations +
          orderedSchema.unions +
          orderedSchema.weakEntities +
+         orderedSchema.relationshipsFormat +
          schema
 }
 

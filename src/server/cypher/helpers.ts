@@ -77,15 +77,14 @@ export const removeIndentation = (lines: Array<string>): void => {
   }
 }
 
-
 export const generateMultivaluedAttributeTriggers = (entity: Ent, isRelationship = false): string => {
-  let schema = ""
+  let statement = ""
 
   for (const [key, value] of Object.entries(entity.multivalued)) {
-    schema += generateMultivaluedAttributeTrigger(entity.id, key, value.min, value.max, isRelationship)
+    statement += generateMultivaluedAttributeTrigger(entity.id, key, value.min, value.max, isRelationship)
   }
 
-  return schema
+  return statement
 }
 
 export const getMultivaluedAttribute = (multivalued: MultivaluedAttributes, data: string): void => {

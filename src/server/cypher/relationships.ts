@@ -23,25 +23,25 @@ export const generateRelationship = (relationship: Rel, orderedSchema: OrderedSc
   /* If both entities are the same then it's a self-relationship and we
     * don't need to generate verifications for both sides of the relationship. */
   if (!isSelfRelationship) {
-    statement += generateTrigger(relationship.id + " " + relationship.entities[1].id + " " + relationship.entities[0].id,
+    orderedSchema.relationshipsFormat += generateTrigger(relationship.id + " " + relationship.entities[1].id + " " + relationship.entities[0].id,
     `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[1].id)}) WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
     if (includeTriggerBack) { // "false" for associative entities which reuse the same relationship label. Their trigger back logic is handled by "generateAssociativeEntityRelationshipControl".
-      statement += generateTrigger(relationship.id + " " + relationship.entities[1].id,
+      orderedSchema.relationshipsFormat += generateTrigger(relationship.id + " " + relationship.entities[1].id,
       `MATCH (n)-[r:${normalize(relationship.id)}]-(:${normalize(relationship.entities[0].id)}) WHERE NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
       )
     
-      statement += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
+      orderedSchema.relationshipsFormat += generateTrigger(relationship.entities[0].id + " " + relationship.id + " " + relationship.entities[1].id,
       `MATCH (n)-[r:${normalize(relationship.id)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) AND NOT "${relationship.entities[1].id}" IN LABELS(n) DELETE r`
       )
     }
   } else { // For self-relationships we consider the direction of the relationship.
-    statement += generateTrigger(relationship.entities[0].id + " " + relationshipZeroId + " " + relationship.entities[1].id,
+    orderedSchema.relationshipsFormat += generateTrigger(relationship.entities[0].id + " " + relationshipZeroId + " " + relationship.entities[1].id,
     `MATCH (n)-[r:${normalize(relationshipZeroId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
 
-    statement += generateTrigger(relationship.entities[0].id + " " + relationshipOneId + " " + relationship.entities[1].id,
+    orderedSchema.relationshipsFormat += generateTrigger(relationship.entities[0].id + " " + relationshipOneId + " " + relationship.entities[1].id,
     `MATCH (n)-[r:${normalize(relationshipOneId)}]-() WHERE NOT "${relationship.entities[0].id}" IN LABELS(n) DELETE r`
     )
   }
