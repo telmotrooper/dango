@@ -18,6 +18,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   const orderedSchema: OrderedSchema = {
     strictMode: "",
     constraints: "",
+    unions: "",
     weakEntities: ""
   }
 
@@ -172,8 +173,8 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   for (const union of unions) {
     schema += generateAllAttributes(union, orderedSchema)
-    schema += generateUnionTriggerForParent(union)
-    schema += generateUnionTriggerForChildren(union)
+    orderedSchema.unions += generateUnionTriggerForParent(union)
+    orderedSchema.unions += generateUnionTriggerForChildren(union)
   }
 
   if (orderedSchema.strictMode != "")
@@ -182,13 +183,16 @@ const erToCypher = (er: string, strictMode = true): string => {
   if (orderedSchema.constraints != "")
     orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints + "\n"
 
+    if (orderedSchema.unions != "")
+    orderedSchema.unions = "/* Unions */\n\n" + orderedSchema.unions
+
   if (orderedSchema.weakEntities != "")
     orderedSchema.weakEntities = "/* Weak entities */\n\n" + orderedSchema.weakEntities
 
   if (schema != "")
     schema = "/* Remaining situations */\n\n" + schema
 
-  return orderedSchema.strictMode + orderedSchema.constraints + orderedSchema.weakEntities + schema
+  return orderedSchema.strictMode + orderedSchema.constraints + orderedSchema.unions + orderedSchema.weakEntities + schema
 }
 
 export { erToCypher }
