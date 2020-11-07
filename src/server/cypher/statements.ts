@@ -157,9 +157,7 @@ export const generateMultivaluedAttributeTrigger = (entity: string, attribute: s
   return generateTrigger(`${entity} ${attribute} multivalued`, statement)
 }
 
-export const generateCompositeAttributeTriggers = (entity: Ent, orderedSchema: OrderedSchema): string => {
-  let schema = ""
-
+export const generateCompositeAttributeTriggers = (entity: Ent, orderedSchema: OrderedSchema): void => {
   // Create existence constraint for each composite attribute's attributes.
   for (const [key, value] of Object.entries(entity.compositeAttributes)) {
     const compositeAttribute = getEntNameForCompAttribute(entity.id, key)
@@ -190,11 +188,9 @@ export const generateCompositeAttributeTriggers = (entity: Ent, orderedSchema: O
     }]
 
     for (const relationship of hasAttribute) {
-      schema += generateRelationship(relationship, orderedSchema)
+      generateRelationship(relationship, orderedSchema)
     }
   }
-
-  return schema
 }
 
 export const generateUnionTriggerForParent = (union: Union): string => {

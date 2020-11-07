@@ -22,7 +22,8 @@ const erToCypher = (er: string, strictMode = true): string => {
     specializations: "",
     unions: "",
     weakEntities: "",
-    relationshipsFormat: ""
+    relationshipsFormat: "",
+    relationshipCardinalities: ""
   }
 
   const entities = ent.map(entity => entity.id)
@@ -65,12 +66,12 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   // Entities
   for (const entity of ent) {
-    schema += generateAllAttributes(entity, orderedSchema)
+    generateAllAttributes(entity, orderedSchema)
   }
 
   for (const relationship of rel) {
     if (relationship.entities.length == 2) { // Simple relationship, mapped to a Neo4j relationship.
-      schema += generateRelationship(relationship, orderedSchema) // This includes "generatePropertyExistenceConstraints".
+      generateRelationship(relationship, orderedSchema) // This includes "generatePropertyExistenceConstraints".
 
       // Check whether a weak entity exists.
       const weakEntity: Conn | null = relationship.entities.find(conn => conn.weak == true) ?? null
@@ -81,7 +82,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     }
     else if (relationship.entities.length > 2) { // Complex relationship, mapped to its own Neo4j node.
       orderedSchema.constraints += generatePropertyExistenceConstraints(relationship.id, relationship.attributes)
-      schema += generateCompositeAttributeTriggers(relationship, orderedSchema) // Not supported for relationships, but supported for nodes.
+      generateCompositeAttributeTriggers(relationship, orderedSchema) // Not supported for relationships, but supported for nodes.
 
       // Split associative entity into many relationships to reuse relationship trigger logic.
       for (const entity of relationship.entities) { // TODO: The logic is pretty much the same for associative entities, this deserves a refactoring.
@@ -108,7 +109,7 @@ const erToCypher = (er: string, strictMode = true): string => {
           pk: []
         }
 
-        schema += generateRelationship(rel, orderedSchema, false)
+        generateRelationship(rel, orderedSchema, false)
       }
 
       orderedSchema.relationshipsFormat += generateAssociativeEntityRelationshipControl(relationship, true)
@@ -123,7 +124,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     const { attributes, entities, id } = associativeEntity
     orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes)
 
-    schema += generateCompositeAttributeTriggers(associativeEntity, orderedSchema)
+    generateCompositeAttributeTriggers(associativeEntity, orderedSchema)
     orderedSchema.multivalued += generateMultivaluedAttributeTriggers(associativeEntity)
 
     const relationshipName = getNameForAEntRelationship(id)
@@ -153,7 +154,7 @@ const erToCypher = (er: string, strictMode = true): string => {
         pk: []
       }
 
-      schema += generateRelationship(rel, orderedSchema, false)
+      generateRelationship(rel, orderedSchema, false)
     }
 
     orderedSchema.relationshipsFormat += generateAssociativeEntityRelationshipControl(associativeEntity)
@@ -173,7 +174,7 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const union of unions) {
-    schema += generateAllAttributes(union, orderedSchema)
+    generateAllAttributes(union, orderedSchema)
     orderedSchema.unions += generateUnionTriggerForParent(union)
     orderedSchema.unions += generateUnionTriggerForChildren(union)
   }
@@ -198,6 +199,9 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   if (orderedSchema.relationshipsFormat != "")
     orderedSchema.relationshipsFormat = "/* Relationships (format) */\n\n" + orderedSchema.relationshipsFormat
+  
+  if (orderedSchema.relationshipCardinalities != "")
+    orderedSchema.relationshipCardinalities = "/* Relationships (cardinalities) */\n\n" + orderedSchema.relationshipCardinalities
 
   if (schema != "")
     schema = "/* Remaining situations */\n\n" + schema
@@ -209,6 +213,7 @@ const erToCypher = (er: string, strictMode = true): string => {
          orderedSchema.unions +
          orderedSchema.weakEntities +
          orderedSchema.relationshipsFormat +
+         orderedSchema.relationshipCardinalities +
          schema
 }
 

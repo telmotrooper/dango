@@ -157,10 +157,8 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
   }
 }
 
-export const generateAllAttributes = (entity: Ent, orderedSchema: OrderedSchema): string => {
+export const generateAllAttributes = (entity: Ent, orderedSchema: OrderedSchema): void => {
   const { attributes, id, pk } = entity
-
-  let statement = ""
 
   orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes)
 
@@ -169,10 +167,8 @@ export const generateAllAttributes = (entity: Ent, orderedSchema: OrderedSchema)
     orderedSchema.constraints += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
   }
 
-  statement += generateCompositeAttributeTriggers(entity, orderedSchema)
+  generateCompositeAttributeTriggers(entity, orderedSchema)
   orderedSchema.multivalued += generateMultivaluedAttributeTriggers(entity)
-
-  return statement
 }
 
 export const hasNoAttributes = (entity: Ent): boolean => {

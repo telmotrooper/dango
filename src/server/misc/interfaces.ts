@@ -62,5 +62,6 @@ export interface OrderedSchema {
   specializations: string,
   unions: string,
   weakEntities: string,
-  relationshipsFormat: string
+  relationshipsFormat: string,
+  relationshipCardinalities: string
 }
