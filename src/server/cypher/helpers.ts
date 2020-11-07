@@ -1,4 +1,4 @@
-import { Cardinality, Ent, MultivaluedAttributes, Conn, ER } from "../misc/interfaces"
+import { Cardinality, Ent, MultivaluedAttributes, Conn, ER, OrderedSchema } from "../misc/interfaces"
 import { indentation } from "../../shared/constants"
 import { allButWhitespace, anythingFromFirstCharacter, digitOrN, allWords } from "../misc/regex"
 import { lower, normalize, titlefy } from "../../shared/removeAccents"
@@ -158,16 +158,16 @@ export const parseAttributesAndConnections = (entity: Ent, data: string[], start
   }
 }
 
-export const generateAllAttributes = (entity: Ent): string => {
+export const generateAllAttributes = (entity: Ent, orderedSchema: OrderedSchema): string => {
   const { attributes, id, pk } = entity
 
   let statement = ""
 
-  statement += generatePropertyExistenceConstraints(id, attributes)
+  orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes)
 
   // Unique node constraints
   for (const item of pk) {
-    statement += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
+    orderedSchema.constraints += `CREATE CONSTRAINT ON (${lower(id)[0]}:${normalize(id)}) ASSERT (${lower(id)[0]}.${normalize(item)}) IS UNIQUE;\n`
   }
 
   statement += generateCompositeAttributeTriggers(entity)

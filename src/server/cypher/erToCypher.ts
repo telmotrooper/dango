@@ -60,7 +60,7 @@ const erToCypher = (er: string, strictMode = true): string => {
 
   // Entities
   for (const entity of ent) {
-    schema += generateAllAttributes(entity)
+    schema += generateAllAttributes(entity, orderedSchema)
   }
 
   for (const relationship of rel) {
@@ -170,12 +170,21 @@ const erToCypher = (er: string, strictMode = true): string => {
   }
 
   for (const union of unions) {
-    schema += generateAllAttributes(union)
+    schema += generateAllAttributes(union, orderedSchema)
     schema += generateUnionTriggerForParent(union)
     schema += generateUnionTriggerForChildren(union)
   }
 
-  return orderedSchema.strictMode + schema
+  if (orderedSchema.strictMode != "")
+    orderedSchema.strictMode = "/* Strict mode */\n\n" + orderedSchema.strictMode
+
+  if (orderedSchema.constraints != "")
+    orderedSchema.constraints = "/* Constraints */\n\n" + orderedSchema.constraints
+
+  if (schema != "")
+    schema = "/* Remaining situations */\n\n" + schema
+
+  return orderedSchema.strictMode + orderedSchema.constraints + schema
 }
 
 export { erToCypher }
