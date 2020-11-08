@@ -1,7 +1,7 @@
 import { Conn, ER, OrderedSchema, Rel } from "../misc/interfaces"
 import { generateMultivaluedAttributeTriggers,
          generateAllAttributes, getNameForAEntRelationship, getNameForNAryRelationship } from "./helpers"
-import { generateStrictModeTriggerForNodes, generateDisjointednessTrigger,
+import { generateStrictModeTriggerForNodes, generateDisjointnessTrigger,
          generateCompletenessTrigger, generateChildrenTrigger,
          generatePropertyExistenceConstraints, generateStrictModeTriggerForRelationships,
          generateCompositeAttributeTriggers, generateUnionTriggerForParent,
@@ -164,7 +164,7 @@ const erToCypher = (er: string, strictMode = true): string => {
     orderedSchema.specializations += generateChildrenTrigger(specialization.id, specialization.entities)
 
     if (specialization.disjoint) {
-      orderedSchema.specializations += generateDisjointednessTrigger(specialization.id, specialization.entities)
+      orderedSchema.specializations += generateDisjointnessTrigger(specialization.id, specialization.entities)
     }
 
     if (specialization.total) {

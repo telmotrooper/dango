@@ -19,7 +19,7 @@ export const Specializations = (props: Props): JSX.Element =>
       a <b>partial</b> specialization allows instances of both parent and children entities to exist.
     </p>
 
-    <p><b>Disjointedness:</b></p>
+    <p><b>Disjointness:</b></p>
     <p>
       A <b>disjoint</b> specialization defines that an instance of a child entity can be of
       exactly one specialized type, while an <b>overlap</b> specialization allows them to have one or more specialized types.

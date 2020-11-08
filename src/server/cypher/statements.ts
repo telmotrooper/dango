@@ -91,7 +91,7 @@ export const generateMinCardinalityTrigger = (entity1: string, entity2: string, 
   return generateTrigger(`${entity1} ${relationship} less than ${minCardinality} ${entity2}`, statement)
 }
 
-export const generateDisjointednessTrigger = (parent: string, entities: Array<string>): string => {
+export const generateDisjointnessTrigger = (parent: string, entities: Array<string>): string => {
   let statement = "MATCH (n) WHERE" + "\n"
 
   const combinations = getTwoByTwoCombinations(entities)
@@ -103,7 +103,7 @@ export const generateDisjointednessTrigger = (parent: string, entities: Array<st
   statement = statement.substr(0, statement.length-4)
   statement += "\n" + "DETACH DELETE n"
 
-  return generateTrigger(`${parent} disjointedness`, statement)
+  return generateTrigger(`${parent} disjointness`, statement)
 }
 
 export const generateCompletenessTrigger = (parent: string, entities: Array<string>): string => {
