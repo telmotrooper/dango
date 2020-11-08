@@ -48,7 +48,7 @@ const CypherModal = React.memo((props: Props) => {
         <section className="modal-card-body">
           <p className="mb-05 ta-j">
             This is a schema for the Neo4j graph database (written in the
-            Cypher query language) based on your Entity-Relationship Diagram:
+            Cypher query language) based on your Enhanced Entity-Relationship diagram:
           </p>
           <textarea ref={textAreaRef} readOnly={true} value={content}
             className="textarea has-fixed-size is-small mb-1" rows={22} id="json-to-cypher" />

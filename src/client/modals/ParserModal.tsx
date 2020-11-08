@@ -24,13 +24,13 @@ const ParserModal = React.memo((props: Props) => {
         <button className="delete" aria-label="close" onClick={(): void => setShow(false)} />
       </header>
       <section className="modal-card-body">
-        <p className="mb-05 ta-j">This is your Entity-Relationship Diagram represented as a JSON object:</p>
+        <p className="mb-05 ta-j">This is your Enhanced Entity-Relationship diagram represented as a JSON object:</p>
         <textarea ref={textAreaRef} readOnly={true} value={content}
-          className="textarea has-fixed-size is-small mb-1" rows={18} id="json-code"></textarea>
+          className="textarea has-fixed-size is-small mb-05" rows={18} id="json-code"></textarea>
         <label className="checkbox">
           <input type="checkbox" ref={checkboxRef} defaultChecked={true} />
           <b>Strict mode: </b>
-          <span>Prevents nodes and relationships with labels or types not specified in the ER diagram from being created.</span>
+          <span>Prevents nodes and relationships with labels or types not specified in the EER diagram from being created.</span>
         </label>
       </section>
       <footer className="modal-card-foot jc-space-between">
