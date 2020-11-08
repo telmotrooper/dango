@@ -209,7 +209,7 @@ export const generateUnionTriggerForChildren = (union: Union): string => {
   statement = statement.substr(0, statement.length-4)
   statement += ")" + "\n"
   
-  statement += hasNoAttributes(union) ? "SET n:Vehicle": "DETACH DELETE n"
+  statement += hasNoAttributes(union) ? `SET n:${union.id}`: "DETACH DELETE n"
 
   return generateTrigger(`Union ${union.id} for children`, statement)
 }
