@@ -219,7 +219,7 @@ export const generateAssociativeEntityRelationshipControl = (aent: AEnt | Rel, i
 
   const relName = isNAryRelationship ? getNameForNAryRelationship(id) : getNameForAEntRelationship(id)
 
-  let statement = `MATCH (n)-[:${relName}]-(:${lower(id)}) WHERE ` + "\n"
+  let statement = `MATCH (n)-[r:${relName}]-(:${lower(id)}) WHERE ` + "\n"
 
   const entitiesAssociated = entities.map(entity => entity.id)
 
@@ -228,7 +228,7 @@ export const generateAssociativeEntityRelationshipControl = (aent: AEnt | Rel, i
   }
 
   statement = statement.substr(0, statement.length-4)
-  statement += "\n" + "DETACH DELETE n"
+  statement += "\n" + "DETACH DELETE r"
 
   return generateTrigger(`${id} associations`, statement)
 }
