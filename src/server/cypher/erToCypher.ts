@@ -153,7 +153,7 @@ const erToCypher = (er: string, strictMode = true): string => {
         pk: []
       }
 
-      generateRelationship(rel, orderedSchema, false)
+      generateRelationship(rel, orderedSchema, false, true)
     }
 
     orderedSchema.relationshipsFormat += generateAssociativeEntityRelationshipControl(associativeEntity)

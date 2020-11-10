@@ -74,20 +74,30 @@ export const generateMaxCardinalityTrigger = (entity1: string, entity2: string, 
   return generateTrigger(`${entity1} ${relationship} more than ${maxCardinality} ${entity2}`, statement)
 }
 
-export const generateMinCardinalityTrigger = (entity1: string, entity2: string, relationship: string, minCardinality = "1", hasTimestamp = false, considerDirection = false): string => {
+export const generateMinCardinalityTrigger = (entity1: string, entity2: string, relationship: string, minCardinality = "1",
+  hasTimestamp = false, considerDirection = false, isAssociativeEntity = false): string => {
   let statement = ""
 
   const direction = considerDirection ? "->" : "-"
 
-  if (minCardinality == "0" || minCardinality == "1") { 
+  if (minCardinality == "1") { 
     // Minimum cardinality 0 means there's nothing to control, no trigger needed.
-    // Minimum cardinality 1 means the relationship shouldn't exist if there isn't at least one instance of the entity, which is already handled by the format triggers.
-    return ""
+
+    /* Minimum cardinality 1 means the relationship shouldn't exist if there isn't
+     * at least one instance of the entity, which is already handled by the format
+     * triggers. Unless this is an associtiave entity, in this case the entity must be removed. */
+
+    if (isAssociativeEntity) {
+      statement = `MATCH (n:${entity1}) WHERE NOT (:${normalize(entity2)})-[:${normalize(relationship)}]${direction}(n) DETACH DELETE n`
+    } else {
+      return ""
+    }
+
   } else {
     statement = `MATCH (n:${entity1})-[r:${normalize(relationship)}]${direction}(:${normalize(entity2)}) ${getTimestampFilter(hasTimestamp)}
     WITH n, COLLECT(r) AS rs
     WHERE SIZE(rs) < ${minCardinality}
-    FOREACH (r IN rs | DELETE r)`
+    ${isAssociativeEntity ? "DETACH DELETE n" : "FOREACH (r IN rs | DELETE r)"}`
   }
 
   return generateTrigger(`${entity1} ${relationship} less than ${minCardinality} ${entity2}`, statement)

@@ -3,7 +3,7 @@ import { generateTrigger, extractCardinality } from "./helpers"
 import { Cardinality, OrderedSchema, Rel } from "../misc/interfaces"
 import { generateMinCardinalityTrigger, generateMaxCardinalityTrigger, generatePropertyExistenceConstraints } from "./statements"
 
-export const generateRelationship = (relationship: Rel, orderedSchema: OrderedSchema, includeTriggerBack = true): void => {
+export const generateRelationship = (relationship: Rel, orderedSchema: OrderedSchema, includeTriggerBack = true, isAssociativeEntity = false): void => {
   const { entities, attributes, id } = relationship
 
   orderedSchema.constraints += generatePropertyExistenceConstraints(id, attributes, true)
@@ -55,13 +55,13 @@ export const generateRelationship = (relationship: Rel, orderedSchema: OrderedSc
   // }
 
   if (c0.min != "0") { orderedSchema.relationshipCardinalities += generateMinCardinalityTrigger(
-    entities[1].id, entities[0].id, relationshipZeroId, c0.min, relationship.hasTimestamp, isSelfRelationship) }
+    entities[1].id, entities[0].id, relationshipZeroId, c0.min, relationship.hasTimestamp, isSelfRelationship, isAssociativeEntity) }
 
   if (c0.max != "n") { orderedSchema.relationshipCardinalities += generateMaxCardinalityTrigger(
     entities[1].id, entities[0].id, relationshipZeroId, c0.max, relationship.hasTimestamp, isSelfRelationship) }
 
   if (c1.min != "0") { orderedSchema.relationshipCardinalities += generateMinCardinalityTrigger(
-    entities[0].id, entities[1].id, relationshipOneId, c1.min, relationship.hasTimestamp, isSelfRelationship) }
+    entities[0].id, entities[1].id, relationshipOneId, c1.min, relationship.hasTimestamp, isSelfRelationship, isAssociativeEntity) }
     
   if (c1.max != "n") { orderedSchema.relationshipCardinalities += generateMaxCardinalityTrigger(
     entities[0].id, entities[1].id, relationshipOneId, c1.max, relationship.hasTimestamp, isSelfRelationship) }
