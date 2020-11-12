@@ -101,7 +101,6 @@ rel autoria {
 aent Emprestimo {
   Exemplares (0,n)
   Clientes (0,1)
-  Efetivos (0,n)
   DataRetirada
   DataPrevistaDevolucao
   ValorMulta
@@ -120,7 +119,7 @@ union FiltrosDePesquisa {
 
 rel contrato_de_estagio {
   InstituicoesEnsino (1,1)
-  Estagiarios (1,1)
+  Estagiarios (1,n)
   Efetivos (1,1)
   DataInicio
   Salario
