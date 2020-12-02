@@ -33,7 +33,7 @@ ent Ent${current+1} {
 
 rel Rel${current} {
   Ent${current} ${getRotatingCardinalities()}
-  Ent${current+1}  ${getRotatingCardinalities()}
+  Ent${current+1} ${getRotatingCardinalities()}
   x
   y
   z
