@@ -7,6 +7,7 @@ import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
 import { erToGraphviz } from "./utils/graphviz"
 import { mainExample } from "./utils/erExamples"
+import { ER } from "../server/misc/interfaces"
 
 interface Props {
   code: string,
@@ -36,6 +37,16 @@ const Codebox = React.memo((props: Props) => {
 
           } else {
             const res = await submitCode(debouncedCode)
+
+            const er: ER = res.data
+
+            console.log(
+              `Entities: ${er.ent.length}\n`
+              + `Relationships: ${er.rel.length}\n`
+              + `Associative entities: ${er.aent.length}\n`
+              + `Specializations: ${er.spe.length}\n`
+              + `Unions: ${er.unions.length}\n`
+            )
 
             if (res.data?.warning) {
               toast.dismiss()

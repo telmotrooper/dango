@@ -358,7 +358,7 @@ const erToGraphviz = (code: ER): string => {
 
   diagram += "\n}"
 
-  console.log(diagram)
+  // console.log(diagram)
 
   return diagram
 }
