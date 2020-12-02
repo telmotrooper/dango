@@ -3,7 +3,8 @@
     "start": "./node_modules/nodemon/bin/nodemon.js",
     "clear": "rm -rf .cache build",
     "type-check": "tsc --noEmit",
-    "lint-check": "eslint src --ext .ts,.tsx"
+    "lint-check": "eslint src --ext .ts,.tsx",
+    "gen-test-modeling": "ts-node ./generateTestModeling.ts"
   },
   "nodemonConfig": {
     "exec": "ts-node --files src/server/app.ts",
