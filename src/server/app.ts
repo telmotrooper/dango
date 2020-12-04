@@ -33,7 +33,7 @@ bundler.on("bundled", () => {
 app.use(morgan("tiny"))
 
 // Parses requests to JSON format
-app.use(express.json())
+app.use(express.json(/*{limit: "200mb"}*/)) // Can be increased to test bigger EER diagrams.
 
 // Routes
 app.use("/api/er-to-json", erToJSON)
