@@ -3,8 +3,17 @@ EER model to Neo4j schema
 
 <img src="src/client/assets/dango.png" width="175" height="175" />
 
-## Installing
+## About
 
+**Dango** is a graph database modeling tool which allows you to write a schema for a Neo4j database by writing an Enhanced Entity-Relationship diagram.
+
+The schema generated is composed of [Neo4j constraints](https://neo4j.com/docs/cypher-manual/current/administration/constraints/) and [APOC triggers](https://neo4j.com/docs/labs/apoc/current/background-operations/triggers/), which force the nodes and relationships in the database to behave as modeled.
+
+**Screenshot:**
+
+<img src="screenshot.png" />
+
+## Installing
 
 __Note #1:__ *You'll need at least __Node.js version 11__ to run this application, **version 15** is recommended.*
 
