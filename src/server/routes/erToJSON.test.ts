@@ -7,7 +7,7 @@ test("Example EER diagram generates correct JSON representation", () => {
   expect(intermediateRepresentation).toEqual(expectedResult)
 })
 
-const expectedResult = {
+export const expectedResult = {
   "ent": [
     {
       "id": "Bibliotecarios",
