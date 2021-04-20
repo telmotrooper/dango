@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useEffect, useState } from "react"
+import React, { createRef, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
 import { Engine } from "d3-graphviz"
@@ -20,6 +20,7 @@ import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
 import { GenericObject } from "../shared/interfaces"
+import { MainContext } from "./utils/context"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
@@ -85,7 +86,7 @@ const App = (): JSX.Element => {
   }
 
   return (
-    <Fragment>
+    <MainContext.Provider value={{ textAreaRef: textAreaRef }}>
       <section className="section">
         <div className="container is-fluid">
           <ToastContainer
@@ -126,7 +127,6 @@ const App = (): JSX.Element => {
             <Codebox
               code={code}
               setCode={setCode}
-              textAreaRef={textAreaRef}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
               engine={engine}
@@ -185,7 +185,7 @@ const App = (): JSX.Element => {
         setShow={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
         setDatabaseReady={setDatabaseReady}
       />
-    </Fragment>
+    </MainContext.Provider>
   )
 }
 

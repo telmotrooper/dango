@@ -1,18 +1,16 @@
-import React, { ChangeEvent, useEffect } from "react"
+import React, { ChangeEvent, useContext, useEffect } from "react"
 import { Engine } from "d3-graphviz"
 import { toast } from "react-toastify"
 
-import { TextArea } from "./utils/interfaces"
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
 import { erToGraphviz } from "./utils/graphviz"
 import { mainExample } from "./utils/erExamples"
 import { ER } from "../server/misc/interfaces"
-
+import { MainContext } from "./utils/context"
 interface Props {
   code: string,
   setCode: (code: string) => void,
-  textAreaRef: TextArea;
   handleSubmit: () => Promise<void>;
   handleUpdate: (diagram: string) => void;
   setEngine: (engine: Engine) => void;
@@ -22,7 +20,9 @@ interface Props {
 }
 
 const Codebox = React.memo((props: Props) => {
-  const { code, setCode, textAreaRef, handleSubmit, handleUpdate,
+  const { textAreaRef } = useContext(MainContext)
+
+  const { code, setCode, handleSubmit, handleUpdate,
     setEngine, engine, sendButtonDisabled, setSendButtonDisabled } = props
   const debouncedCode = useDebounce(code, 500)
 
