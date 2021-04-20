@@ -23,12 +23,17 @@ import { GenericObject } from "../shared/interfaces"
 import { MainContext } from "./utils/context"
 import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
+import { Provider, useDispatch, useSelector } from "react-redux"
+import store from "./utils/store"
+import { toggleClearModal } from "./utils/mainSlice"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
+  const showClearModal = useSelector((state: any) => state.main.showClearModal);
+  const dispatch = useDispatch()
+
   // Main application state
-  const [ showClearModal, setShowClearModal ] = useState(false)
   const [ showHelpModal, setShowHelpModal ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
   const [ showCypherModal, setShowCypherModal ] = useState(false)
@@ -109,7 +114,7 @@ const App = (): JSX.Element => {
       
           <section id="top-menu" className="columns">
             <div className="column">
-              <Button className="is-fullwidth" onClick={(): void => setShowClearModal(!showClearModal)}>
+              <Button className="is-fullwidth" onClick={() => dispatch(toggleClearModal())}>
                 Clear
               </Button>
             </div>
@@ -176,7 +181,7 @@ const App = (): JSX.Element => {
 
       <ClearModal
         show={showClearModal}
-        setShow={(): void => setShowClearModal(!showClearModal)}
+        setShow={() => dispatch(toggleClearModal())}
         setDiagram={(text: string) => setDiagram(text)}
         setSendButtonDisabled={setSendButtonDisabled}
       />
@@ -190,4 +195,9 @@ const App = (): JSX.Element => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById("app"))
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("app")
+)
