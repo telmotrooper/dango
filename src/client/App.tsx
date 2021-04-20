@@ -20,17 +20,17 @@ import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
 import { GenericObject } from "../shared/interfaces"
-import { MainContext } from "./utils/context"
 import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
-import store from "./utils/store"
-import { toggleClearModal } from "./utils/mainSlice"
+import store from "./store/store"
+import { toggleClearModal } from "./store/mainSlice"
+import { MainContext } from "./store/context"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const showClearModal = useSelector((state: any) => state.main.showClearModal);
+  const showClearModal = useSelector((state: any) => state.main.showClearModal)
   const dispatch = useDispatch()
 
   // Main application state

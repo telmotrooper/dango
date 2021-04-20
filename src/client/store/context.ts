@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import { TextArea } from "./interfaces"
+import { TextArea } from "../utils/interfaces"
 
 interface ContextProps {
     textAreaRef: TextArea | null

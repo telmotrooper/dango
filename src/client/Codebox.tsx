@@ -7,7 +7,7 @@ import { submitCode } from "./utils/requests"
 import { erToGraphviz } from "./utils/graphviz"
 import { mainExample } from "./utils/erExamples"
 import { ER } from "../server/misc/interfaces"
-import { MainContext } from "./utils/context"
+import { MainContext } from "./store/context"
 interface Props {
   code: string,
   setCode: (code: string) => void,

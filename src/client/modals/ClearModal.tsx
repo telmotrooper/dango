@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
+import { MainContext } from "../store/context"
 import { clearCode } from "../utils/codebox"
-import { MainContext } from "../utils/context"
 
 interface Props {
   show: boolean;
