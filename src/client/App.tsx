@@ -173,7 +173,6 @@ const App = (): JSX.Element => {
       />
 
       <ClearModal
-        checkbox={textAreaRef}
         show={showClearModal}
         setShow={(): void => setShowClearModal(!showClearModal)}
         setDiagram={(text: string) => setDiagram(text)}

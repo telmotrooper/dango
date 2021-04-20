@@ -1,9 +1,8 @@
-import React from "react"
+import React, { useContext } from "react"
 import { clearCode } from "../utils/codebox"
-import { TextArea } from "../utils/interfaces"
+import { MainContext } from "../utils/context"
 
 interface Props {
-  checkbox: TextArea;
   show: boolean;
   setShow: (arg0: boolean) => void;
   setDiagram: (arg0: string) => void;
@@ -11,11 +10,13 @@ interface Props {
 }
 
 const ClearModal = React.memo((props: Props) => {
-  const { checkbox, show, setShow, setDiagram, setSendButtonDisabled } = props
+  const { textAreaRef } = useContext(MainContext)
+  const { show, setShow, setDiagram, setSendButtonDisabled } = props
 
   const handleClearCode = (): void => {
     setDiagram("") // Clear visualization
-    clearCode(checkbox, setShow) // Clear codebox and close modal
+    if (textAreaRef !== null)
+      clearCode(textAreaRef, setShow) // Clear codebox and close modal
     setSendButtonDisabled(true) // Disable "Send" button
   }
   const handleSetShow = (): void => setShow(!show)
