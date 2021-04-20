@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { mainSlice } from "./mainSlice"
+import { modalSlice } from "./modalSlice"
 
-export default configureStore({
+export const store = configureStore({
     reducer: {
-        main: mainSlice.reducer
+        modal: modalSlice.reducer
     }
 })
+
+export type RootState = ReturnType<typeof store.getState>

@@ -23,14 +23,14 @@ import { GenericObject } from "../shared/interfaces"
 import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
-import store from "./store/store"
-import { toggleClearModal } from "./store/mainSlice"
+import { RootState, store } from "./store/store"
+import { toggleClearModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const showClearModal = useSelector((state: any) => state.main.showClearModal)
+  const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
   const dispatch = useDispatch()
 
   // Main application state
