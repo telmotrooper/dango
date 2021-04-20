@@ -21,6 +21,8 @@ import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
 import { GenericObject } from "../shared/interfaces"
 import { MainContext } from "./utils/context"
+import { Button } from "./layout/Button"
+import { Section } from "./layout/Section"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
@@ -87,7 +89,7 @@ const App = (): JSX.Element => {
 
   return (
     <MainContext.Provider value={{ textAreaRef: textAreaRef }}>
-      <section className="section">
+      <Section>
         <div className="container is-fluid">
           <ToastContainer
             position="top-right"
@@ -107,14 +109,14 @@ const App = (): JSX.Element => {
       
           <section id="top-menu" className="columns">
             <div className="column">
-              <button className="button is-fullwidth" onClick={(): void => setShowClearModal(!showClearModal)}>
+              <Button className="is-fullwidth" onClick={(): void => setShowClearModal(!showClearModal)}>
                 Clear
-              </button>
+              </Button>
             </div>
             <div className="column">
-              <button className="button is-fullwidth" onClick={(): void => saveToDevice(textAreaRef, "er.txt")}>
+              <Button className="is-fullwidth" onClick={(): void => saveToDevice(textAreaRef, "er.txt")}>
                 Save to device
-              </button> 
+              </Button>
             </div>
           </section>
 
@@ -149,7 +151,7 @@ const App = (): JSX.Element => {
             </section>
           </div>
         </div>
-      </section>
+      </Section>
 
       <HelpModal
         setCode={setCode}
