@@ -61,8 +61,8 @@ const App = (): JSX.Element => {
     dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
   }
 
-  // Enable auto complete only when codebox already exists in the DOM 
-  useEffect(() => setupAutoComplete(textAreaRef))
+  // Enable auto complete only when codebox already exists in the DOM.
+  useEffect(() => setupAutoComplete(textAreaRef), [textAreaRef])
 
   const handleSubmitCode = (ref: TextArea) => async (): Promise<void> => {
     if (ref.current) {
