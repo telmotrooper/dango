@@ -12,15 +12,18 @@ import { MultivaluedAttributes } from "./MultivaluedAttributes"
 import { AssociativeEntities } from "./AssociativeEntities"
 import { Unions } from "./Unions"
 import { WeakEntities } from "./WeakEntities"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { toggleHelpModal } from "../../store/modalSlice"
 
 interface Props {
   setCode: (code: string) => void;
-  show: boolean;
-  setShow: (arg0: boolean) => void;
 }
 
 const HelpModal = React.memo((props: Props) => {
-  const { show, setShow, setCode } = props
+  const { setCode } = props
+  const dispatch = useDispatch()
+  const show = useSelector((state: RootState) => state.modal.showHelpModal)
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="help-modal">
@@ -28,7 +31,7 @@ const HelpModal = React.memo((props: Props) => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title"><b>Help</b></p>
-          <button className="delete" aria-label="close" onClick={(): void => setShow(!show)} />
+          <button className="delete" aria-label="close" onClick={() => dispatch(toggleHelpModal())} />
         </header>
         <section className="modal-card-body help-wrapper ta-j">
           <div className="content is-small-medium">
@@ -48,7 +51,7 @@ const HelpModal = React.memo((props: Props) => {
           </div>
         </section>
         <footer className="modal-card-foot jc-flex-end">
-          <button className="button" onClick={(): void => setShow(!show)}>
+          <button className="button" onClick={() => dispatch(toggleHelpModal())}>
             OK
           </button>
         </footer>

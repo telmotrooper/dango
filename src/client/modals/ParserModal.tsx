@@ -1,16 +1,19 @@
 import React, { createRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { toggleParserModal } from "../store/modalSlice"
+import { RootState } from "../store/store"
 import { saveToDevice } from "../utils/codebox"
 import { Input, TextArea } from "../utils/interfaces"
 
 interface Props {
-  show: boolean;
-  setShow: (arg0: boolean) => void;
   content: string;
   onSubmit: (textArea: TextArea, checkbox: Input) => () => Promise<void>;
 }
 
 const ParserModal = React.memo((props: Props) => {
-  const { content, show, setShow, onSubmit } = props
+  const { content, onSubmit } = props
+  const dispatch = useDispatch()
+  const show = useSelector((state: RootState) => state.modal.showParserModal)
 
   const textAreaRef = createRef<HTMLTextAreaElement>()
   const checkboxRef = createRef<HTMLInputElement>()
@@ -21,7 +24,7 @@ const ParserModal = React.memo((props: Props) => {
     <div className="modal-card">
       <header className="modal-card-head">
         <p className="modal-card-title"><b>Parser output</b> <i>(JSON)</i></p>
-        <button className="delete" aria-label="close" onClick={(): void => setShow(false)} />
+        <button className="delete" aria-label="close" onClick={() => dispatch(toggleParserModal())} />
       </header>
       <section className="modal-card-body">
         <p className="mb-05 ta-j">This is your Enhanced Entity-Relationship diagram represented as a JSON object:</p>

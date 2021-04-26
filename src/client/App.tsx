@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useEffect, useState } from "react"
+import React, { createRef, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
 import { Engine } from "d3-graphviz"
@@ -20,15 +20,21 @@ import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
 import { GenericObject } from "../shared/interfaces"
+import { Button } from "./layout/Button"
+import { Section } from "./layout/Section"
+import { Provider, useDispatch, useSelector } from "react-redux"
+import { RootState, store } from "./store/store"
+import { toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
+import { MainContext } from "./store/context"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
+  const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
+  const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
+  const dispatch = useDispatch()
+
   // Main application state
-  const [ showClearModal, setShowClearModal ] = useState(false)
-  const [ showHelpModal, setShowHelpModal ] = useState(false)
-  const [ showParserModal, setShowParserModal ] = useState(false)
-  const [ showCypherModal, setShowCypherModal ] = useState(false)
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
   const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
@@ -72,7 +78,7 @@ const App = (): JSX.Element => {
     if (ref.current) {
       const res = await submitCode(ref.current.value)
       setParserContent(res.data)
-      setShowParserModal(true)
+      dispatch(toggleParserModal())
     }
   }
 
@@ -80,13 +86,13 @@ const App = (): JSX.Element => {
     if (textArea.current && checkbox.current) {
       const res = await getCypherFromER(textArea.current.value, checkbox.current.checked)
       setCypherContent(res.data)
-      setShowCypherModal(true)
+      dispatch(toggleCypherModal())
     }
   }
 
   return (
-    <Fragment>
-      <section className="section">
+    <MainContext.Provider value={{ textAreaRef: textAreaRef }}>
+      <Section>
         <div className="container is-fluid">
           <ToastContainer
             position="top-right"
@@ -106,27 +112,26 @@ const App = (): JSX.Element => {
       
           <section id="top-menu" className="columns">
             <div className="column">
-              <button className="button is-fullwidth" onClick={(): void => setShowClearModal(!showClearModal)}>
+              <Button className="is-fullwidth" onClick={() => dispatch(toggleClearModal())}>
                 Clear
-              </button>
+              </Button>
             </div>
             <div className="column">
-              <button className="button is-fullwidth" onClick={(): void => saveToDevice(textAreaRef, "er.txt")}>
+              <Button className="is-fullwidth" onClick={(): void => saveToDevice(textAreaRef, "er.txt")}>
                 Save to device
-              </button> 
+              </Button>
             </div>
           </section>
 
           <p className="mb-05 fs-09 mt-minus-05">
             We've made a simple notation to represent EER diagrams in human-readable code!
-            Learn more <a onClick={(): void => setShowHelpModal(!showHelpModal)}>here</a>.
+            Learn more <a onClick={() => dispatch(toggleHelpModal())}>here</a>.
           </p>
 
           <div className="columns">
             <Codebox
               code={code}
               setCode={setCode}
-              textAreaRef={textAreaRef}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
               engine={engine}
@@ -149,33 +154,23 @@ const App = (): JSX.Element => {
             </section>
           </div>
         </div>
-      </section>
+      </Section>
 
-      <HelpModal
-        setCode={setCode}
-        show={showHelpModal}
-        setShow={(): void => setShowHelpModal(!showHelpModal)}
-      />
+      <HelpModal setCode={setCode} />
 
-      <ParserModal
-        content={parserContent}
-        show={showParserModal}
-        setShow={(): void => setShowParserModal(!showParserModal)}
-        onSubmit={handleGetCypherFromER}
-      />
+      <ParserModal content={parserContent} onSubmit={handleGetCypherFromER} />
 
       <CypherModal
         content={cypherContent}
         show={showCypherModal}
-        setShow={(): void => setShowCypherModal(!showCypherModal)}
+        setShow={() => dispatch(toggleCypherModal())}
         onSubmit={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
         databaseReady={databaseReady}
       />
 
       <ClearModal
-        checkbox={textAreaRef}
         show={showClearModal}
-        setShow={(): void => setShowClearModal(!showClearModal)}
+        setShow={() => dispatch(toggleClearModal())}
         setDiagram={(text: string) => setDiagram(text)}
         setSendButtonDisabled={setSendButtonDisabled}
       />
@@ -185,8 +180,13 @@ const App = (): JSX.Element => {
         setShow={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
         setDatabaseReady={setDatabaseReady}
       />
-    </Fragment>
+    </MainContext.Provider>
   )
 }
 
-ReactDOM.render(<App />, document.getElementById("app"))
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("app")
+)
