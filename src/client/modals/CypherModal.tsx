@@ -1,22 +1,23 @@
 import React, { createRef } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
-import { toggleDatabaseConnectionModal } from "../store/modalSlice"
+import { toggleCypherModal, toggleDatabaseConnectionModal } from "../store/modalSlice"
+import { RootState } from "../store/store"
 import { saveToDevice } from "../utils/codebox"
 import { cleanUpDatabase, runStatements } from "../utils/requests"
 import { defaultToast } from "../utils/toasts"
 
 interface Props {
-  show: boolean;
-  setShow: (arg0: boolean) => void;
   content: string;
   databaseReady: boolean;
 }
 
 const CypherModal = React.memo((props: Props) => {
-  const { content, show, setShow, databaseReady } = props
+  const { content, databaseReady } = props
+
   const dispatch = useDispatch()
+  const show = useSelector((state: RootState) => state.modal.showCypherModal)
 
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
@@ -46,7 +47,7 @@ const CypherModal = React.memo((props: Props) => {
           <p className="modal-card-title">
             <b>Converter output</b> <i>(Cypher)</i>
           </p>
-          <button className="delete" aria-label="close" onClick={(): void => setShow(false)} />
+          <button className="delete" aria-label="close" onClick={() => dispatch(toggleCypherModal())} />
         </header>
         <section className="modal-card-body">
           <p className="mb-05 ta-j">

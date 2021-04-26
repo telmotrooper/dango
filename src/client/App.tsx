@@ -30,7 +30,6 @@ import { incrementErrorBoundaryKey } from "./store/generalSlice"
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
   const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
 
   const dispatch = useDispatch()
@@ -153,12 +152,7 @@ const App = (): JSX.Element => {
 
       <ParserModal onSubmit={handleGetCypherFromER} />
 
-      <CypherModal
-        content={cypherContent}
-        show={showCypherModal}
-        setShow={() => dispatch(toggleCypherModal())}
-        databaseReady={databaseReady}
-      />
+      <CypherModal content={cypherContent} databaseReady={databaseReady} />
 
       <ClearModal
         setDiagram={(text: string) => setDiagram(text)}
