@@ -24,7 +24,7 @@ import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
-import { toggleClearModal, toggleHelpModal } from "./store/modalSlice"
+import { toggleClearModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
 
 const App = (): JSX.Element => {
@@ -32,10 +32,10 @@ const App = (): JSX.Element => {
 
   const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
   const showHelpModal = useSelector((state: RootState) => state.modal.showHelpModal)
+  const showParserModal = useSelector((state: RootState) => state.modal.showParserModal)
   const dispatch = useDispatch()
 
   // Main application state
-  const [ showParserModal, setShowParserModal ] = useState(false)
   const [ showCypherModal, setShowCypherModal ] = useState(false)
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
@@ -80,7 +80,7 @@ const App = (): JSX.Element => {
     if (ref.current) {
       const res = await submitCode(ref.current.value)
       setParserContent(res.data)
-      setShowParserModal(true)
+      dispatch(toggleParserModal())
     }
   }
 
@@ -167,7 +167,7 @@ const App = (): JSX.Element => {
       <ParserModal
         content={parserContent}
         show={showParserModal}
-        setShow={(): void => setShowParserModal(!showParserModal)}
+        setShow={() => dispatch(toggleParserModal())}
         onSubmit={handleGetCypherFromER}
       />
 

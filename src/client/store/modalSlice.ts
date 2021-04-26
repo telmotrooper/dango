@@ -4,7 +4,8 @@ export const modalSlice = createSlice({
     name: "modal",
     initialState: {
         showClearModal: false,
-        showHelpModal: false
+        showHelpModal: false,
+        showParserModal: false
     },
     reducers: {
         toggleClearModal: (state) => {
@@ -12,10 +13,13 @@ export const modalSlice = createSlice({
         },
         toggleHelpModal: (state) => {
             state.showHelpModal = !state.showHelpModal
+        },
+        toggleParserModal: (state) => {
+            state.showParserModal = !state.showParserModal
         }
     }
 })
 
-export const { toggleClearModal, toggleHelpModal } = modalSlice.actions
+export const { toggleClearModal, toggleHelpModal, toggleParserModal } = modalSlice.actions
 
 export default modalSlice.reducer
