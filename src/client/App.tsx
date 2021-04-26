@@ -1,7 +1,6 @@
 import React, { createRef, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
-import { Engine } from "d3-graphviz"
 import { ToastContainer } from "react-toastify"
 
 import "react-toastify/dist/ReactToastify.css"
@@ -31,6 +30,7 @@ const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
   const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
+  const engine = useSelector((state: RootState) => state.general.engine)
 
   const dispatch = useDispatch()
 
@@ -39,7 +39,6 @@ const App = (): JSX.Element => {
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
-  const [ engine, setEngine ] = useState<Engine>("dot")
   const [ code, _setCode ] = useState("")
 
   // Check if we have connection data in local storage to prepare Neo4j driver.
@@ -126,8 +125,6 @@ const App = (): JSX.Element => {
               setCode={setCode}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
-              engine={engine}
-              setEngine={setEngine}
               sendButtonDisabled={sendButtonDisabled}
               setSendButtonDisabled={setSendButtonDisabled}
             />
