@@ -25,16 +25,18 @@ import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
 import { setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
+import { incrementErrorBoundaryKey } from "./store/generalSlice"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
   const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
+  const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
+
   const dispatch = useDispatch()
 
   // Main application state
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
-  const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
@@ -59,7 +61,7 @@ const App = (): JSX.Element => {
 
   const setDiagram = (text: string): void => {
     _setDiagram(text)
-    setErrorBoundaryKey(errorBoundaryKey + 1) // This allows us to reattempt to render after a Graphviz error.
+    dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
   }
 
   // Enable auto complete only when codebox already exists in the DOM 
