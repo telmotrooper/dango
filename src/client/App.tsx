@@ -19,12 +19,11 @@ import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
-import { GenericObject } from "../shared/interfaces"
 import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
-import { toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
+import { setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
 
 const App = (): JSX.Element => {
@@ -38,7 +37,6 @@ const App = (): JSX.Element => {
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
   const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
-  const [ parserContent,   _setParserContent ] = useState("")
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
@@ -66,18 +64,13 @@ const App = (): JSX.Element => {
     setErrorBoundaryKey(errorBoundaryKey + 1) // This allows us to reattempt to render after a Graphviz error.
   }
 
-  const setParserContent = (json: GenericObject): void => {
-    const text = JSON.stringify(json, null, 2)
-    _setParserContent(text)
-  }
-
   // Enable auto complete only when codebox already exists in the DOM 
   useEffect(() => setupAutoComplete(textAreaRef))
 
   const handleSubmitCode = (ref: TextArea) => async (): Promise<void> => {
     if (ref.current) {
       const res = await submitCode(ref.current.value)
-      setParserContent(res.data)
+      dispatch(setParserContent(res.data))
       dispatch(toggleParserModal())
     }
   }
@@ -158,7 +151,7 @@ const App = (): JSX.Element => {
 
       <HelpModal setCode={setCode} />
 
-      <ParserModal content={parserContent} onSubmit={handleGetCypherFromER} />
+      <ParserModal onSubmit={handleGetCypherFromER} />
 
       <CypherModal
         content={cypherContent}

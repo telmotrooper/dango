@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export const modalSlice = createSlice({
     name: "modal",
@@ -6,7 +6,9 @@ export const modalSlice = createSlice({
         showClearModal: false,
         showCypherModal: false,
         showHelpModal: false,
-        showParserModal: false
+        showParserModal: false,
+
+        parserContent: ""
     },
     reducers: {
         toggleClearModal: (state) => {
@@ -20,10 +22,15 @@ export const modalSlice = createSlice({
         },
         toggleParserModal: (state) => {
             state.showParserModal = !state.showParserModal
+        },
+
+        setParserContent: (state, action: PayloadAction<string>) => {
+            const text = JSON.stringify(action.payload, null, 2)
+            state.parserContent = text
         }
     }
 })
 
-export const { toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } = modalSlice.actions
+export const { toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal, setParserContent } = modalSlice.actions
 
 export default modalSlice.reducer
