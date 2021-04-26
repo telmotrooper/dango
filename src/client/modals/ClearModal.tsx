@@ -1,25 +1,30 @@
 import React, { useContext } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { MainContext } from "../store/context"
+import { toggleClearModal } from "../store/modalSlice"
+import { RootState } from "../store/store"
 import { clearCode } from "../utils/codebox"
 
 interface Props {
-  show: boolean;
-  setShow: (arg0: boolean) => void;
   setDiagram: (arg0: string) => void;
   setSendButtonDisabled: (arg0: boolean) => void;
 }
 
 const ClearModal = React.memo((props: Props) => {
   const { textAreaRef } = useContext(MainContext)
-  const { show, setShow, setDiagram, setSendButtonDisabled } = props
+  const { setDiagram, setSendButtonDisabled } = props
+
+  const show = useSelector((state: RootState) => state.modal.showClearModal)
+  const dispatch = useDispatch()
+
 
   const handleClearCode = (): void => {
     setDiagram("") // Clear visualization
     if (textAreaRef !== null)
-      clearCode(textAreaRef, setShow) // Clear codebox and close modal
+      clearCode(textAreaRef, handleSetShow) // Clear codebox and close modal
     setSendButtonDisabled(true) // Disable "Send" button
   }
-  const handleSetShow = (): void => setShow(!show)
+  const handleSetShow = () => dispatch(toggleClearModal())
 
   return (
     <div className={"modal" + (show ? " is-active": "")} id="clear-modal">

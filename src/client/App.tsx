@@ -29,7 +29,6 @@ import { MainContext } from "./store/context"
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
   const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
   const dispatch = useDispatch()
 
@@ -160,8 +159,6 @@ const App = (): JSX.Element => {
       />
 
       <ClearModal
-        show={showClearModal}
-        setShow={() => dispatch(toggleClearModal())}
         setDiagram={(text: string) => setDiagram(text)}
         setSendButtonDisabled={setSendButtonDisabled}
       />
