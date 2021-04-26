@@ -1,6 +1,8 @@
 import React, { createRef } from "react"
+import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
 
+import { toggleDatabaseConnectionModal } from "../store/modalSlice"
 import { saveToDevice } from "../utils/codebox"
 import { cleanUpDatabase, runStatements } from "../utils/requests"
 import { defaultToast } from "../utils/toasts"
@@ -9,12 +11,13 @@ interface Props {
   show: boolean;
   setShow: (arg0: boolean) => void;
   content: string;
-  onSubmit: () => void;
   databaseReady: boolean;
 }
 
 const CypherModal = React.memo((props: Props) => {
-  const { content, show, setShow, onSubmit, databaseReady } = props
+  const { content, show, setShow, databaseReady } = props
+  const dispatch = useDispatch()
+
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
   const executeCypher = async (): Promise<void> => {
@@ -64,7 +67,7 @@ const CypherModal = React.memo((props: Props) => {
             {/* <button className="button is-info">
               Generate visualization
             </button> */}
-            <button className={"button" + (!databaseReady ? " is-success": "")} onClick={onSubmit}>
+            <button className={"button" + (!databaseReady ? " is-success": "")} onClick={() => dispatch(toggleDatabaseConnectionModal())}>
               Setup database connection
             </button>
             {(databaseReady &&

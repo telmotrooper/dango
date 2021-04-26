@@ -36,7 +36,6 @@ const App = (): JSX.Element => {
   // Main application state
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
-  const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
@@ -157,7 +156,6 @@ const App = (): JSX.Element => {
         content={cypherContent}
         show={showCypherModal}
         setShow={() => dispatch(toggleCypherModal())}
-        onSubmit={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
         databaseReady={databaseReady}
       />
 
@@ -168,11 +166,7 @@ const App = (): JSX.Element => {
         setSendButtonDisabled={setSendButtonDisabled}
       />
 
-      <DatabaseConnectionModal
-        show={showDatabaseConnectionModal}
-        setShow={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
-        setDatabaseReady={setDatabaseReady}
-      />
+      <DatabaseConnectionModal setDatabaseReady={setDatabaseReady} />
     </MainContext.Provider>
   )
 }

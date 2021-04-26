@@ -1,18 +1,22 @@
 import React, { useState } from "react"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
 
 import { testDatabaseConnection } from "../utils/requests"
 import { refreshNeo4jDriver, driver } from "../utils/neo4j"
 import { defaultToast } from "../utils/toasts"
+import { toggleDatabaseConnectionModal } from "../store/modalSlice"
+import { RootState } from "../store/store"
 
 interface Props {
-  show: boolean;
-  setShow: (arg0: boolean) => void;
   setDatabaseReady: (arg0: boolean) => void;
 }
 
 export const DatabaseConnectionModal = React.memo((props: Props) => {
-  const { show, setShow, setDatabaseReady } = props
+  const { setDatabaseReady } = props
+  const dispatch = useDispatch()
+  const show = useSelector((state: RootState) => state.modal.showDatabaseConnectionModal)
+
 
   const [ form, setForm ] = useState({
     host: "localhost",
@@ -31,7 +35,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
       await testDatabaseConnection()
       setDatabaseReady(driver != null)
       toast.success("Successfully connected to local Neo4j instance.", defaultToast)
-      setShow(false)
+      dispatch(toggleDatabaseConnectionModal())
       
     } catch (err) {
       if (err.message.substr(0, 9) == "WebSocket") {
@@ -52,7 +56,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title"><b>Setup local database connection</b></p>
-          <button className="delete" aria-label="close" onClick={(): void => setShow(false)} />
+          <button className="delete" aria-label="close" onClick={() => dispatch(toggleDatabaseConnectionModal())} />
         </header>
         <section className="modal-card-body">
           <form onSubmit={handleSubmit}>
@@ -114,7 +118,7 @@ export const DatabaseConnectionModal = React.memo((props: Props) => {
         <footer className="modal-card-foot jc-flex-end">
           <div className="field is-grouped">
             <div className="control">
-              <button className="button" onClick={(): void => setShow(false)}>Cancel</button>
+              <button className="button" onClick={() => dispatch(toggleDatabaseConnectionModal())}>Cancel</button>
             </div>
             <div className="control">
               <button className="button is-success" onClick={handleSubmit}>Submit</button>
