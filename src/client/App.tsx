@@ -24,17 +24,17 @@ import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
-import { toggleClearModal } from "./store/modalSlice"
+import { toggleClearModal, toggleHelpModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
   const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
+  const showHelpModal = useSelector((state: RootState) => state.modal.showHelpModal)
   const dispatch = useDispatch()
 
   // Main application state
-  const [ showHelpModal, setShowHelpModal ] = useState(false)
   const [ showParserModal, setShowParserModal ] = useState(false)
   const [ showCypherModal, setShowCypherModal ] = useState(false)
   const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
@@ -127,7 +127,7 @@ const App = (): JSX.Element => {
 
           <p className="mb-05 fs-09 mt-minus-05">
             We've made a simple notation to represent EER diagrams in human-readable code!
-            Learn more <a onClick={(): void => setShowHelpModal(!showHelpModal)}>here</a>.
+            Learn more <a onClick={() => dispatch(toggleHelpModal())}>here</a>.
           </p>
 
           <div className="columns">
@@ -161,7 +161,7 @@ const App = (): JSX.Element => {
       <HelpModal
         setCode={setCode}
         show={showHelpModal}
-        setShow={(): void => setShowHelpModal(!showHelpModal)}
+        setShow={() => dispatch(toggleHelpModal())}
       />
 
       <ParserModal
