@@ -32,7 +32,6 @@ const App = (): JSX.Element => {
 
   const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
   const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
-  const showHelpModal = useSelector((state: RootState) => state.modal.showHelpModal)
   const showParserModal = useSelector((state: RootState) => state.modal.showParserModal)
   const dispatch = useDispatch()
 
@@ -158,11 +157,7 @@ const App = (): JSX.Element => {
         </div>
       </Section>
 
-      <HelpModal
-        setCode={setCode}
-        show={showHelpModal}
-        setShow={() => dispatch(toggleHelpModal())}
-      />
+      <HelpModal setCode={setCode} />
 
       <ParserModal
         content={parserContent}
