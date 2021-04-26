@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useContext, useEffect } from "react"
 import { Engine } from "d3-graphviz"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
 
 import { useDebounce } from "./utils/useDebounce"
 import { submitCode } from "./utils/requests"
@@ -8,22 +9,24 @@ import { erToGraphviz } from "./utils/graphviz"
 import { mainExample } from "./utils/erExamples"
 import { ER } from "../server/misc/interfaces"
 import { MainContext } from "./store/context"
+import { RootState } from "./store/store"
+import { enableSendButton, setEngine } from "./store/generalSlice"
 interface Props {
   code: string,
   setCode: (code: string) => void,
   handleSubmit: () => Promise<void>;
   handleUpdate: (diagram: string) => void;
-  setEngine: (engine: Engine) => void;
-  sendButtonDisabled: boolean;
-  setSendButtonDisabled: (disabled: boolean) => void;
-  engine: Engine;
 }
 
 const Codebox = React.memo((props: Props) => {
   const { textAreaRef } = useContext(MainContext)
 
-  const { code, setCode, handleSubmit, handleUpdate,
-    setEngine, engine, sendButtonDisabled, setSendButtonDisabled } = props
+  const dispatch = useDispatch()
+  const engine = useSelector((state: RootState) => state.general.engine)
+  const sendButtonEnabled = useSelector((state: RootState) => state.general.sendButtonEnabled)
+
+
+  const { code, setCode, handleSubmit, handleUpdate } = props
   const debouncedCode = useDebounce(code, 500)
 
   useEffect(
@@ -50,10 +53,10 @@ const Codebox = React.memo((props: Props) => {
 
             if (res.data?.warning) {
               toast.dismiss()
-              setSendButtonDisabled(true)
+              dispatch(enableSendButton(false))
               toast(res.data.warning)
             } else {
-              setSendButtonDisabled(false)
+              dispatch(enableSendButton(true))
               toast.dismiss()
             }
 
@@ -77,7 +80,7 @@ const Codebox = React.memo((props: Props) => {
           setCode(event.target.value)
         }}
       />
-      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit} disabled={sendButtonDisabled}>
+      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit} disabled={!sendButtonEnabled}>
         Send
       </button>
       <div className="columns">
@@ -91,9 +94,7 @@ const Codebox = React.memo((props: Props) => {
             <label className="label mb-0">Rendering engine:</label>
             <div className="select">
               <select
-                onChange={(event: ChangeEvent<HTMLSelectElement>): void => {
-                  setEngine(event.target.value as Engine)
-                }}
+                onChange={(event: ChangeEvent<HTMLSelectElement>) => dispatch(setEngine(event.target.value as Engine))}
                 defaultValue={engine}
               >
                 <option>circo</option>

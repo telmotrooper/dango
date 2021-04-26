@@ -6,13 +6,13 @@ import { saveToDevice } from "../utils/codebox"
 import { Input, TextArea } from "../utils/interfaces"
 
 interface Props {
-  content: string;
   onSubmit: (textArea: TextArea, checkbox: Input) => () => Promise<void>;
 }
 
 const ParserModal = React.memo((props: Props) => {
-  const { content, onSubmit } = props
+  const { onSubmit } = props
   const dispatch = useDispatch()
+  const content = useSelector((state: RootState) => state.modal.parserContent)
   const show = useSelector((state: RootState) => state.modal.showParserModal)
 
   const textAreaRef = createRef<HTMLTextAreaElement>()

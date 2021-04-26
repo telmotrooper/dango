@@ -3,14 +3,14 @@ import { toast } from "react-toastify"
 import { TextArea } from "./interfaces"
 import { initialWhitespace } from "../../server/misc/regex"
 
-const clearCode = (codebox: TextArea, setShow: (arg0: boolean) => void): void => {
+const clearCode = (codebox: TextArea, setShow: () => void): void => {
   if (codebox.current) {
     codebox.current.value = ""
   }
 
   toast.dismiss()
   
-  setShow(false)
+  setShow()
 }
 
 const saveToDevice = (codebox: TextArea, filename: string): void => {

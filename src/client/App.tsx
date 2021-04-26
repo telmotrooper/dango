@@ -1,7 +1,6 @@
 import React, { createRef, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { Graphviz } from "graphviz-react"
-import { Engine } from "d3-graphviz"
 import { ToastContainer } from "react-toastify"
 
 import "react-toastify/dist/ReactToastify.css"
@@ -19,30 +18,26 @@ import { Codebox } from "./Codebox"
 import { DatabaseConnectionModal } from "./modals/DatabaseConnectionModal"
 import { refreshNeo4jDriver, driver } from "./utils/neo4j"
 import { ErrorBoundary } from "./ErrorBoundary"
-import { GenericObject } from "../shared/interfaces"
 import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
-import { toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
+import { setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
+import { incrementErrorBoundaryKey } from "./store/generalSlice"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
-  const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
+  const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
+  const engine = useSelector((state: RootState) => state.general.engine)
+
   const dispatch = useDispatch()
 
   // Main application state
-  const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
-  const [ errorBoundaryKey, setErrorBoundaryKey ] = useState(0)
-  const [ showDatabaseConnectionModal, setShowDatabaseConnectionModal ] = useState(false)
-  const [ parserContent,   _setParserContent ] = useState("")
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
-  const [ engine, setEngine ] = useState<Engine>("dot")
   const [ code, _setCode ] = useState("")
 
   // Check if we have connection data in local storage to prepare Neo4j driver.
@@ -63,12 +58,7 @@ const App = (): JSX.Element => {
 
   const setDiagram = (text: string): void => {
     _setDiagram(text)
-    setErrorBoundaryKey(errorBoundaryKey + 1) // This allows us to reattempt to render after a Graphviz error.
-  }
-
-  const setParserContent = (json: GenericObject): void => {
-    const text = JSON.stringify(json, null, 2)
-    _setParserContent(text)
+    dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
   }
 
   // Enable auto complete only when codebox already exists in the DOM 
@@ -77,7 +67,7 @@ const App = (): JSX.Element => {
   const handleSubmitCode = (ref: TextArea) => async (): Promise<void> => {
     if (ref.current) {
       const res = await submitCode(ref.current.value)
-      setParserContent(res.data)
+      dispatch(setParserContent(res.data))
       dispatch(toggleParserModal())
     }
   }
@@ -134,10 +124,6 @@ const App = (): JSX.Element => {
               setCode={setCode}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
-              engine={engine}
-              setEngine={setEngine}
-              sendButtonDisabled={sendButtonDisabled}
-              setSendButtonDisabled={setSendButtonDisabled}
             />
             <section id="vis" className="column vis">
               <ErrorBoundary key={errorBoundaryKey}>
@@ -158,28 +144,13 @@ const App = (): JSX.Element => {
 
       <HelpModal setCode={setCode} />
 
-      <ParserModal content={parserContent} onSubmit={handleGetCypherFromER} />
+      <ParserModal onSubmit={handleGetCypherFromER} />
 
-      <CypherModal
-        content={cypherContent}
-        show={showCypherModal}
-        setShow={() => dispatch(toggleCypherModal())}
-        onSubmit={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
-        databaseReady={databaseReady}
-      />
+      <CypherModal content={cypherContent} databaseReady={databaseReady} />
 
-      <ClearModal
-        show={showClearModal}
-        setShow={() => dispatch(toggleClearModal())}
-        setDiagram={(text: string) => setDiagram(text)}
-        setSendButtonDisabled={setSendButtonDisabled}
-      />
+      <ClearModal setDiagram={(text: string) => setDiagram(text)} />
 
-      <DatabaseConnectionModal
-        show={showDatabaseConnectionModal}
-        setShow={(): void => setShowDatabaseConnectionModal(!showDatabaseConnectionModal)}
-        setDatabaseReady={setDatabaseReady}
-      />
+      <DatabaseConnectionModal setDatabaseReady={setDatabaseReady} />
     </MainContext.Provider>
   )
 }
