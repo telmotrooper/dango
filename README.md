@@ -16,7 +16,7 @@ The schema generated is composed of [Neo4j constraints](https://neo4j.com/docs/c
 
 ## Installing
 
-__Note #1:__ *You'll need at least __Node.js version 11__ to run this application, **version 15** is recommended.*
+__Note #1:__ *You'll need at least __Node.js version 11__ to run this application, **version 16** is recommended.*
 
 __Note #2:__ *You'll need a [Neo4j](https://neo4j.com/) instance running with [APOC](https://neo4j.com/labs/apoc/) installed and `apoc.trigger.enabled=true` to be able to add the triggers to your database instance.*
 
