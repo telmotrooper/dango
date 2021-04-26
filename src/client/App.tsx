@@ -32,7 +32,6 @@ const App = (): JSX.Element => {
 
   const showClearModal = useSelector((state: RootState) => state.modal.showClearModal)
   const showCypherModal = useSelector((state: RootState) => state.modal.showCypherModal)
-  const showParserModal = useSelector((state: RootState) => state.modal.showParserModal)
   const dispatch = useDispatch()
 
   // Main application state
@@ -159,12 +158,7 @@ const App = (): JSX.Element => {
 
       <HelpModal setCode={setCode} />
 
-      <ParserModal
-        content={parserContent}
-        show={showParserModal}
-        setShow={() => dispatch(toggleParserModal())}
-        onSubmit={handleGetCypherFromER}
-      />
+      <ParserModal content={parserContent} onSubmit={handleGetCypherFromER} />
 
       <CypherModal
         content={cypherContent}
