@@ -10,14 +10,12 @@ import { mainExample } from "./utils/erExamples"
 import { ER } from "../server/misc/interfaces"
 import { MainContext } from "./store/context"
 import { RootState } from "./store/store"
-import { setEngine } from "./store/generalSlice"
+import { enableSendButton, setEngine } from "./store/generalSlice"
 interface Props {
   code: string,
   setCode: (code: string) => void,
   handleSubmit: () => Promise<void>;
   handleUpdate: (diagram: string) => void;
-  sendButtonDisabled: boolean;
-  setSendButtonDisabled: (disabled: boolean) => void;
 }
 
 const Codebox = React.memo((props: Props) => {
@@ -25,9 +23,10 @@ const Codebox = React.memo((props: Props) => {
 
   const dispatch = useDispatch()
   const engine = useSelector((state: RootState) => state.general.engine)
+  const sendButtonEnabled = useSelector((state: RootState) => state.general.sendButtonEnabled)
 
-  const { code, setCode, handleSubmit, handleUpdate,
-    sendButtonDisabled, setSendButtonDisabled } = props
+
+  const { code, setCode, handleSubmit, handleUpdate } = props
   const debouncedCode = useDebounce(code, 500)
 
   useEffect(
@@ -54,10 +53,10 @@ const Codebox = React.memo((props: Props) => {
 
             if (res.data?.warning) {
               toast.dismiss()
-              setSendButtonDisabled(true)
+              dispatch(enableSendButton(false))
               toast(res.data.warning)
             } else {
-              setSendButtonDisabled(false)
+              dispatch(enableSendButton(true))
               toast.dismiss()
             }
 
@@ -81,7 +80,7 @@ const Codebox = React.memo((props: Props) => {
           setCode(event.target.value)
         }}
       />
-      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit} disabled={sendButtonDisabled}>
+      <button className="button is-primary is-fullwidth mb-05" onClick={handleSubmit} disabled={!sendButtonEnabled}>
         Send
       </button>
       <div className="columns">

@@ -4,6 +4,7 @@ import { Engine } from "d3-graphviz"
 export const generalSlice = createSlice({
     name: "general",
     initialState: {
+        sendButtonEnabled: false,
         errorBoundaryKey: 0,
         engine: "dot" as Engine 
     },
@@ -13,10 +14,13 @@ export const generalSlice = createSlice({
         },
         setEngine: (state, action: PayloadAction<Engine>) => {
             state.engine = action.payload
+        },
+        enableSendButton: (state, action: PayloadAction<boolean>) => {
+            state.sendButtonEnabled = action.payload
         }
     }
 })
 
-export const { incrementErrorBoundaryKey, setEngine } = generalSlice.actions
+export const { enableSendButton, incrementErrorBoundaryKey, setEngine } = generalSlice.actions
 
 export default generalSlice.reducer

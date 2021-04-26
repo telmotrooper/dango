@@ -35,7 +35,6 @@ const App = (): JSX.Element => {
   const dispatch = useDispatch()
 
   // Main application state
-  const [ sendButtonDisabled, setSendButtonDisabled ] = useState(true)
   const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
@@ -125,8 +124,6 @@ const App = (): JSX.Element => {
               setCode={setCode}
               handleSubmit={handleSubmitCode(textAreaRef)}
               handleUpdate={setDiagram}
-              sendButtonDisabled={sendButtonDisabled}
-              setSendButtonDisabled={setSendButtonDisabled}
             />
             <section id="vis" className="column vis">
               <ErrorBoundary key={errorBoundaryKey}>
@@ -151,10 +148,7 @@ const App = (): JSX.Element => {
 
       <CypherModal content={cypherContent} databaseReady={databaseReady} />
 
-      <ClearModal
-        setDiagram={(text: string) => setDiagram(text)}
-        setSendButtonDisabled={setSendButtonDisabled}
-      />
+      <ClearModal setDiagram={(text: string) => setDiagram(text)} />
 
       <DatabaseConnectionModal setDatabaseReady={setDatabaseReady} />
     </MainContext.Provider>
