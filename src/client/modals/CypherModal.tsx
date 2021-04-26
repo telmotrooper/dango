@@ -9,15 +9,15 @@ import { cleanUpDatabase, runStatements } from "../utils/requests"
 import { defaultToast } from "../utils/toasts"
 
 interface Props {
-  content: string;
   databaseReady: boolean;
 }
 
 const CypherModal = React.memo((props: Props) => {
-  const { content, databaseReady } = props
+  const { databaseReady } = props
 
   const dispatch = useDispatch()
   const show = useSelector((state: RootState) => state.modal.showCypherModal)
+  const content = useSelector((state: RootState) => state.modal.cypherContent)
 
   const textAreaRef = createRef<HTMLTextAreaElement>()
 

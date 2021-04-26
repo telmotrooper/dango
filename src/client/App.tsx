@@ -22,7 +22,7 @@ import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
-import { setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
+import { setCypherContent, setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
 import { incrementErrorBoundaryKey } from "./store/generalSlice"
 
@@ -35,7 +35,6 @@ const App = (): JSX.Element => {
   const dispatch = useDispatch()
 
   // Main application state
-  const [ cypherContent,   setCypherContent ] = useState("")
   const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
   const [ code, _setCode ] = useState("")
@@ -75,7 +74,7 @@ const App = (): JSX.Element => {
   const handleGetCypherFromER = (textArea: TextArea, checkbox: Input) => async (): Promise<void> => {
     if (textArea.current && checkbox.current) {
       const res = await getCypherFromER(textArea.current.value, checkbox.current.checked)
-      setCypherContent(res.data)
+      dispatch(setCypherContent(res.data))
       dispatch(toggleCypherModal())
     }
   }
@@ -146,7 +145,7 @@ const App = (): JSX.Element => {
 
       <ParserModal onSubmit={handleGetCypherFromER} />
 
-      <CypherModal content={cypherContent} databaseReady={databaseReady} />
+      <CypherModal databaseReady={databaseReady} />
 
       <ClearModal setDiagram={(text: string) => setDiagram(text)} />
 
