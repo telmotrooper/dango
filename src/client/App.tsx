@@ -24,18 +24,17 @@ import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
 import { setCypherContent, setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
-import { incrementErrorBoundaryKey } from "./store/generalSlice"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
+  const diagram = useSelector((state: RootState) => state.general.diagram)
   const engine = useSelector((state: RootState) => state.general.engine)
+  const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
 
   const dispatch = useDispatch()
 
   // Main application state
-  const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
   const [ code, _setCode ] = useState("")
 
@@ -53,11 +52,6 @@ const App = (): JSX.Element => {
     if (textAreaRef?.current) { // Update text area
       textAreaRef.current.value = text
     }
-  }
-
-  const setDiagram = (text: string): void => {
-    _setDiagram(text)
-    dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
   }
 
   // Enable auto complete only when codebox already exists in the DOM.
@@ -122,7 +116,6 @@ const App = (): JSX.Element => {
               code={code}
               setCode={setCode}
               handleSubmit={handleSubmitCode(textAreaRef)}
-              handleUpdate={setDiagram}
             />
             <section id="vis" className="column vis">
               <ErrorBoundary key={errorBoundaryKey}>
@@ -147,7 +140,7 @@ const App = (): JSX.Element => {
 
       <CypherModal databaseReady={databaseReady} />
 
-      <ClearModal setDiagram={(text: string) => setDiagram(text)} />
+      <ClearModal />
 
       <DatabaseConnectionModal setDatabaseReady={setDatabaseReady} />
     </MainContext.Provider>

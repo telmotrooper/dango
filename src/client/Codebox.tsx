@@ -10,12 +10,11 @@ import { mainExample } from "./utils/erExamples"
 import { ER } from "../server/misc/interfaces"
 import { MainContext } from "./store/context"
 import { RootState } from "./store/store"
-import { enableSendButton, setEngine } from "./store/generalSlice"
+import { enableSendButton, setDiagram, setEngine } from "./store/generalSlice"
 interface Props {
   code: string,
   setCode: (code: string) => void,
   handleSubmit: () => Promise<void>;
-  handleUpdate: (diagram: string) => void;
 }
 
 const Codebox = React.memo((props: Props) => {
@@ -26,7 +25,7 @@ const Codebox = React.memo((props: Props) => {
   const sendButtonEnabled = useSelector((state: RootState) => state.general.sendButtonEnabled)
 
 
-  const { code, setCode, handleSubmit, handleUpdate } = props
+  const { code, setCode, handleSubmit } = props
   const debouncedCode = useDebounce(code, 500)
 
   useEffect(
@@ -36,7 +35,7 @@ const Codebox = React.memo((props: Props) => {
           const firstWord = code.match(/\w+/)?.[0]
 
           if (firstWord == "graph" || firstWord == "digraph") { // Allows testing Graphviz input straight from the application.
-            handleUpdate(code)
+            dispatch(setDiagram(code))
 
           } else {
             const res = await submitCode(debouncedCode)
@@ -61,7 +60,7 @@ const Codebox = React.memo((props: Props) => {
             }
 
             // Convert ER to Graphviz and update diagram
-            handleUpdate(erToGraphviz(res.data))
+            dispatch(setDiagram(erToGraphviz(res.data)))
           }
         }
       }
