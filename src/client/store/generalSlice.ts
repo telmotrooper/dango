@@ -1,5 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Engine } from "d3-graphviz"
+
+export const setDiagram = createAsyncThunk("general/setDiagram", async (diagram: string, thunkAPI) => {
+    thunkAPI.dispatch(_setDiagram(diagram))
+    thunkAPI.dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
+})
 
 export const generalSlice = createSlice({
     name: "general",
@@ -16,10 +21,8 @@ export const generalSlice = createSlice({
         incrementErrorBoundaryKey: (state) => {
             state.errorBoundaryKey += 1
         },
-        setDiagram: (state, action: PayloadAction<string>) => {
+        _setDiagram: (state, action: PayloadAction<string>) => {
             state.diagram = action.payload
-            state.errorBoundaryKey += 1 // This allows us to reattempt to render after a Graphviz error.
-            // TODO: Try to dispatch a call to "incrementErrorBoundaryKey" using Thunk.
         },
         setEngine: (state, action: PayloadAction<Engine>) => {
             state.engine = action.payload
@@ -27,6 +30,8 @@ export const generalSlice = createSlice({
     }
 })
 
-export const { enableSendButton, incrementErrorBoundaryKey, setDiagram, setEngine } = generalSlice.actions
+const { _setDiagram } = generalSlice.actions
+
+export const { enableSendButton, incrementErrorBoundaryKey, setEngine } = generalSlice.actions
 
 export default generalSlice.reducer
