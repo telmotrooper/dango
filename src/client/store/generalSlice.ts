@@ -5,7 +5,7 @@ export const generalSlice = createSlice({
     name: "general",
     initialState: {
         diagram: "graph G {}",
-        engine: "dot" as Engine ,
+        engine: "dot" as Engine,
         errorBoundaryKey: 0,
         sendButtonEnabled: false
     },
