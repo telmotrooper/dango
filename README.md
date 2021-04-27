@@ -1,4 +1,4 @@
-# Dango <img src="https://github.com/telmotrooper/dango/actions/workflows/main.yml/badge.svg" />
+# Dango [<img src="https://github.com/telmotrooper/dango/actions/workflows/main.yml/badge.svg" />](https://github.com/telmotrooper/dango/actions/workflows/main.yml)
 
 EER model to Neo4j schema
 
