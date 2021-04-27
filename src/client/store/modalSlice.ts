@@ -9,6 +9,7 @@ export const modalSlice = createSlice({
         showHelpModal: false,
         showParserModal: false,
 
+        cypherContent: "",
         parserContent: ""
     },
     reducers: {
@@ -28,6 +29,9 @@ export const modalSlice = createSlice({
             state.showParserModal = !state.showParserModal
         },
 
+        setCypherContent: (state, action: PayloadAction<string>) => {
+            state.cypherContent = action.payload
+        },
         setParserContent: (state, action: PayloadAction<string>) => {
             const text = JSON.stringify(action.payload, null, 2)
             state.parserContent = text
@@ -35,6 +39,8 @@ export const modalSlice = createSlice({
     }
 })
 
-export const { toggleClearModal, toggleCypherModal, toggleDatabaseConnectionModal, toggleHelpModal, toggleParserModal, setParserContent } = modalSlice.actions
+export const {
+    toggleClearModal, toggleCypherModal, toggleDatabaseConnectionModal,
+    toggleHelpModal, toggleParserModal, setCypherContent, setParserContent } = modalSlice.actions
 
 export default modalSlice.reducer

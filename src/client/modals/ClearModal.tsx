@@ -1,25 +1,20 @@
 import React, { useContext } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { MainContext } from "../store/context"
-import { enableSendButton } from "../store/generalSlice"
+import { enableSendButton, setDiagram } from "../store/generalSlice"
 import { toggleClearModal } from "../store/modalSlice"
 import { RootState } from "../store/store"
 import { clearCode } from "../utils/codebox"
 
-interface Props {
-  setDiagram: (arg0: string) => void;
-}
-
-const ClearModal = React.memo((props: Props) => {
+const ClearModal = React.memo(() => {
   const { textAreaRef } = useContext(MainContext)
-  const { setDiagram } = props
 
   const show = useSelector((state: RootState) => state.modal.showClearModal)
   const dispatch = useDispatch()
 
 
   const handleClearCode = (): void => {
-    setDiagram("") // Clear visualization
+    dispatch(setDiagram("")) // Clear visualization
     if (textAreaRef !== null)
       clearCode(textAreaRef, handleSetShow) // Clear codebox and close modal
     dispatch(enableSendButton(false))

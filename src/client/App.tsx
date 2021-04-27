@@ -22,21 +22,19 @@ import { Button } from "./layout/Button"
 import { Section } from "./layout/Section"
 import { Provider, useDispatch, useSelector } from "react-redux"
 import { RootState, store } from "./store/store"
-import { setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
+import { setCypherContent, setParserContent, toggleClearModal, toggleCypherModal, toggleHelpModal, toggleParserModal } from "./store/modalSlice"
 import { MainContext } from "./store/context"
-import { incrementErrorBoundaryKey } from "./store/generalSlice"
 
 const App = (): JSX.Element => {
   const textAreaRef = createRef<HTMLTextAreaElement>()
 
-  const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
+  const diagram = useSelector((state: RootState) => state.general.diagram)
   const engine = useSelector((state: RootState) => state.general.engine)
+  const errorBoundaryKey = useSelector((state: RootState) => state.general.errorBoundaryKey)
 
   const dispatch = useDispatch()
 
   // Main application state
-  const [ cypherContent,   setCypherContent ] = useState("")
-  const [ diagram, _setDiagram ] = useState("")
   const [ databaseReady, setDatabaseReady ] = useState(false)
   const [ code, _setCode ] = useState("")
 
@@ -56,11 +54,6 @@ const App = (): JSX.Element => {
     }
   }
 
-  const setDiagram = (text: string): void => {
-    _setDiagram(text)
-    dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
-  }
-
   // Enable auto complete only when codebox already exists in the DOM.
   useEffect(() => setupAutoComplete(textAreaRef), [textAreaRef])
 
@@ -75,7 +68,7 @@ const App = (): JSX.Element => {
   const handleGetCypherFromER = (textArea: TextArea, checkbox: Input) => async (): Promise<void> => {
     if (textArea.current && checkbox.current) {
       const res = await getCypherFromER(textArea.current.value, checkbox.current.checked)
-      setCypherContent(res.data)
+      dispatch(setCypherContent(res.data))
       dispatch(toggleCypherModal())
     }
   }
@@ -123,7 +116,6 @@ const App = (): JSX.Element => {
               code={code}
               setCode={setCode}
               handleSubmit={handleSubmitCode(textAreaRef)}
-              handleUpdate={setDiagram}
             />
             <section id="vis" className="column vis">
               <ErrorBoundary key={errorBoundaryKey}>
@@ -146,9 +138,9 @@ const App = (): JSX.Element => {
 
       <ParserModal onSubmit={handleGetCypherFromER} />
 
-      <CypherModal content={cypherContent} databaseReady={databaseReady} />
+      <CypherModal databaseReady={databaseReady} />
 
-      <ClearModal setDiagram={(text: string) => setDiagram(text)} />
+      <ClearModal />
 
       <DatabaseConnectionModal setDatabaseReady={setDatabaseReady} />
     </MainContext.Provider>
