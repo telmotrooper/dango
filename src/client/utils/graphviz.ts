@@ -333,7 +333,9 @@ const erToGraphviz = (code: ER): string => {
       diagram += generateAttributes(aent, true)
       
       for (const entity of aent.entities) {
-        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality, true) + "\n"
+        /* We pass "false" in "isAEnt" because we want the entities which are part of the
+         * associative entity to connect to the inner node (diamond), not the outer one (rectangle).*/
+        diagram += getConnectionForRelationship(entity.id, aent.id, entity.cardinality, false) + "\n"
       }
 
       if (Object.entries(aent.compositeAttributes).length > 0) {

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Engine } from "d3-graphviz"
 
 export const setDiagram = createAsyncThunk("general/setDiagram", async (diagram: string, thunkAPI) => {
+    // console.log(diagram)
     thunkAPI.dispatch(_setDiagram(diagram))
     thunkAPI.dispatch(incrementErrorBoundaryKey()) // This allows us to reattempt to render after a Graphviz error.
 })
