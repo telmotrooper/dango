@@ -1,130 +1,129 @@
 export const mainExample = 
-`ent Bibliotecarios {
-  CPF *
-  Nome
-  Salario
+`ent Librarians {
+  SSN *
+  Name
+  Salary
 }
 
-ent Estagiarios {}
+ent Interns {}
 
-ent Efetivos {
-  DataAdmissao
+ent Employees {
+  AdmissionDate
 }
 
-ent InstituicoesEnsino {
-  CNPJ *
-  Nome
+ent TeachingInstitutions {
+  EIN *
+  Name
 }
 
-ent Exemplares {
-  Numero *
-  EstadoConservacao
+ent Copies {
+  Number *
+  ConservationState
 }
 
-ent Clientes {
+ent Customers {
   ID *
-  Nome
-  Telefone <1,2>
-  Endereco [
-    CEP
-    Rua
-    Numero
-    Complemento
+  Name
+  Phone <1,2>
+  Address [
+    ZipCode
+    Street
+    Number
+    Complement
   ]
 }
 
-ent Livros {
+ent Books {
   ISBN *
-  Titulo
+  Title
   Volume
-  Ano
-  NumeroDePaginas
+  Year
+  NumberOfPages
 }
 
-ent Autores {
-  CPF *
-  Nome
+ent Authors {
+  SSN *
+  Name
 }
 
-ent Editoras {
-  CNPJ *
-  Nome
+ent Publishers {
+  EIN *
+  Name
 }
 
-ent CursosRelevantes {
-  Nome
+ent RelevantCourses {
+  Name
 }
 
 spe {
-  Bibliotecarios (t,d)
-  Estagiarios
-  Efetivos
+  Librarians (t,d)
+  Interns
+  Employees
 }
 
-rel oferta {
-  InstituicoesEnsino (1,1)
-  CursosRelevantes (2,10)
+rel offer {
+  TeachingInstitutions (1,1)
+  RelevantCourses (2,10)
 }
 
-rel responsabilidade {
-  Efetivos (1,1)
-  Estagiarios (0,n)
-  DataInicio
+rel accountability {
+  Employees (1,1)
+  Interns (0,n)
+  StartDate
 }
   
-rel vinculo {
-  Estagiarios (0,n)
-  InstituicoesEnsino (1,1)
+rel bond {
+  Interns (0,n)
+  TeachingInstitutions (1,1)
 }
 
-rel cadastro {
-  Bibliotecarios (1,1)
-  Emprestimo (0,n)
+rel registration {
+  Librarians (1,1)
+  Loan (0,n)
 }
 
-rel disponibilidade {
-  Livros (1,1)
-  w Exemplares (1,n)
+rel availability {
+  Books (1,1)
+  w Copies (1,n)
 }
 
-rel publicacao {
-  Editoras (1,1)
-  Livros (0,n)
+rel publication {
+  Publishers (1,1)
+  Books (0,n)
 }
 
-rel autoria {
-  Livros (0,n)
-  Autores (1,n)
-  Ordem
+rel authorship {
+  Books (0,n)
+  Authors (1,n)
+  Order
 }
 
-aent Emprestimo {
-  Exemplares (0,n)
-  Clientes (0,1)
-  DataRetirada
-  DataPrevistaDevolucao
-  ValorMulta
+aent Loan {
+  Copies (0,n)
+  Customers (0,1)
+  WithdrawalDate
+  ExpectedReturnDate
+  FineAmount
 }
 
-rel indicacao {
-  Clientes (0,1) indicado_por
-  Clientes (0,n) indicou
+rel referral {
+  Customers (0,1) referred_by
+  Customers (0,n) referred
 }
 
-union FiltrosDePesquisa {
-  Editoras
-  Livros
-  Autores
+union SearchFilters {
+  Publishers
+  Books
+  Authors
 }
 
-rel contrato_de_estagio {
-  InstituicoesEnsino (1,1)
-  Estagiarios (1,n)
-  Efetivos (1,1)
-  DataInicio
-  Salario
+rel internship_contract {
+  TeachingInstitutions (1,1)
+  Interns (1,n)
+  Employees (1,1)
+  StartDate
+  Salary
 }`
-
 
 export const relationshipExample = 
 `ent Driver {}

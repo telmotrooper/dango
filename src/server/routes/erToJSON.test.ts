@@ -1,8 +1,8 @@
-import { mainExample } from "../../client/utils/erExamples"
+import { testExample } from "../../client/utils/testExample"
 import { parseERCode } from "../parser/parseERCode"
 
 test("Example EER diagram generates correct JSON representation", () => {
-  const intermediateRepresentation = parseERCode(mainExample)
+  const intermediateRepresentation = parseERCode(testExample)
 
   expect(intermediateRepresentation).toEqual(expectedResult)
 })
